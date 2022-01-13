@@ -1,0 +1,31 @@
+<div class="card border-warning">
+  <div class="card-header card-head-inverse bg-warning mb-1">
+    <h4 class="card-title"><span class="tag bg-white black"><%= @dashboard.due_soon_or_expiring_soon_assignments_count %></span> Due Soon/Expiring Soon Assigned Courses</h4>
+  </div>
+  <div class="card-body">
+    <p class="ml-2 mb-2">Courses assigned to employees that are within <%= Assignment::EXPIRING_SOON_THRESHOLD %> days of expiring or passing the number of days due within.</p>
+    <div class="scrollable-dashboard-table">
+      <div class="table-responsive">
+        <table class="table table-xs mb-0" id="dashboard-due-soon-or-expiring-soon-assignments">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Employee</th>
+              <th class="text-center">Status</th>
+              <th>Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dashboard.due_soon_or_expiring_soon_assignments.each do |assignment| %>
+            <tr>
+              <td><%= assignment.course_title %></td>
+              <td><%= link_to assignment.employee_name, employee_record_path(assignment.employee_record_id) %></td>
+              <td class="text-center"><%= assignment.status %></td>
+              <td><%= due_date(assignment.due_date) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

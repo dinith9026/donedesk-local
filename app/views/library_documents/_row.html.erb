@@ -1,0 +1,19 @@
+<tr>
+  <% @library_documents_presenter.when_user_can_view(:name) do %>
+    <td><%= link_to library_document_presenter.name, library_document_presenter.show_path %></td>
+  <% end %>
+  <% @library_documents_presenter.when_user_can_view(:summary) do %>
+    <td><%= library_document_presenter.summary %></td>
+  <% end %>
+  <% @library_documents_presenter.when_user_can_view(:is_visible_to_employees) do %>
+    <td><%= library_document_presenter.visible_to_employees %></td>
+  <% end %>
+  <% @library_documents_presenter.when_user_can_view(:created_at) do %>
+    <td><%= library_document_presenter.created_at %></td>
+  <% end %>
+  <td class="text-right">
+    <%= render layout: '/shared/dropdown_layout' do %>
+      <%= render 'actions', library_document_presenter: library_document_presenter %>
+    <% end %>
+  </td>
+</tr>

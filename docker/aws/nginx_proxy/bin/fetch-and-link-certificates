@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -ex
+
+aws s3 sync --sse AES256 s3://$AWS_S3_BUCKET/tls/letsencrypt /etc/letsencrypt/
+
+CERTIFICATE_DIRECTORY=`find /etc/letsencrypt/live/ -name "$DONEDESK_HOSTNAME*" -type d | sort -nr | head -1`
+
+aws s3 cp --sse AES256 s3://$AWS_S3_BUCKET/tls/dhparam.pem $CERTIFICATE_DIRECTORY/dhparam.pem
+
+if [ -L /etc/nginx/tls ]; then
+  rm -f /etc/nginx/tls
+fi
+
+ln -s $CERTIFICATE_DIRECTORY /etc/nginx/tls

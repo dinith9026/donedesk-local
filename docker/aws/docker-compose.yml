@@ -1,0 +1,21 @@
+version: '2'
+services:
+  nginx_proxy:
+    image: donedesk/nginx_proxy:${TAG}
+    links:
+      - app
+    volumes_from:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DONEDESK_HOSTNAME=testing.aws.donedesk.com
+
+  app:
+    image: donedesk/app:${TAG}
+    volumes:
+      - donedesk-shared-volume:/donedesk/public/
+
+volumes:
+  donedesk-shared-volume:

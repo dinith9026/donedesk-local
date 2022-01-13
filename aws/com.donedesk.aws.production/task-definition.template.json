@@ -1,0 +1,104 @@
+{
+    "networkMode": "bridge",
+    "taskRoleArn": "arn:aws:iam::794131257860:role/com.donedesk.aws.production",
+    "volumes": [
+        {
+            "host": {},
+            "name": "donedesk-public"
+        },
+        {
+            "host": {},
+            "name": "letsencrypt-challenge"
+        }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "app",
+            "image": "794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/app:${GIT_SHORT_TAG}",
+            "memoryReservation": 300,
+            "readonlyRootFilesystem": false,
+            "mountPoints": [
+                {
+                    "sourceVolume": "donedesk-public",
+                    "containerPath": "/donedesk/public/"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-region": "us-west-2",
+                    "awslogs-stream-prefix": "donedesk",
+                    "awslogs-group": "com.donedesk.production"
+                }
+            },
+            "privileged": false,
+            "essential": true,
+            "cpu": 150
+        },
+        {
+            "name": "nginx_proxy",
+            "image": "794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/nginx_proxy:${GIT_SHORT_TAG}",
+            "memoryReservation": 300,
+            "readonlyRootFilesystem": false,
+            "links": [
+                "app",
+                "letsencrypt"
+            ],
+            "volumesFrom": [
+                {
+                    "sourceContainer": "app"
+                },
+                {
+                    "sourceContainer": "letsencrypt"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-region": "us-west-2",
+                    "awslogs-stream-prefix": "donedesk",
+                    "awslogs-group": "com.donedesk.production"
+                }
+            },
+            "privileged": false,
+            "essential": true,
+            "portMappings": [
+                {
+                    "protocol": "tcp",
+                    "containerPort": 80,
+                    "hostPort": 80
+                },
+                {
+                    "protocol": "tcp",
+                    "containerPort": 443,
+                    "hostPort": 443
+                }
+            ],
+            "cpu": 150
+        },
+        {
+            "name": "letsencrypt",
+            "image": "794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/letsencrypt:${GIT_SHORT_TAG}",
+            "memoryReservation": 4,
+            "readonlyRootFilesystem": false,
+            "mountPoints": [
+                {
+                    "sourceVolume": "letsencrypt-challenge",
+                    "readOnly": false,
+                    "containerPath": "/var/www/letsencrypt/"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-region": "us-west-2",
+                    "awslogs-stream-prefix": "donedesk",
+                    "awslogs-group": "com.donedesk.production"
+                }
+            },
+            "privileged": false,
+            "essential": false,
+            "cpu": 150
+        }
+    ]
+}

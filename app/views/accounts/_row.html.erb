@@ -1,0 +1,11 @@
+<tr class="<%= row_classes %>">
+  <td><%= link_to account_presenter.name, account_presenter.show_path %></td>
+  <td data-visible="false"><%= account_presenter.registration_status %></td>
+  <td class="text-center"><%= link_to account_presenter.office_count, @accounts_presenter.offices_path %></td>
+  <td><%= account_presenter.plan %></td>
+  <td class="text-right">
+    <%= render layout: '/shared/dropdown_layout' do %>
+      <%= render 'actions', account_presenter: account_presenter %>
+    <% end %>
+  </td>
+</tr>

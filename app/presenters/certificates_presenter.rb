@@ -1,0 +1,2 @@
+class CertificatesPresenter < CollectionPresenter
+end

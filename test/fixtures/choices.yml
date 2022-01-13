@@ -1,0 +1,56 @@
+correct:
+  answer: Yes
+  is_correct: true
+  question: for_oceanview_handbook
+
+wrong:
+  answer: No
+  is_correct: false
+  question: for_oceanview_handbook
+
+another_wrong:
+  answer: I dunno
+  is_correct: false
+  question: for_oceanview_handbook
+
+brookside_correct:
+  answer: Yes
+  is_correct: true
+  question: for_brookside_handbook
+
+brookside_wrong:
+  answer: No
+  is_correct: false
+  question: for_brookside_handbook
+
+canned_correct:
+  answer: Yes
+  is_correct: true
+  question: for_canned
+
+canned_wrong:
+  answer: No
+  is_correct: false
+  question: for_canned
+
+canned_no_states_correct:
+  answer: Yes
+  is_correct: true
+  question: for_canned_no_states
+
+canned_no_states_wrong:
+  answer: No
+  is_correct: false
+  question: for_canned_no_states
+
+<% ['oceanview_passed', 'oceanview_deactivated', 'oceanview_unassigned', 'belonging_to_unassigned_track', 'with_expiration', 'not_belonging_to_any_tracks', 'belonging_to_only_one_track', 'for_oceanview_with_incomplete_assignment', 'canned_with_multiple_supplements', 'canned_with_one_supplement', 'canned_for_texas', 'canned_for_ohio', 'canned_for_utah', 'canned_deactivated', 'with_mixed_case_states'].each do |course_name| %>
+<%= course_name %>_correct:
+  answer: Yes
+  is_correct: true
+  question: for_<%= course_name %>
+
+<%= course_name %>_wrong:
+  answer: No
+  is_correct: false
+  question: for_<%= course_name %>
+<% end %>

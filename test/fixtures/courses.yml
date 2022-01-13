@@ -1,0 +1,151 @@
+DEFAULTS: &DEFAULTS
+  max_test_retakes: 3
+  passing_threshold_percentage: 100
+  material_s3_key: "courses/materials/test_fixture/test.pdf"
+  states: []
+
+oceanview_handbook:
+  <<: *DEFAULTS
+  title: 2017 Oceanview Dental Handbook
+  code: 2017HANDBOOK
+  description: Read the handbook
+  days_due_within: 30
+  account: oceanview_dental
+
+oceanview_passed:
+  <<: *DEFAULTS
+  title: Oceanview Passed Course
+  code: PASSED
+  description: Passed course
+  max_test_retakes: 2
+  account: oceanview_dental
+
+oceanview_deactivated:
+  <<: *DEFAULTS
+  title: Oceanview Deactivated Course
+  code: DEACTIVATED
+  description: A deactivated course
+  account: oceanview_dental
+  deactivated_at: <%= 1.day.ago %>
+
+oceanview_unassigned:
+  <<: *DEFAULTS
+  title: Oceanview Unassigned Course
+  code: UNASSIGNED
+  description: An unassigned course
+  account: oceanview_dental
+
+belonging_to_unassigned_track:
+  <<: *DEFAULTS
+  title: Oceanview Course Belonging to Unassigned Track
+  code: FORUNASSIGNEDTRACK
+  description: An course belonging to unassigned track
+  account: oceanview_dental
+
+brookside_handbook:
+  <<: *DEFAULTS
+  title: 2017 Brookside Dental Handbook
+  code: 2017HANDBOOK
+  description: Read the handbook
+  account: brookside_dental
+
+with_expiration:
+  <<: *DEFAULTS
+  title: Course w/Expiration
+  code: EXPIRES
+  description: A course that expires
+  compliance_expiration_in_days: 90
+
+not_belonging_to_any_tracks:
+  <<: *DEFAULTS
+  title: Course Not Belonging To Any Tracks
+  code: NOTRACKS
+  description: A course that does not belong to any tracks
+  compliance_expiration_in_days: 90
+
+belonging_to_only_one_track:
+  <<: *DEFAULTS
+  title: Course Belonging Only One Track
+  code: ONLYONETRACK
+  description: A course that only belongs to one track
+  compliance_expiration_in_days: 90
+  account: oceanview_dental
+
+for_oceanview_with_incomplete_assignment:
+  <<: *DEFAULTS
+  title: Course w/Incomplete Assignment
+  code: INCOMPLETE
+  description: A course with incomplete assignments
+  account: oceanview_dental
+  days_due_within: 30
+
+canned_with_multiple_supplements:
+  <<: *DEFAULTS
+  title: Canned Course w/Multiple Supplements
+  code: CANNED_WITH_MULTIPLE_SUPPLEMENTS
+  description: A canned course w/multiple supplements
+  supplements: [
+    courses/supplements/0bc0ea14-d948-4675-b827-d1829c6bbf16/supplement1.pdf,
+    courses/supplements/0bc0ea14-d948-4675-b827-d1829c6bbf16/supplement2.pdf
+  ]
+
+canned_with_one_supplement:
+  <<: *DEFAULTS
+  title: Canned Course w/One Supplement
+  code: CANNED_WITH_ONE_SUPPLEMENT
+  description: A canned course w/one supplement
+  supplements: [courses/supplements/0bc0ea14-d948-4675-b827-d1829c6bbf16/supplement.pdf]
+
+canned:
+  <<: *DEFAULTS
+  title: Canned Course
+  code: CANNED
+  description: A canned course
+
+canned_for_texas:
+  <<: *DEFAULTS
+  title: Canned Course for Texas
+  code: CANNEDFORTX
+  description: A canned course for Texas
+  states: ["TX"]
+
+canned_for_ohio:
+  <<: *DEFAULTS
+  title: Canned Course for Ohio
+  code: CANNEDFOROH
+  description: A canned course for Ohio
+  states: ["OH"]
+
+canned_for_utah:
+  <<: *DEFAULTS
+  title: Canned Course for Utah
+  code: CANNEDFORUT
+  description: A canned course for Utah
+  states: ["UT"]
+
+canned_no_states:
+  <<: *DEFAULTS
+  title: Canned Course for No States
+  code: CANNEDFORNOSTATES
+  description: A canned course for no states
+  states: []
+
+canned_deactivated:
+  <<: *DEFAULTS
+  title: Deactivated Canned Course
+  code: DEACTIVATEDCANNED
+  description: A deactivated canned course
+  deactivated_at: <%= 1.day.ago %>
+
+with_question_limit_reached:
+  <<: *DEFAULTS
+  title: With Question Limit Reached
+  code: LIMITREACHED
+  description: A course where the question limit has been reached
+
+with_mixed_case_states:
+  <<: *DEFAULTS
+  title: With Mixed Case States
+  code: MIXEDCASESTATES
+  description: A course where the states contain mixed case
+  states: ["Tx"]

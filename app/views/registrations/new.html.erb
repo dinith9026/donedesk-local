@@ -1,0 +1,56 @@
+<%= render layout: '/shared/centered_card_layout', locals: { heading: t('registrations.new.complete_your_registration') } do %>
+  <%= form_for @form, url: registrations_url(invite_token: @account.invite_token), html: { id: 'payment-form', class: 'form-horizontal' } do |f| %>
+    <%= f.hidden_field :stripe_token %>
+
+    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+    <h4 class="form-section"><i class="icon-check"></i> Your plan</h4>
+    <p>Your card will be automatically charged monthly, for <strong>$<%= @account.plan_monthly_price %></strong>. If you need to add employees, you can change your plan at any time.</p>
+    <%= render 'plans/plan', plan: @account.plan %>
+
+    <h4 class="form-section mt-3"><i class="icon-credit-card"></i> <%= t 'registrations.new.payment_info' %></h4>
+    <p>We will charge your card for <strong>$<%= @account.plan_monthly_price %></strong> today and you will be automatically billed monthly based on your current plan.</p>
+    <fieldset class="form-group">
+      <% @form.when_payment_already_added do %>
+        <i class="icon-check success"></i> <span class="text-success">Payment method added</span>
+      <% end %>
+      <% @form.when_payment_required do %>
+        <%= render 'stripe_form' %>
+      <% end %>
+    </fieldset>
+
+    <h4 class="form-section mt-3"><i class="icon-key2"></i> <%= t 'registrations.new.set_a_password' %></h4>
+    <p>Create a secure password for yourself.</p>
+    <p>Along with your email address, <strong><%= @account.owner_email %></strong>, you'll use the password you create here to sign in to DoneDesk.</p>
+    <fieldset class="form-group">
+      <%= f.password_field :password, class: 'form-control form-control-lg input-lg', placeholder: t('registrations.new.password') %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= f.password_field :password_confirmation, class: 'form-control form-control-lg input-lg', placeholder: t('registrations.new.password_confirmation') %>
+    </fieldset>
+
+    <%= render '/passwords/requirements_list' %>
+
+    <%= render '/passwords/strength_estimate' %>
+
+    <fieldset class="form-group">
+      <div class="checkbox">
+        <label class="form-check-label">
+          <%= f.check_box :terms, { class: 'form-check-input valign-top' } %>
+          <%= t 'registrations.new.i_agree' %>
+        </label>
+        <a href="#" data-toggle="modal" data-target="#terms-modal"><%= t 'registrations.new.terms' %></a>
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary btn-lg btn-block" data-disable-with="Processing...">
+      <i class="icon-unlock2"></i> <%= t 'registrations.new.submit' %>
+    </button>
+  <% end %>
+<% end %>
+
+<%= render layout: '/shared/modal', locals: { title: 'Terms of Service', id: 'terms-modal' } do %>
+  <div class="terms-container">
+    <%= render '/shared/terms' %>
+  </div>
+<% end %>

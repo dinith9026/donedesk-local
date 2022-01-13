@@ -1,0 +1,17 @@
+<% if errors.any? %>
+  <div class="bs-callout-pink mb-2">
+    <div class="media">
+      <div class="media-left media-middle bg-pink px-2">
+        <i class="icon-exclamation white"></i>
+      </div>
+      <div class="media-body p-1">
+        <strong><%= t '.fix_errors' %></strong>
+        <ul class="list-unstyled">
+          <% errors.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>

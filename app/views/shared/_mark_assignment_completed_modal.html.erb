@@ -1,0 +1,29 @@
+<%= render layout: '/shared/modal', locals: { title: 'Mark completed?', id: 'mark-assignment-completed-modal' } do %>
+  <%= form_tag('/assignments', method: :put, class: '', id: 'mark-assignment-completed-form') do |f| %>
+    <strong class="modal-employee-name"></strong> completed <strong class="modal-course-title"></strong> on:
+    <div class="form-group">
+      <%= text_field_tag :passed_on, Date.current.strftime('%m/%d/%Y'), class: 'form-control date-inputmask', placeholder: 'mm/dd/yyyy' %>
+    </div>
+    <p><strong>NOTE:</strong> Assignment will be considered completed for ALL tracks to which the course belongs.</p>
+    <div class="form-actions right">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        Cancel
+      </button>
+      <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+        <i class="icon-check-white"></i> Mark Completed
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.mark-assignment-completed-btn').on('click', function(e){
+  var assignmentId = $(this).data('assignment-id');
+  var employeeName = $(this).data('employee-name');
+  var courseTitle = $(this).data('course-title');
+
+  $('#mark-assignment-completed-form').attr('action', '/assignments/' + assignmentId + '/mark_completed');
+  $('.modal-employee-name').html(employeeName);
+  $('.modal-course-title').html(courseTitle);
+});
+</script>

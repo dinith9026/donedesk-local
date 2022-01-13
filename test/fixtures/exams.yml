@@ -1,0 +1,29 @@
+failed_for_oceanview_handbook_for_employee:
+  assignment: oceanview_handbook_for_employee
+  passed: false
+
+failed_for_oceanview_handbook_for_account_manager:
+  assignment: oceanview_handbook_for_account_manager
+  passed: false
+
+oceanview_ed_expired:
+  assignment: oceanview_ed_expired
+  passed: true
+  created_at: <%= 90.days.ago.to_s(:db) %>
+
+oceanview_eric_expiring:
+  assignment: oceanview_eric_expiring
+  passed: true
+  created_at: <%= 89.days.ago.to_s(:db) %>
+
+for_oceanview_passed:
+  assignment: oceanview_passed
+  passed: true
+
+for_oceanview_canned:
+  assignment: oceanview_canned
+  passed: true
+
+another_exam:
+  assignment: brookside_handbook
+  passed: true

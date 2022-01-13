@@ -1,0 +1,23 @@
+ed_for_oceanview:
+  employee_record: ed
+  track: for_oceanview
+
+eric_for_oceanview:
+  employee_record: eric
+  track: for_oceanview
+
+mary_for_oceanview:
+  employee_record: mary
+  track: for_oceanview
+
+ed_for_oceanview_deactivated:
+  employee_record: ed
+  track: for_oceanview_deactivated
+
+employee_with_assigned_track_for_oceanview:
+  employee_record: with_assigned_track
+  track: with_3_active_courses_and_1_deactivated_course
+
+ellen_for_brookside:
+  employee_record: ellen
+  track: for_brookside

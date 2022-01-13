@@ -1,0 +1,48 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::794131257860:role/com.donedesk.aws.test"
+            },
+            "Resource": "arn:aws:s3:::com.donedesk.app.test",
+            "Action": "s3:ListBucket"
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::794131257860:role/com.donedesk.aws.test"
+            },
+            "Resource": "arn:aws:s3:::com.donedesk.app.test/*",
+            "Action": [
+                "s3:Get*",
+                "s3:Put*",
+                "s3:Delete*"
+            ]
+        },
+        {
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "arn:aws:iam::794131257860:role/com.donedesk.aws.test"
+            },
+            "Resource": "arn:aws:s3:::com.donedesk.app.test/tls/*",
+            "Action": "s3:*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:sourceVpc": "vpc-a030dec6"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::794131257860:role/com.donedesk.deployer"
+            },
+            "Action": [
+                "s3:PutBucketPolicy"
+            ],
+            "Resource": "arn:aws:s3:::com.donedesk.app.test"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-block card-dashboard">
+
+      <%=  form_with(model: @contact_notes, local: true, url: "/contact_note/create") do |form| %>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <%= form.label :contact_name %>
+              <%= form.text_field :contact_name, class: 'form-control', value: @contact_name %>
+              <%= form.hidden_field :contact_id, value: params[:id] %>
+              <%= hidden_field_tag :previous_request, request.referer %>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <%= form.label :note %>
+              <%= form.text_area :note, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-actions">
+              <%= button_tag type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Saving...' } do %>
+                <i class="icon-<%= local_assigns.has_key?(:btn_icon) ? btn_icon : 'check2' %>"></i> <%= local_assigns.has_key?(:btn_text) ? btn_text : 'Save' %>
+              <% end %>
+              <%= link_to 'Cancel', smart_back_path, class: 'btn btn-secondary' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

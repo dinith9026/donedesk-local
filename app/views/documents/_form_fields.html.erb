@@ -1,0 +1,34 @@
+<div class="form-group is-required">
+  <%= f.label :document_type_id, 'Type' %>
+  <%= f.collection_select :document_type_id,
+        document_form.document_types_list,
+        :id,
+        :name,
+        { prompt: '', selected: params[:document_type_id] || document_form.document_type_id },
+        class: 'form-control', required: true %>
+</div>
+
+<div class="form-group">
+  <%= f.label :summary %>
+  <%= f.text_field :summary, class: 'form-control' %>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group is-required">
+      <%= f.label :file, 'File <em><small>(allowed: images, pdf, doc)</small></em>'.html_safe %>
+      <% if document_form.new_record? %>
+        <%= f.file_field :file, class: 'form-control', accept: Document::ALLOWED_FILE_TYPES.join(','), required: true %>
+      <% else %>
+        <%= text_field_tag :readonly_document, document_form.file_name, disabled: true, class: 'form-control' %>
+        <small class="muted">To replace this document with a more recent version, simply <%= link_to 'add a new document', document_form.new_document_path %> instead.</small>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :expires_on, 'Expires on <em><small>mm/dd/yyyy</small></em>'.html_safe %>
+      <%= f.text_field :expires_on, value: document_form.expires_on_formatted, class: 'form-control date-inputmask' %>
+    </div>
+  </div>
+</div>

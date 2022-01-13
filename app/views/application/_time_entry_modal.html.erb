@@ -1,0 +1,27 @@
+<% when_user_tracks_time(current_user) do %>
+  <%= render layout: '/shared/modal', locals: { title: time_card_presenter.modal_title, id: 'time-entry-modal' } do %>
+    <p>By submitting a new time entry, I confirm that I am <strong><%= current_user.full_name %></strong>.</p>
+
+    <ul>
+    <% time_card_presenter.time_entries.each do |time_entry_presenter| %>
+      <li class="time-entry"><%= time_entry_presenter.occurred_at %> - <%= time_entry_presenter.entry_type %></li>
+    <% end %>
+    </ul>
+
+    <%= form_tag(employee_record_time_entries_path(current_user.employee_record), id: 'time-entry-form') do %>
+      <div class="form-actions right">
+        <% time_card_presenter.entry_types.each do |entry_type| %>
+          <%=
+            button_tag(
+              entry_type.humanize.titleize,
+              type: 'submit',
+              class: 'btn btn-primary',
+              name: 'time_entry[entry_type]',
+              value: entry_type,
+              disabled: time_card_presenter.disable_button_for?(entry_type)
+            ) %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

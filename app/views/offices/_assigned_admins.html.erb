@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title" id="basic-layout-colored-form-control">Admins</h4>
+    <small>Can manage confidential documents for employees belonging to this office.</small>
+    <div class="heading-elements">
+      <%= link_to '#assign-admin', data: { toggle: 'modal', target: '#assign-admin' }, class: 'btn btn-primary btn-sm' do %>
+        <i class="icon-plus white"></i> Assign Admin
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="card-block">
+    <table class="table table-sm">
+
+      <% if office_presenter.active_admins.none? %>
+        <tr>
+          <td><em>No assigned admins for this office</em></td>
+        </tr>
+      <% end %>
+
+      <% office_presenter.active_admins.each do |admin| %>
+        <tr>
+          <td><%= link_to admin.full_name, admin.employee_record %></td>
+          <td class="text-right">
+            <%= link_to office_presenter.user_path(admin), class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+              Remove
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+
+    </table>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="card" id="documents-section">
+  <div class="card-header">
+    <h4 class="card-title">Documents</h4>
+    <div><%= office_presenter.document_group_name %></div>
+    <div class="heading-elements">
+      <%= link_to office_presenter.new_document_path, class: 'btn btn-primary btn-sm' do %>
+        <i class="icon-plus white"></i> New Document
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-block">
+      <div class="row">
+        <div class="col-sm-3">
+          <i class="icon-flag danger"></i> Expired
+        </div>
+        <div class="col-sm-4">
+          <i class="icon-flag warning"></i> Expiring Soon
+        </div>
+        <div class="col-sm-5">
+          <i class="icon-flag grey"></i> Required/Missing
+        </div>
+      </div>
+      <hr>
+      <ul class="list-unstyled">
+        <% office_presenter.documents_status_listing.each do |document_status_presenter| %>
+          <% document_status_presenter.when_document_visible do %>
+            <li>
+              <i class="icon-<%= document_status_presenter.icon_type %> <%= document_status_presenter.status_color_class %>" title="<%= document_status_presenter.status %>"></i>
+              <% document_status_presenter.when_document_downloadable do %>
+                <%= link_to document_status_presenter.name, document_type_office_documents_path(office_id: office_presenter.id, document_type_id: document_status_presenter.document_type_id), class: document_status_presenter.status_class, data: { remote: true } %>
+              <% end %>
+              <% document_status_presenter.when_document_not_downloadable do %>
+                <span class="<%= document_status_presenter.status_class %>"><%= document_status_presenter.name %>
+              <% end %>
+              <% document_status_presenter.when_user_can(:create) do %>
+                <small><%= link_to 'add', office_presenter.new_document_path(document_status_presenter.document_type_id) %></small>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { id: 'doc-history-modal', title: 'Document History' } do %>
+  <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+    <ul class="list-unstyled" id="document-history">
+    </ul>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+$('#document-history').html("<%= escape_javascript(render 'office_documents/history', office_documents_presenter: @office_documents_presenter) %>");
+$('#doc-history-modal').modal('show');

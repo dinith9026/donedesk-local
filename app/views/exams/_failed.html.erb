@@ -1,0 +1,27 @@
+<%= render layout: '/shared/callout_layout', locals: { type: 'danger', icon: 'exclamation-triangle' } do %>
+  <strong>You did not pass the test.</strong>
+
+  <% exam_presenter.when_must_retake_exam do %>
+    <p>
+      You may retake the test <%= pluralize(exam_presenter.exam_retakes_remaining, 'more time') %>.
+      If you do not pass you will need to rewatch/reread the material.
+    </p>
+  <% end %>
+
+  <% exam_presenter.when_must_retake_course do %>
+    <p>
+      You've reached the maximum number of exam retakes.
+      You must now rewatch/reread the course material before you can take the exam again.
+    </p>
+  <% end %>
+
+<% end %>
+
+<p>
+  <%= link_to '&larr; Back to list of assigned courses'.html_safe, assignments_url %>
+  <span class="text-muted">or</span>
+  <%= exam_presenter.assignment_action do |action_text, action_path| %>
+    <%= link_to action_text, action_path, class: 'btn btn-primary' %>
+  <% end %>
+</p>
+

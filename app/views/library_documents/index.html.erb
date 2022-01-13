@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Library Documents</h4>
+        <div class="heading-elements">
+          <% @library_documents_presenter.when_user_can(:new) do %>
+            <%= button_to new_library_document_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus4 white"></i> New Library Document
+            <% end %>
+          <% end %>
+        </div>
+        <% @library_documents_presenter.when_user_can(:view_disclaimer) do %>
+          <div class="alert alert-warning mt-1">
+            The documents below are provided as templates. If you have legal questions, please consult with your attorney. Feel free to contact us if you have any general questions.
+          </div>
+        <% end %>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-actions">
+            <div class="row">
+              <div class="col-md-7">
+                <% @library_documents_presenter.when_user_can_view(:type) do %>
+                  <span class="pr-1 text-muted">Filter by:</span>
+                  <% ['all', 'my documents', 'other documents'].each do |type| %>
+                    <span class="pr-1">
+                      <% if (params[:type] || 'all') == type && !params[:search].present? %>
+                        <%= type.titleize %>
+                      <% else %>
+                        <%= link_to type.titleize, library_documents_url(type: type)  %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="col-md-5 text-right">
+                <form class="form-inline" method="get">
+                  <label class="text-muted" for="search">Search: <i class="icon icon-info text-primary" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Searches Name and Summary"></i></label>
+                  <input type="text" class="form-control form-control-sm" id="search" name="search" value="<%= params[:search] %>">
+                  <button type="submit" class="btn btn-primary btn-sm">Go</button>
+                  <% if params[:search].present? %>
+                    <%= link_to 'x clear search', library_documents_url, class: 'text-danger' %>
+                  <% end %>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped" width="100%">
+              <thead class="thead-inverse">
+                <tr>
+                  <% @library_documents_presenter.when_user_can_view(:name) do %>
+                    <th>Name</th>
+                  <% end %>
+                  <% @library_documents_presenter.when_user_can_view(:summary) do %>
+                    <th>Summary</th>
+                  <% end %>
+                  <% @library_documents_presenter.when_user_can_view(:is_visible_to_employees) do %>
+                    <th>Visible to Employees?</th>
+                  <% end %>
+                  <% @library_documents_presenter.when_user_can_view(:created_at) do %>
+                    <th>Created At</th>
+                  <% end %>
+                  <th class="text-right" width="60">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= render partial: 'row',
+                           collection: @library_documents_presenter,
+                           as: :library_document_presenter %>
+              </tbody>
+            </table>
+            <div class="text-right"><%= paginate @library_documents_presenter %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

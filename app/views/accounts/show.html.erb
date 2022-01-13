@@ -1,0 +1,130 @@
+<% @account_presenter.when_user_can(:reinvite) do %>
+  <div class="alert alert-warning" role="alert">
+    <p>
+      <strong>Invite Pending</strong> You can send the owner the following link to complete their registration:<br>
+      <em><small><%= new_registration_url(invite_token: @account_presenter.invite_token) %></small></em>
+    </p>
+    <p class="mb-0">You can adjust their Plan once registration is complete.</p>
+  </div>
+<% end %>
+
+<section class="row match-height">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= @account_presenter.name %>
+        </h4>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="text-right width-200">Name</th>
+              <td><%= @account_presenter.name %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Owner Name</th>
+              <td><%= @account_presenter.owner_full_name %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Owner Email</th>
+              <td><%= @account_presenter.owner_email %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Time Tracking</th>
+              <td><%= @account_presenter.time_tracking? %></td>
+            </tr>
+            <tr>
+              <th class="text-right">
+                <acronym title="Two-Factor Authentication">2FA</acronym> Enabled
+                <a href="javascript:void();"
+                  data-toggle="popover"
+                  data-content="Can be overridden at the user level"
+                  data-trigger="click"
+                  data-placement="bottom"
+                ><i class="icon icon-help-circled"></i></a>
+              </th>
+              <td><%= @account_presenter.two_factor_enabled? %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Created</th>
+              <td><%= @account_presenter.created_datetime %></td>
+            </tr
+            <tr>
+              <th class="text-right">Updated</th>
+              <td><%= @account_presenter.updated_datetime %></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <% @account_presenter.when_user_can(:edit) do %>
+                  <%= link_to @account_presenter.edit_path, class: 'btn btn-primary' do %>
+                    <i class="icon-pen3 white"></i> Edit
+                  <% end %>
+                <% end %>
+                <% @account_presenter.when_user_can(:deactivate) do %>
+                  <%= link_to '#confirm-deactivate-modal', data: { toggle: 'modal', target: '#confirm-deactivate-modal' }, class: 'btn btn-warning' do %>
+                    <i class="icon-blocked white"></i> Deactivate
+                  <% end %>
+                <% end %>
+                <% @account_presenter.when_user_can(:reinvite) do %>
+                  <%= link_to @account_presenter.reinvite_path, method: :post, class: 'btn btn-teal', data: { confirm: "Resend owner invite email to #{@account_presenter.owner_email}?" } do %>
+                    <i class="icon-email"></i> Resend Invite
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="row match-height">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Plan</h4>
+        <div class="heading-elements">
+          <% @account_presenter.when_user_can(:new_plan) do %>
+            <%= link_to @account_presenter.new_plan_path, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> New Plan
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-block">
+          <%= render 'plans/plan', plan: @account_presenter.plan %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Offices</h4>
+        <div class="heading-elements">
+          <% @account_presenter.when_user_can(:new_office) do %>
+            <%= link_to @account_presenter.new_office_path, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> New Office
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-block">
+          <ul class="list-unstyled">
+          <% @account_presenter.offices.each do |office_presenter| %>
+            <li><%= office_presenter.name %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%= render 'deactivate_modal', id: @account_presenter.id, name: @account_presenter.name %>

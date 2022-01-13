@@ -1,0 +1,77 @@
+<%
+typeform_btn = <<-BTN
+<div style="text-align:center;"> <a class="typeform-share button" href="https://form.typeform.com/to/crSdgbBm?typeform-medium=embed-snippet" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#379CFB;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:11px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" data-size="100" target="_blank">Book a 1-hr session </a> </div> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+BTN
+%>
+
+<div class="card">
+  <div class="card-header mb-1">
+    <h4 class="card-title">
+      HR Coaching
+    </h4>
+  </div>
+  <div class="card-body">
+    <div style="background-color: #444; padding: 1rem 0; text-align: center;" class="mb-2">
+      <%= image_tag("logo-ignite-hr.jpg", width: 300) %>
+    </div>
+
+    <div class="card-block">
+
+      <div class="row">
+        <div class="col-md-6 pb-2">
+
+          <h3 class="mb-1">What is HR Coaching?</h3>
+          <p>There are many intricacies to HR policies, procedures, and compliance. In order to keep up, sometimes you need a bit of extra help. Understanding the rules, laws, and requirements can be both a challenge and a time sink so that's where we step in. Tap into our experts in HR strategy so you can implement proper systems for consistency, scalability, and development.</p>
+
+          <h4 class="mb-2 mt-3">Topics</h4>
+
+          <ul class="mb-3">
+            <li>Employee Performance/Discipline</li>
+            <li>Recruiting Strategy/Job Postings</li>
+            <li>Onboarding Programs</li>
+            <li>Job Descriptions</li>
+            <li>Employment Law Compliance</li>
+            <li>Harassment and Discrimination Complaints</li>
+            <li>Performance Review Programs</li>
+            <li>HR Policies and Procedures</li>
+            <li>Internal HR Forms and Documents</li>
+            <li>Compensation and Benefits</li>
+          </ul>
+        </div>
+
+        <div class="col-md-6 pb-3">
+          <h4 class="mb-2">Meet Your Coaches</h4>
+
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <%= image_tag("headshot-laura-davis.png", class: "img-fluid") %>
+            </div>
+            <div class="col-md-6">
+              <h5 class="mb-1">Laura Davis</h5>
+              <p>Laura founded Ignite HR in 2016 to provide small to medium size businesses with an HR partner whose expertise is normally only be available to large organizations. She believes in the power of igniting performance and efficiency to fuel an organization to reach its greatest potential. Laura has served in human resources since 1996, and holds dual, senior level certifications (SPHR and SHRM-SCP).</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <%= image_tag("headshot-julianne-jackson.png", class: "img-fluid") %>
+            </div>
+            <div class="col-md-6">
+              <h5 class="mb-1">Julianne Jackson</h5>
+              <p>Julianne has worked in human resources since 2012 with publicly-traded, small-sized, and nonprofit organizations. As a certified Professional in Human Resources (PHR), she believes in empowering organizations through employee relations fueled at a human-level. Along with general HR consulting, Julianne offers Talent Placement for organizations seeking to find high quality, experienced employees.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-1">
+          <%= render layout: 'book_btn' do %>
+            <% raw(typeform_btn) %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

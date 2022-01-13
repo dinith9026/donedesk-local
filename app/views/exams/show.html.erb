@@ -1,0 +1,4 @@
+<h1><%= @exam_presenter.course_title %></h1>
+<p><%= @exam_presenter.course_description %></p>
+
+<%= render "exams/#{@exam_presenter.result_partial}", exam_presenter: @exam_presenter %>

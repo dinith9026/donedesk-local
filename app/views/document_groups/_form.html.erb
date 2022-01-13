@@ -1,0 +1,113 @@
+<%= form_tag(url, method: local_assigns[:form_method].presence || :post) do %>
+  <%= hidden_field_tag 'document_group[applies_to]', @form.applies_to %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Document Group for <%= @form.applies_to %></h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+                <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                <div class="form-group is-required">
+                  <%= label_tag 'document_group_name', 'Document Group Name' %>
+                  <%= text_field_tag 'document_group[name]', @form.name, class: 'form-control', autofocus: true, required: true %>
+                </div>
+
+                <div class="form-group">
+                  <table class="table table-sm table-striped font-small-3" id="document-groups-table">
+                    <tbody>
+                      <%= render partial: 'document_types_grouping_row',
+                                 collection: @form.document_types,
+                                 as: :document_type,
+                                 locals: { document_types_groupings: @form.document_types_groupings } %>
+                    </tbody>
+                    <tfoot>
+                      <tr class="border-bottom-0">
+                        <td class="pt-1 pb-1 text-center" colspan="2">
+                          <%= link_to '+ New Document Type', '#copy-preset-modal', data: { toggle: 'modal', target: '#new-document-type-modal' }, class: 'btn btn-primary btn-sm new-btn' %>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+
+                <%= render '/shared/form_actions' %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: '/shared/modal', locals: { title: 'Create a new document type', id: 'new-document-type-modal' } do %>
+
+  <% document_type_form = DocumentTypeForm.new(applies_to: @form.applies_to).with_policy(policy(DocumentType)) %>
+
+  <%= form_for document_type_form, url: document_types_path, id: 'new-document-type-form', remote: true do |f| %>
+    <div id="new-document-type-errors" class="d-none">
+    </div>
+    <div class="bs-callout-grey callout-bordered mb-1">
+      <div class="media">
+        <div class="media-body p-1">
+          <%= render 'document_types/form_fields', f: f, disable_applies_to: true, form: document_type_form %>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions right">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        Cancel
+      </button>
+      <%= button_tag 'Save', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+    </div>
+  <% end %>
+<% end %>
+
+<script type="text/javascript">
+function toggleRequired(elm) {
+  var id = elm.data('document-type-id');
+  var requiredLabel = $("label[for='document_types_groupings_required_" + id + "']");
+  var requiredCheckbox = $("#document_types_groupings_required_" + id);
+
+  if (elm.is(':checked')) {
+    requiredLabel.removeClass('text-muted');
+    requiredCheckbox.attr('disabled', false);
+  } else {
+    requiredLabel.addClass('text-muted');
+    requiredCheckbox.attr('disabled', true);
+    requiredCheckbox.attr('checked', false);
+  }
+}
+
+function toggleAllRequired() {
+  $('.document-type-checkbox').each(function(index) {
+    toggleRequired($(this));
+  });
+}
+
+$(function() {
+  toggleAllRequired();
+
+  // Bind to document because we're using Ajax to add new elements
+  $(document).on('change', '.document-type-checkbox', function (e) {
+    toggleRequired($(this));
+  });
+
+  $('#new-document-type-modal').on('shown.bs.modal', function() {
+    $('#document_type_name').focus();
+  })
+
+  $('#new-document-type-modal').on('hide.bs.modal', function(e) {
+    $('#document_type_name').val('');
+    $('#new-document-type-errors').val('').hide();
+  });
+});
+</script>

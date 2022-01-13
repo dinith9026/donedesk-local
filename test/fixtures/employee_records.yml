@@ -1,0 +1,107 @@
+<% iv = SecureRandom.random_bytes(12) %>
+<% encoded_iv = Base64.encode64(iv) %>
+
+DEFAULTS: &DEFAULTS
+  encrypted_dob: <%= EmployeeRecord.encrypt_dob('1985-01-25', iv: iv) %>
+  encrypted_dob_iv: <%= encoded_iv %>
+  encrypted_phone: <%= EmployeeRecord.encrypt_phone('555-879-5309', iv: iv) %>
+  encrypted_phone_iv: <%= encoded_iv %>
+  encrypted_emergency_contact_name: <%= EmployeeRecord.encrypt_emergency_contact_name('Emily', iv: iv) %>
+  encrypted_emergency_contact_name_iv: <%= encoded_iv %>
+  encrypted_emergency_contact_relationship: <%= EmployeeRecord.encrypt_emergency_contact_relationship('Sister', iv: iv) %>
+  encrypted_emergency_contact_relationship_iv: <%= encoded_iv %>
+  encrypted_emergency_contact_phone: <%= EmployeeRecord.encrypt_emergency_contact_phone('2105557890', iv: iv) %>
+  encrypted_emergency_contact_phone_iv: <%= encoded_iv %>
+  encrypted_emergency_contact_email: <%= EmployeeRecord.encrypt_emergency_contact_email('emily@example.com', iv: iv) %>
+  encrypted_emergency_contact_email_iv: <%= encoded_iv %>
+  marital_status: <%= EmployeeRecord.marital_statuses[:married] %>
+  hired_on: <%= Date.current %>
+
+ed:
+  <<: *DEFAULTS
+  office: oceanview_tx
+  document_group: oceanview_default
+  user: employee
+  first_name: Ed
+  last_name: Employee
+  title: Receptionist
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>
+
+eric:
+  <<: *DEFAULTS
+  office: oceanview_oh
+  document_group: oceanview_default
+  user: coworker
+  first_name: Eric
+  last_name: Employee
+  title: Assistant
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>
+
+mary:
+  <<: *DEFAULTS
+  office: oceanview_tx
+  document_group: oceanview_default
+  user: account_manager
+  first_name: Mary
+  last_name: Manager
+  title: Office Manager
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>
+
+with_no_assigned_courses:
+  <<: *DEFAULTS
+  office: oceanview_tx
+  document_group: oceanview_default
+  user: for_employee_record_with_no_assigned_courses
+  first_name: Uma
+  last_name: Thomas
+  title: Dental Assistant
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>
+
+with_terminated_status_and_no_assigned_courses:
+  <<: *DEFAULTS
+  office: oceanview_tx
+  document_group: oceanview_default
+  user: terminated_employee
+  first_name: Tom
+  last_name: Terminated
+  title: Dental Hygenist
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:terminated] %>
+  terminated_on: <%= 30.days.ago.to_date.to_s(:db) %>
+
+with_no_user:
+  <<: *DEFAULTS
+  office: oceanview_tx
+  document_group: oceanview_default
+  user:
+  first_name: Employee
+  last_name: WithNoUser
+  title: Dental Assistant
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>
+
+with_assigned_track:
+  <<: *DEFAULTS
+  office: oceanview_oh
+  document_group: oceanview_default
+  user: employee_with_assigned_track
+  first_name: Employee
+  last_name: WithAssignedTrack
+  title: Assistant
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>
+
+ellen:
+  <<: *DEFAULTS
+  office: brookside
+  document_group: brookside_default
+  user: another_employee
+  first_name: Ellen
+  last_name: Employee
+  title: Dental Hygenist
+  employment_type: <%= EmploymentTypes::VALUES[:full_time] %>
+  status: <%= EmployeeRecord.statuses[:employed] %>

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+TAG=`git rev-parse --short HEAD`
+
+docker build -f docker/aws/app/Dockerfile . -t donedesk/app:$TAG -t 794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/app:$TAG
+
+TAG=$TAG docker-compose --file docker/aws/docker-compose.yml up

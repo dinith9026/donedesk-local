@@ -1,0 +1,21 @@
+<div class="logos"><%= image_tag(image_url('certificate-practicesecure-edu-logo.png'), height: '80') %></div>
+<h1>CERTIFICATE OF COMPLETION</h1>
+<p><strong>DATE OF TRAINING:</strong> <%= @certificate_presenter.passed_on.to_s(:long) %></p>
+<% if @certificate_presenter.expires_on %>
+  <p><strong>VALID UNTIL:</strong> <%= @certificate_presenter.expires_on.to_s(:long) %></p>
+<% end %>
+<p><strong>PARTICIPANT:</strong> <%= @certificate_presenter.full_name %></h2>
+<br />
+<br />
+<br />
+<p>We are pleased to provide to you a certificate of completion for &nbsp;&nbsp;<strong><%= @certificate_presenter.course_title %></strong>&nbsp;. This training is good for one year from the date of completion.</p>
+<br />
+<p><strong>The program included training on Federal HIPAA and Texas HB 300</strong>: (Texas HB 300 : if taken while practicing at a Texas location).</p>
+<p>You completed training on HIPAA regulations for both federal and HB300 HIPAA regulations.</p>
+<br />
+<p>Thank you again for your attendance and implementing the required protocols for your practice. Please call us if you have questions on your ongoing compliance program or if you require updated training.</p>
+<br />
+<p>Sincerely yours,</p>
+<p><%= image_tag image_url('certificate-signature.png') %></p>
+<p>Cary Smith, CIC</p>
+<p>Practice Secure EDU</p>

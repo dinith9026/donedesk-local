@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          Time Sheets
+          <small>
+            <span class="text-lowercase">for</span>
+            <%= @time_sheets_presenter.date_from %> - <%= @time_sheets_presenter.date_to %>
+          </small>
+        </h4>
+        <div class="heading-elements">
+          <%= link_to '#new-time-entry-modal', data: { toggle: 'modal', target: '#new-time-entry-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+            <i class="icon-plus4 white"></i> New Time Entry
+          <% end %>
+          <%= link_to time_sheets_url(date_from: params[:date_from], date_to: params[:date_to], format: :csv), class: 'btn btn-success btn-sm' do %>
+            <i class="icon-arrow-down4 white"></i> Download CSV
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+
+          <div class="row">
+            <div class="col-sm-12">
+              <%= form_tag(time_sheets_path, method: :get, id: 'office-filter-form', class: 'form-inline mb-1', autocomplete: 'off') do %>
+                <%= hidden_field_tag :date_from, params[:date_from] %>
+                <%= hidden_field_tag :date_to, params[:date_to] %>
+                <%=
+                  select_tag :office_id,
+                    options_from_collection_for_select(@time_sheets_presenter.time_tracking_offices, :id, :name, params[:office_id]),
+                    class: 'form-control',
+                    prompt: 'All offices'
+                %>
+                <%= submit_tag 'Go', class: 'btn btn-secondary' %>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <%= form_tag(time_sheets_path, method: :get, id: 'date-filter-form', class: 'form-inline mb-1', autocomplete: 'off') do %>
+                <%= hidden_field_tag :office_id, params[:office_id] %>
+                <%= text_field_tag :date_from, @time_sheets_presenter.date_from('%m/%d/%Y'), class: 'form-control datetimepicker3' %>
+                <%= text_field_tag :date_to, @time_sheets_presenter.date_to('%m/%d/%Y'), class: 'form-control datetimepicker3' %>
+                <%= submit_tag 'Go', class: 'btn btn-secondary' %>
+              <% end %>
+            </div>
+            <div class="col-sm-6 text-right">
+              <i class="icon icon-warning2 text-warning"></i> = Missing entries
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-sm" id="time-sheets-table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>&nbsp;</th>
+                  <th>Hours</th>
+                  <th>Break</th>
+                  <th>PTO</th>
+                </tr>
+                <tr>
+                  <th>&nbsp;</th>
+                  <th><%= @time_sheets_presenter.total_regular_hours %></th>
+                  <th><%= @time_sheets_presenter.total_break_hours %></th>
+                  <th><%= @time_sheets_presenter.total_pto_hours %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @time_sheets_presenter.each do |time_sheet_presenter| %>
+                  <tr>
+                    <td>
+                      <%= link_to time_sheet_presenter.employee_last_comma_first, time_sheet_presenter.time_card_path %>
+                      <% time_sheet_presenter.when_missing_entries do %>
+                        <i class="icon icon-warning2 text-warning" title="missing entries"></i>
+                      <% end %>
+                      <div><em><small><%= time_sheet_presenter.employee_title %></small></em></div>
+                    </td>
+                    <% time_sheet_presenter.when_missing_entries do %>
+                      <td>-</td>
+                      <td>-</td>
+                    <% end %>
+                    <% time_sheet_presenter.when_not_missing_entries do %>
+                      <td><%= time_sheet_presenter.regular_time %></td>
+                      <td><%= time_sheet_presenter.break_time %></td>
+                    <% end %>
+                    <td><%= time_sheet_presenter.pto_time %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%=
+  render 'employee_records/select_employee_modal',
+    employee_records: @time_sheets_presenter.active_employee_records_who_track_time,
+    link_to_path: :new_time_entry_path,
+    modal_id: 'new-time-entry-modal'
+%>

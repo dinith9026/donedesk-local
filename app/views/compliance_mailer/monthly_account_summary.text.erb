@@ -1,0 +1,71 @@
+Monthly Compliance Summary for <%= @month.to_s %>
+==========
+
+= EXPIRED DOCUMENTS =
+
+<% if @summary.expired_documents.none? %>
+Congratulations! No expired documents.
+<% else %>
+<% @summary.expired_documents.each do |document| %>
+<%= document.employee_record_first_initial_and_last %> (<%= employee_record_url(document.employee_record) %>)
+<%= document.document_name %>
+<%= document.expires_on.strftime('%m/%d/%Y') %>
+-----
+<% end %>
+<% end %>
+
+
+= EXPIRED COURSES =
+
+<% if @summary.expired_course_assignments.none? %>
+Congratulations! No expired courses.
+<% else %>
+<% @summary.expired_course_assignments.each do |assignment| %>
+<%= assignment.employee_record_first_initial_and_last %> (<%= employee_record_url(assignment.employee_record) %>)
+<%= assignment.course_title %>
+<%= assignment.expires_on.strftime('%m/%d/%Y') %>
+-----
+<% end %>
+<% end %>
+
+
+= DOCUMENTS EXPIRING SOON =
+
+<% if @summary.expiring_documents.none? %>
+Congratulations! No documents expiring soon.
+<% else %>
+<% @summary.expiring_documents.each do |document| %>
+<%= document.employee_record_first_initial_and_last %> (<%= employee_record_url(document.employee_record) %>)
+<%= document.document_name %>
+<%= document.expires_on.strftime('%m/%d/%Y') %>
+-----
+<% end %>
+<% end %>
+
+
+= COURSES EXPIRING SOON =
+
+<% if @summary.expiring_course_assignments.none? %>
+Congratulations! No courses expiring soon.
+<% else %>
+<% @summary.expiring_course_assignments.each do |assignment| %>
+<%= assignment.employee_record_first_initial_and_last %> (<%= employee_record_url(assignment.employee_record) %>)
+<%= assignment.course_title %>
+<%= assignment.expires_on.strftime('%m/%d/%Y') %>
+-----
+<% end %>
+<% end %>
+
+
+= INCOMPLETE COURSES =
+
+<% if @summary.incomplete_course_assignments.none? %>
+Congratulations! No incomplete courses.
+<% else %>
+<% @summary.incomplete_course_assignments.each do |assignment| %>
+<%= assignment.employee_record_first_initial_and_last %> (<%= employee_record_url(assignment.employee_record) %>)
+<%= assignment.course_title %>
+<%= due_in_or_past_due_x_days(assignment.days_until_due) %>
+-----
+<% end %>
+<% end %>

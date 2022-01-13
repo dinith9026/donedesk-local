@@ -1,0 +1,148 @@
+<h2 style="border-bottom: solid 1px #ccc; margin-bottom: 32px;">Monthly Compliance Summary <small>for <%= @month.to_s %></small></h2>
+
+<h3 style="color: red">Expired Documents</h3>
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Name</th>
+      <th align="left">Office</th>
+      <th align="left">Document</th>
+      <th align="right">Expired</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @summary.expired_documents.none? %>
+      <td colspan="3"><em>Congratulations! No expired documents.</em></td>
+    <% else %>
+      <% @summary.expired_documents.each do |document| %>
+        <tr>
+          <td style="font-size:10px"><%= link_to document.employee_record_first_initial_and_last, document.employee_record %></td>
+          <td style="font-size:10px"><%= document.employee_record_office_name %></td>
+          <td style="font-size:10px"><%= document.document_name %></td>
+          <td align="right" style="color:red;font-size:10px"><%= document.expires_on.strftime('%m/%d/%Y') %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
+
+<h3 style="color: red">Expired Courses</h3>
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Name</th>
+      <th align="left">Office</th>
+      <th align="left">Course</th>
+      <th align="right">Expired</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @summary.expired_course_assignments.none? %>
+      <td colspan="3"><em>Congratulations! No expired courses.</em></td>
+    <% else %>
+      <% @summary.expired_course_assignments.each do |assignment| %>
+        <tr>
+          <td style="font-size:10px;"><%= link_to assignment.employee_record_first_initial_and_last, assignment.employee_record %></td>
+          <td style="font-size:10px;"><%= assignment.employee_record_office_name %></td>
+          <td style="font-size:10px;"><%= assignment.course_title %></td>
+          <td align="right" style="color:red;font-size:10px;"><%= assignment.expires_on.strftime('%m/%d/%Y') %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
+
+<h3 style="color: orange">Documents Expiring Soon</h3>
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Name</th>
+      <th align="left">Office</th>
+      <th align="left">Document</th>
+      <th align="right">Expires</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @summary.expiring_documents.none? %>
+      <td colspan="3"><em>Congratulations! No documents expiring soon.</em></td>
+    <% else %>
+      <% @summary.expiring_documents.each do |document| %>
+        <tr>
+          <td style="font-size:10px;"><%= link_to document.employee_record_first_initial_and_last, document.employee_record %></td>
+          <td style="font-size:10px;"><%= document.employee_record_office_name %></td>
+          <td style="font-size:10px;"><%= document.document_name %></td>
+          <td align="right" style="color:orange;font-size:10px;"><%= document.expires_on.strftime('%m/%d/%Y') %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
+
+<h3 style="color: orange">Courses Expiring Soon</h3>
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Name</th>
+      <th align="left">Office</th>
+      <th align="left">Course</th>
+      <th align="right">Expires</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @summary.expiring_course_assignments.none? %>
+      <td colspan="3"><em>Congratulations! No courses expiring soon.</em></td>
+    <% else %>
+      <% @summary.expiring_course_assignments.each do |assignment| %>
+        <tr>
+          <td style="font-size:10px;"><%= link_to assignment.employee_record_first_initial_and_last, assignment.employee_record %></td>
+          <td style="font-size:10px;"><%= assignment.employee_record_office_name %></td>
+          <td style="font-size:10px;"><%= assignment.course_title %></td>
+          <td align="right" style="color:orange;font-size:10px;"><%= assignment.expires_on.strftime('%m/%d/%Y') %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
+
+<h3 style="color: orange">Incomplete Courses</h3>
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Name</th>
+      <th align="left">Office</th>
+      <th align="left">Course</th>
+      <th align="right">Due</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @summary.incomplete_course_assignments.none? %>
+      <td colspan="3"><em>Congratulations! No incomplete courses.</em></td>
+    <% else %>
+      <% @summary.incomplete_course_assignments.each do |assignment| %>
+        <tr>
+          <td style="font-size:10px;"><%= link_to assignment.employee_record_first_initial_and_last, assignment.employee_record %></td>
+          <td style="font-size:10px;"><%= assignment.employee_record_office_name %></td>
+          <td style="font-size:10px;"><%= assignment.course_title %></td>
+          <td align="right" style="color:orange;font-size:10px;"><%= due_in_or_past_due_x_days(assignment.days_until_due) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
+
+<hr>
+<br>
+
+<div style="margin-top:48px; text-align: center;">
+  <%= link_to 'Login', sign_in_url, class: 'btn', style: 'font-size:24px' %>
+</div>

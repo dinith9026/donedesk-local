@@ -1,0 +1,46 @@
+<div class="form-group is-required">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control', required: true %>
+</div>
+<div class="form-group is-required">
+  <%= f.label :phone %>
+  <%= f.text_field :phone, class: 'form-control', required: true %>
+</div>
+<div class="form-group is-required">
+  <%= f.label :street_address %>
+  <%= f.text_field :street_address, class: 'form-control', required: true %>
+</div>
+<div class="form-group">
+  <%= f.label :address2 %>
+  <%= f.text_field :address2, class: 'form-control' %>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group is-required">
+      <%= f.label :city %>
+      <%= f.text_field :city, class: 'form-control', required: true %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group is-required">
+      <%= f.label :state %>
+      <%= f.select :state, us_states, { include_blank: true }, { class: 'form-control', required: true } %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group is-required">
+      <%= f.label :zip %>
+      <%= f.text_field :zip, class: 'form-control', required: true %>
+    </div>
+  </div>
+</div>
+<div class="form-group is-required">
+  <%= f.label :time_zone %>
+  <%=
+    f.time_zone_select(
+      :time_zone,
+      ActiveSupport::TimeZone.us_zones,
+      { default: 'Central Time (US & Canada)' },
+      { class: 'form-control', required: true }
+    ) %>
+</div>

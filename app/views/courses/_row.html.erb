@@ -1,0 +1,16 @@
+<% course_presenter.when_user_can(:show) do %>
+  <tr class="<%= row_classes %> <%= course_presenter.deactivated? ? 'grey lighten-1' : '' %>">
+    <td>
+      <%= link_to course_presenter.title, course_presenter.show_path %>
+      <br><small><%= course_presenter.description %></small>
+    </td>
+    <td><%= course_presenter.status %></td>
+    <td class="text-center"><%= course_presenter.total_assigned(current_account) %></td>
+    <td class="text-center"><%= course_presenter.material_type %></td>
+    <td class="text-right">
+      <%= render layout: '/shared/dropdown_layout' do %>
+        <%= render 'actions', course_presenter: course_presenter %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

@@ -1,0 +1,90 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-4 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
+        <div class="p-1 text-xs-center">
+          <div>
+            <h3 class="font-large-1 success text-bold-400">$<%= @dashboard.estimated_monthly_revenue %></h3>
+            <span class="font-small-3 grey darken-1">Monthly Subscriptions<br>for Active + Registered Accounts<br>(only an estimate)</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
+        <div class="p-1 text-xs-center">
+          <div>
+            <h3 class="font-large-1 grey darken-1 text-bold-400"><%= @dashboard.total_active_accounts %></h3>
+            <span class="font-small-3 grey darken-1">Total Active Accounts</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="p-1 text-xs-center">
+          <div>
+            <h3 class="font-large-1 grey darken-1 text-bold-400"><%= @dashboard.total_documents %></h3>
+            <span class="font-small-3 grey darken-1">Total Documents</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <%= form_tag(users_url, method: :get, id: 'user-search-form', class: '') do %>
+      <fieldset>
+        <div class="input-group">
+          <%= text_field_tag(
+              :user_id,
+              nil,
+              { class: 'form-control input-lg user-search-autocomplete',
+                autofocus: true,
+                placeholder: 'Search all users...' }
+            )
+          %>
+          <span class="input-group-btn">
+            <input type="submit" value="Search" class="btn btn-primary btn-lg">
+          </span>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $(".user-search-autocomplete").autocomplete({
+    autoFocus: true,
+    minLength: 2,
+    source: function (request, response) {
+      $.ajax({
+        url: '<%= users_url %>',
+        dataType: 'json',
+        data: { query: request.term },
+        success: function(data) {
+          response(data);
+        }
+      });
+    },
+    select: function(event, ui) {
+      //assign value back to the form element
+      if(ui.item){
+        $(event.target).val(ui.item.value);
+      }
+      //submit the form
+      $(event.target.form).submit();
+    }
+  });
+
+  $('#user-search-form').submit(function(e) {
+    e.preventDefault();
+
+    var user_id = $('.user-search-autocomplete').val();
+    var url = '/users/' + user_id
+
+    window.location.href = url;
+
+    return false;
+  });
+});
+</script>

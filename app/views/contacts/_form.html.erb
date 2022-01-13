@@ -1,0 +1,83 @@
+<%=  form_with(model: contact, local: true) do |form| %>
+
+	<% if contact.errors.any? %>
+		<div id="error_explanation">
+  		<h2><%= pluralize(contact.errors.count, "error") %> prohibited this post from being saved: </h2>
+  		<ul>
+  			<% contact.errors.full_messages.each do |message| %>
+  				<li><%= message %></li>
+				<% end %>
+ 			</ul>
+ 		</div>
+ 	<% end %>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= form.label :first_name %>
+				<%= form.text_field :first_name, {class: 'form-control', required: true} %>
+				<%= form.hidden_field :type, value: type %>
+				<%= form.hidden_field :id, value: params[:id] %>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= form.label :last_name %>
+				<%= form.text_field :last_name, {class: 'form-control', required: true} %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= form.label :contact_address %>
+				<%= form.text_field :contact_address, {class: 'form-control', required: true} %>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= form.label :contact_email %>
+				<%= form.text_field :contact_email, {class: 'form-control', required: true} %>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= form.label :contact_number_1 %>
+				<%= form.text_field :contact_number_1, {class: 'form-control', required: true} %>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= form.label :contact_number_2 %>
+				<%= form.text_field :contact_number_2, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<%= form.label :document %>
+				<%= form.file_field :document, multiple: true, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<% if(!action) %>
+	
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<%= form.label :note %>
+				<%= form.text_area :note, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<% end %>
+	<div class="row">
+		<div class="col-md-12">
+			<%= render '/shared/form_actions' %>
+		</div>
+	</div>
+<% end %>

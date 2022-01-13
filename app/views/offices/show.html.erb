@@ -1,0 +1,108 @@
+<section class="row match-height">
+
+  <div class="col-md-12 col-lg-6" id="office-details">
+    <%= render '/offices/details', office_presenter: @office_presenter %>
+  </div>
+
+  <div class="col-md-12 col-lg-6">
+    <%= render '/offices/documents_list', office_presenter: @office_presenter %>
+  </div>
+
+</section>
+
+<% @office_presenter.when_user_can(:assign_admin) do %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render '/offices/assigned_admins', office_presenter: @office_presenter %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <%= render '/employee_records/table', employee_records_presenter: @office_presenter.employee_records_presenter, card_title: 'Employees' %>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Assign admins to this office...', id: 'assign-admin' } do %>
+  <% if @office_presenter.unassigned_admins.any? %>
+    <%= form_for(:offices_user, url: @office_presenter.users_path) do |f| %>
+      <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+        <% @office_presenter.unassigned_admins.each do |account_manager| %>
+          <div class="form-check">
+            <label class="form-check-label" for="user-<%= account_manager.id %>">
+              <%= check_box_tag 'office[user_ids][]', account_manager.id, false, { class: 'form-check-input', id: "user-#{account_manager.id}" } %>
+              <%= account_manager.last_comma_first %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag 'Assign', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="alert alert-info">
+      All admins are already assigned to this office.
+    </div>
+  <% end %>
+<% end %>
+
+<div class="card">
+  <div class="card-body collapse in">
+    <div class="card-block">    
+      <ul class="nav nav-tabs mb-2">
+        <li class="nav-item">
+          <a class="nav-link active" id="base-tasks" data-toggle="tab" aria-controls="tasks" href="#tasks" aria-expanded="false">Tasks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="base-docs" data-toggle="tab" aria-controls="docs" href="#docs" aria-expanded="false">Documents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="base-contacts" data-toggle="tab" aria-controls="contacts" href="#contacts" aria-expanded="false">Contacts</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tasks" aria-expanded="false" aria-labelledby="base-tasks">
+          
+        </div>
+        
+        <div role="tabpanel" class="tab-pane" id="docs" aria-expanded="false" aria-labelledby="base-docs">
+          <div class="heading-elements ml-3 mt-2">
+            <% @office_presenter.when_user_can(:new_document) do %>
+              <%= link_to @office_presenter.new_document_path, class: 'btn btn-primary btn-sm' do %>
+                <i class="icon-plus white"></i> New Document
+              <% end %>
+            <% end %>
+          </div>
+          <div class="card-block card-dashboard">
+            <div class="table-responsive">
+              <%= render 'documents/table', documents_presenter: @office_presenter.documents_presenter, hide_belongs_to: true, datatables: true %>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="contacts" aria-expanded="false" aria-labelledby="base-contacts">
+          <div class="heading-elements ml-3 mt-2">
+            <% @office_presenter.when_user_can(:new_document) do %>
+              <%= link_to '/contacts/new', method: :get, class: 'btn btn-primary btn-sm' do %>
+                <i class="icon-plus4 white"></i> New Contacts
+              <% end %>
+            <% end %>
+          </div>
+          <div class="card-block card-dashboard">
+            <div class="table-responsive">  
+              <%= render 'contacts/table', documents_presenter: @office_presenter.documents_presenter, hide_belongs_to: true, datatables: true %>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

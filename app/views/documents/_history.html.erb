@@ -1,0 +1,13 @@
+<li class="mb-1">
+  <% document_presenter.when_user_can_download do %>
+    <%= link_to document_presenter.download_path, class: 'btn btn-success btn-sm' do %>
+      <i class="icon-arrow-down4 font-small-1"></i>
+    <% end %>
+  <% end %>
+  <span class="ml-1">
+    <%= document_presenter.file_name %> -
+    <span class="font-small-3">
+      uploaded on <%= document_presenter.created_at %> (<%= document_presenter.expiration %>)
+    </span>
+  </span>
+</li>

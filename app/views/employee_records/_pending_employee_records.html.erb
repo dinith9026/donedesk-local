@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Pending Employee Records</h4>
+    <small>User has accepted the invite but has not yet created their employee record.</small>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <ul>
+        <% employee_records_presenter.pending_employee_records.each do |user| %>
+          <li>
+            <%= user.full_name %> - <%= user.email %>
+            [
+              <small>
+                <%= link_to 'delete', user_path(user), class: 'danger', method: :delete, data: { confirm: "Delete user #{user.email}?" } %>
+              </small>
+            ]
+            [
+              <small>
+                <%= link_to 'create employee record', new_user_employee_record_path(user_id: user.id) %>
+              </small>
+            ]
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-header mb-1">
+    <h4 class="card-title">
+      Do you want to logout or continue?
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="card-block">
+      <%= link_to '/sign_out', class: 'btn btn-lg btn-primary', method: :delete do %>
+        <i class="icon-power3"></i> Logout
+      <% end %>
+      or
+      <%= link_to smart_back_path, class: 'btn btn-lg btn-secondary' do %>
+        <i class="icon-arrow"></i> Continue
+      <% end %>
+    </div>
+  </div>
+</div>

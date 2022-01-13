@@ -1,0 +1,14 @@
+<section class="flexbox-container">
+  <%= render layout: '/shared/centered_card_layout', locals: { heading: t('sessions.new.two_factor_auth') } do %>
+    <%= form_for :session, url: session_path, html: { id: 'sign-in-form', class: 'form-horizontal' } do |f| %>
+      <fieldset class="form-group position-relative has-icon-left mb-0">
+        <%= f.text_field :otp_attempt, class: 'form-control form-control-lg input-lg', placeholder: 'Code', required: true, autofocus: true %>
+        <div class="form-control-position">
+          <i class="icon-lock"></i>
+        </div>
+      </fieldset>
+      <br />
+      <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> <%= t 'sessions.new.sign_in' %></button>
+    <% end %>
+  <% end %>
+</section>

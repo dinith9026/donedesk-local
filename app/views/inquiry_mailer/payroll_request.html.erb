@@ -1,0 +1,22 @@
+<p><strong><%= @account.name %></strong> would like more information on DoneDesk's payroll services.</p>
+<br>
+<p>
+  <strong>Owner:</strong><br>
+  <%= @owner.full_name %>
+</p>
+<p>
+  <strong>Primary Payroll Contact Name</strong><br>
+  <%= @form_data[:primary_payroll_contact_name] %>
+</p>
+<p>
+  <strong>Phone Number</strong><br>
+  <%= @form_data[:phone_number] %>
+</p>
+<p>
+  <strong>Email Address</strong><br>
+  <%= @form_data[:email_address] %>
+</p>
+<p>
+  <strong>Current Payroll Provider</strong><br>
+  <%= @form_data[:current_payroll_provider] %>
+</p>

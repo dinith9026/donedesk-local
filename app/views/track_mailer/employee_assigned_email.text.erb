@@ -1,0 +1,10 @@
+Hello <%= @employee_record.first_name %>
+
+You've been assigned <%= pluralize(@new_tracks.count, 'new learning track') %>:
+
+<% @new_tracks.each do |track| %>
+  <%= track.name %>
+<% end %>
+
+Time's ticking! Login to take the first course now:
+<%= assignments_url %>

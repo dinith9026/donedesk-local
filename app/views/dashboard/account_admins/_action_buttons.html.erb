@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-block text-center">
+      <% current_account_presenter.when_user_can(:create_employee_record) do %>
+        <%= link_to new_employee_record_path, class: 'btn btn-primary' do %>
+          <i class="icon-plus"></i> New Employee Record
+        <% end %>
+      <% end %>
+
+      <%= link_to '#new-employee-document-modal', data: { toggle: 'modal', target: '#new-employee-document-modal' }, class: 'btn btn-primary' do %>
+        <i class="icon-plus"></i> New Employee Document
+      <% end %>
+
+      <%= link_to new_course_path, class: 'btn btn-primary' do %>
+        <i class="icon-plus"></i> New Course
+      <% end %>
+
+      <%= link_to new_document_type_path, class: 'btn btn-primary' do %>
+        <i class="icon-plus"></i> New Document Type
+      <% end %>
+
+      <%= link_to new_office_path, class: 'btn btn-primary' do %>
+        <i class="icon-plus"></i> New Office
+      <% end %>
+    </div>
+  </div>
+</div>

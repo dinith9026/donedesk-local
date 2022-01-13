@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -ex
+
+TAG=`git rev-parse --short HEAD`
+
+`aws ecr get-login --no-include-email --region us-west-2 --profile donedesk-deployer`
+
+for image in app nginx_proxy letsencrypt
+do
+  docker push 794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/$image:$TAG
+done
+
+bin/docker/build-task-definitions
+
+aws --profile donedesk ecs register-task-definition --cli-input-json file://tmp/task-definition.production.json --family donedesk-production --profile donedesk-deployer
+aws --profile donedesk ecs register-task-definition --cli-input-json file://tmp/task-definition.staging.json --family donedesk-staging --profile donedesk-deployer

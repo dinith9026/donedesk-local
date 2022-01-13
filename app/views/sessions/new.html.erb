@@ -1,0 +1,20 @@
+<section class="flexbox-container">
+  <%= render layout: '/shared/centered_card_layout', locals: { heading: t('.sign_in_to_account') } do %>
+    <%= form_for :session, url: session_path, html: { id: 'sign-in-form', class: 'form-horizontal form-simple' } do |f| %>
+      <fieldset class="form-group position-relative has-icon-left mb-0">
+        <%= f.text_field :email, class: 'form-control form-control-lg input-lg', placeholder: t('sessions.new.email'), required: true, autofocus: true %>
+        <div class="form-control-position">
+          <i class="icon-head"></i>
+        </div>
+      </fieldset>
+      <fieldset class="form-group position-relative has-icon-left">
+        <%= f.password_field :password, class: 'form-control form-control-lg input-lg', placeholder: t('sessions.new.password'), required: true %>
+        <div class="form-control-position">
+          <i class="icon-key3"></i>
+        </div>
+      </fieldset>
+      <p><%= link_to t('sessions.new.forgot_pw?'), new_password_path, class: 'card-link' %></p>
+      <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> <%= t 'sessions.new.sign_in' %></button>
+    <% end %>
+  <% end %>
+</section>

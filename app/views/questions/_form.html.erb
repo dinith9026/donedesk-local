@@ -1,0 +1,100 @@
+<%= form_for @form, url: form_path do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Question</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                    <h4 class="form-section"><%= @course.title %></h4>
+
+                    <div class="form-group">
+                      <%= f.label :text, 'Question' %>
+                      <%= f.text_field :text, class: 'form-control' %>
+                    </div>
+
+                    <div class="row mb-1">
+                      <div class="col-md-4">
+                        Choices
+                      </div>
+                      <div class="col-md-7 text-right pr-0">
+                        Select the correct answer <i class="icon-arrow-down" style="padding-right:0.8rem"></i>
+                      </div>
+                      <div class="col-md-1">
+                      </div>
+                    </div>
+                    <div class="repeater-choices">
+                      <% @form.choices.each_with_index do |choice, i| %>
+                        <div class="form-group repeater-group">
+                          <div class="row">
+                            <div class="col-md-11 pr-0">
+                              <div class="input-group">
+                                <%= text_field_tag "question[choices][#{i}][answer]", choice.answer, class: 'form-control', required: true,
+                                  data: { pattern_name: 'question[choices][++][answer]', pattern_id: 'question_choices_++_answer' } %>
+                                <span class="input-group-addon">
+                                  <%= radio_button_tag "question[choices][#{i}][is_correct]", true, choice.is_correct,
+                                        class: 'is_correct', data: { pattern_name: 'question[choices][++][is_correct]', pattern_id: 'question_choices_++_is_correct' } %>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-1">
+                              <a class="text-danger font-medium-3 text-bold-600 repeater-delete">X</a>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                      <button type="button" class="btn btn-outline-secondary btn-sm repeater-add">
+                        <i class="icon-plus4"></i> Add another choice
+                      </button>
+                    </div>
+
+                    <%= render '/shared/form_actions' %>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+$(function() {
+  $('.repeater-choices').repeater({
+    btnAddClass: 'repeater-add',
+    btnRemoveClass: 'repeater-delete',
+    groupClass: 'repeater-group',
+    minItems: 2,
+    maxItems: <%= Question::MAX_ALLOWED_CHOICES %> - 2,
+    startingIndex: 1,
+    reindexOnDelete: true,
+    repeatMode: 'insertAfterLast',
+    animation: null,
+    animationSpeed: 400,
+    animationEasing: 'swing',
+  });
+
+  // Allow only one correct answer
+  $('.repeater-choices').on('click', '.is_correct', function(e){
+    $('.is_correct').not(this).prop('checked', false);
+  });
+
+  $('.repeater-add').on('click', function(e){
+    setTimeout(function() {
+      var lastCloned = $('.repeater-group:last')
+      lastCloned.find('.form-control').val('');
+      lastCloned.find('.is_correct').prop('checked', false);
+    }, 100);
+  });
+});
+</script>

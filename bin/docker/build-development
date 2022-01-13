@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -ex
+
+cp Gemfile Gemfile.lock docker/development/rails/
+
+TAG=development-`git rev-parse --short HEAD`
+
+for IMAGE in app letsencrypt nginx_proxy rails database
+do
+  docker build -f docker/aws/$IMAGE/Dockerfile . -t donedesk/$IMAGE:$TAG -t 794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/$IMAGE:$TAG
+done

@@ -1,0 +1,34 @@
+<tr class="<%= row_classes %>">
+  <td>
+    <%= link_to employee_record_presenter.show_path do %>
+      <%= image_tag user_avatar_url(employee_record_presenter.user), size: 32, class: 'rounded-circle' %> <%= employee_record_presenter.last_comma_first %>
+    <% end %>
+  </td>
+  <td class="text-center">
+    <%= link_to employee_record_presenter.show_path, title: employee_record_presenter.documents_status do %>
+      <%= employee_record_presenter.documents_status_icon %>
+    <% end %>
+  </td>
+  <td><%= link_to employee_record_presenter.office_name, employee_record_presenter.office_show_path %></td>
+  <td><%= employee_record_presenter.title %></td>
+  <td><%= employee_record_presenter.employment_type %></td>
+  <td class="text-center">
+    <% employee_record_presenter.when_has_login do %>
+      <%= check_box_tag :is_admin,
+                        1,
+                        employee_record_presenter.account_admin?,
+                        class: 'js-switch is-admin-switch',
+                        id: "is_admin_#{employee_record_presenter.user_id}",
+                        name: "is_admin_#{employee_record_presenter.user_id}",
+                        data: { user_id: employee_record_presenter.user_id, office_name: employee_record_presenter.office_name, full_name: employee_record_presenter.full_name } %>
+    <% end %>
+    <% employee_record_presenter.when_user_can(:invite) do %>
+      <%= link_to 'invite', employee_record_presenter.new_invite_path %>
+    <% end %>
+  </td>
+  <td class="text-right">
+    <%= render layout: '/shared/dropdown_layout' do %>
+      <%= render '/employee_records/actions', employee_record_presenter: employee_record_presenter %>
+    <% end %>
+  </td>
+</tr>

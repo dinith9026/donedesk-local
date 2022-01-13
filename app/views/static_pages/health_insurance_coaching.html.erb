@@ -1,0 +1,61 @@
+<%
+typeform_btn = <<-BTN
+<div style="text-align:center;"> <a class="typeform-share button" href="https://form.typeform.com/to/NaE4XeAS?typeform-medium=embed-snippet" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#379CFB;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:10px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" data-size="100" target="_blank">Book a 1-hr Session </a> </div> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+BTN
+%>
+
+<div class="card">
+  <div class="card-header mb-1">
+    <h4 class="card-title">
+      Health Insurance Coaching
+    </h4>
+  </div>
+  <div class="card-body">
+    <div style="background-color: #333; padding: 1rem 0; text-align: center;" class="mb-2">
+      <%= image_tag("logo-PS-insurance.jpg", width: 300) %>
+    </div>
+
+    <div class="card-block">
+
+      <div class="row">
+        <div class="col-md-6 pb-2">
+
+          <h3 class="mb-1">What is Health Insurance Coaching?</h3>
+          <p>There are many intricacies to determining when and how to implement a health insurance package as part of your benefits.  Understanding the rules, laws, and different policy types can be both a challenge and a time sink so that’s where we step in. Tap into our experts in Health Insurance strategy so you can determine if your health insurance offering will keep you competitive in the talent space.</p>
+
+          <h4 class="mb-2 mt-3">Topics</h4>
+
+          <ul class="mb-3">
+            <li>Determining when/if you should offer Health Insurance</li>
+            <li>Picking the Right Health plans for your Office</li>
+            <li>Analyzing your Current Coverages (Competitive Analysis)</li>
+          </ul>
+        </div>
+
+        <div class="col-md-6">
+          <h4 class="mb-2">Meet Your Coach</h4>
+
+          <div class="row">
+            <div class="col-md-6">
+              <%= image_tag("headshot-jazmine-mcmorris.png", class: "img-fluid") %>
+            </div>
+            <div class="col-md-6">
+              <h5 class="mb-1">Jazmine McMorris</h5>
+              <p>With over five years of experience in the insurance industry, Jazmine brings unmatched expertise and a relentless passion to ensuring you have the best policies in place and feel confident in this element of your benefits package. Her analytical mind paired with an extreme attention to detail makes Jazmine your secret weapon when determining the best policy and carrier for your specific needs. Jazmine makes it clear that she is dedicated to your best interest, she does not work for the insurance companies. Her dedication to each and every client will ensure you are not just another transaction and that your insurance program is best in class.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-1">
+          <%= render layout: 'book_btn' do %>
+            <%= raw(typeform_btn) %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

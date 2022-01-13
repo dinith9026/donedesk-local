@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Document Types</h4>
+        <div class="heading-elements">
+          <%= link_to @document_types_presenter.new_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> New Type
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Name</th>
+                  <th>Applies To</td>
+                  <th>Confidential?</th>
+                  <th class="text-right" width="60" data-orderable="false">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @document_types_presenter.each do |document_type_presenter| %>
+                <tr>
+                  <td><%= document_type_presenter.name %></td>
+                  <td><%= document_type_presenter.applies_to %></td>
+                  <td><%= document_type_presenter.is_confidential ? '<i class="icon-lock"></i>'.html_safe : '' %></td>
+                  <td class="text-right" width="80">
+                    <% document_type_presenter.when_user_can(:edit) do %>
+                      <%= link_to document_type_presenter.edit_path, class: 'btn btn-primary btn-sm', title: 'Edit' do %>
+                        <i class="icon-pen3"></i>
+                      <% end %>
+                    <% end %>
+                    <% document_type_presenter.when_user_can(:destroy) do %>
+                      <%= link_to '#confirm-delete-modal',
+                                  data: {
+                                    toggle: 'modal',
+                                    target: '#confirm-delete-modal',
+                                    document_type_id: document_type_presenter.id,
+                                    document_type_name: document_type_presenter.name,
+                                  },
+                                  class: 'btn btn-danger btn-sm delete-btn' do
+                      %>
+                        <i class="icon-trash"></i>
+                      <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Delete this document type?', id: 'confirm-delete-modal' } do %>
+  <%= render layout: '/shared/callout_layout', locals: { type: 'warning', icon: 'warning' } do %>
+    <div><strong class="modal-document-type-name"></strong></div>
+  <% end %>
+
+  <div>
+    <%= form_tag('/document_types', method: :delete, id: 'delete-document-type-form') do |f| %>
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag type: 'submit', class: 'btn btn-danger' do %>
+          <i class="icon-trash"></i> Delete
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.delete-btn').on('click', function(e){
+  var documentTypeId = $(this).data('document-type-id');
+  var documentTypeName = $(this).data('document-type-name');
+
+  $('#delete-document-type-form').attr('action', '/document_types/' + documentTypeId);
+  $('.modal-document-type-name').html(documentTypeName);
+});
+</script>

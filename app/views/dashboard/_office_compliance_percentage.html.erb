@@ -1,0 +1,9 @@
+<div class="row no-gutters mt-2">
+  <div class="col-sm-6">
+    <div class="text-muted font-small-3 float-left"><%= link_to office_name, office_url(office_id) %></div>
+  </div>
+  <div class="col-sm-6">
+    <div class="font-small-5 text-bold-300 float-right text-right success"><%= percentage %>%</div>
+  </div>
+</div>
+<progress class="progress progress-sm progress-success" value="<%= percentage %>" max="100"></progress>

@@ -1,0 +1,7 @@
+<% @dashboard.when_no_employee_record_exists do %>
+  <%= render 'employee_records/form', form: @dashboard.new_employee_record_form, action: 'New' %>
+<% end %>
+
+<% @dashboard.when_employee_record_exists do %>
+  <%= render 'dashboard/account_admins/show' %>
+<% end %>

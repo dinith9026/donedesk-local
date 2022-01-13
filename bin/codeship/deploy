@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -ex
+
+pip install awscli
+
+echo "[profile donedesk-deployer]
+role_arn=arn:aws:iam::794131257860:role/com.donedesk.deployer
+source_profile=default" >> /tmp/deploy.conf
+
+aws s3api put-bucket-policy --profile donedesk-deployer --bucket com.donedesk.app.production  --policy file://aws/com.donedesk.aws.production/s3.bucket-policy.json
+aws s3api put-bucket-policy --profile donedesk-deployer --bucket com.donedesk.app.staging     --policy file://aws/com.donedesk.aws.staging/s3.bucket-policy.json
+aws s3api put-bucket-policy --profile donedesk-deployer --bucket com.donedesk.app.development --policy file://aws/com.donedesk.aws.development/s3.bucket-policy.json
+aws s3api put-bucket-policy --profile donedesk-deployer --bucket com.donedesk.app.test        --policy file://aws/com.donedesk.aws.test/s3.bucket-policy.json

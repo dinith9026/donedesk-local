@@ -1,0 +1,79 @@
+<div class="row">
+
+  <% unless local_assigns[:hide_document_compliance] == true %>
+    <div class="col-xl-6 col-lg-6 col-sm-12 border-right-blue-grey border-right-lighten-5">
+      <div class="media px-1">
+        <div class="media-left media-middle">
+          <i class="icon-paper font-large-1 blue-grey"></i>
+        </div>
+        <div class="media-body text-xs-right">
+          <span class="font-large-2 text-bold-300 success"><%= dashboard.document_compliance_percentage %>%</span>
+        </div>
+        <p class="text-muted">Overall Document Compliance</p>
+        <progress class="progress progress-lg progress-success" value="<%= dashboard.document_compliance_percentage %>" max="100"></progress>
+
+        <% dashboard.when_show_compliance_stats_for_offices do %>
+          <%= render partial: 'dashboard/office_document_compliance_percentage', collection: dashboard.offices.to_a[0..1], as: :office_presenter %>
+
+          <div class="collapse offices-collapse" id="collapse1" aria-expanded="false">
+            <%= render partial: 'dashboard/office_document_compliance_percentage', collection: dashboard.offices.to_a[2..dashboard.offices.count + 1], as: :office_presenter %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if local_assigns[:hide_document_compliance] == true %>
+    <div class="col-sm-12">
+  <% else %>
+    <div class="col-xl-6 col-lg-6 col-sm-12">
+  <% end %>
+    <div class="media px-1">
+      <div class="media-left media-middle">
+        <i class="icon-book font-large-1 blue-grey"></i>
+      </div>
+      <div class="media-body text-xs-right">
+        <span class="font-large-2 text-bold-300 success"><%= dashboard.training_compliance_percentage %>%</span>
+      </div>
+      <p class="text-muted">Overall Training Compliance</p>
+      <progress class="progress progress-lg progress-success" value="<%= dashboard.training_compliance_percentage %>" max="100"></progress>
+
+      <% dashboard.when_show_compliance_stats_for_offices do %>
+        <%= render partial: 'dashboard/office_training_compliance_percentage', collection: dashboard.offices.to_a[0..1], as: :office_presenter %>
+
+        <div class="collapse offices-collapse" id="collapse2" aria-expanded="false">
+          <%= render partial: 'dashboard/office_training_compliance_percentage', collection: dashboard.offices.to_a[2..dashboard.offices.count + 1], as: :office_presenter %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<% dashboard.when_show_compliance_stats_for_offices do %>
+  <% dashboard.when_many_offices do %>
+    <hr>
+    <div class="text-center">
+      <button id="toggle-offices-btn" class="btn btn-secondary btn-sm" type="button" aria-expanded="false" aria-controls="collapse1 collapse2" data-count="<%= dashboard.offices.count - 2 %>">Show <%= dashboard.offices.count - 2 %> more</button>
+    </div>
+  <% end %>
+
+  <script type="text/javascript">
+
+    $("#toggle-offices-btn").on("click", function() {
+      $('.offices-collapse').collapse('toggle');
+    });
+
+    $('.offices-collapse').on('shown.bs.collapse', function () {
+      $('#toggle-offices-btn').html('Show less');
+    });
+
+    $('.offices-collapse').on('hidden.bs.collapse', function () {
+      var btn = $('#toggle-offices-btn');
+      var count = btn.data('count')
+
+      btn.html('Show ' + count + ' more');
+    });
+  </script>
+<% end %>

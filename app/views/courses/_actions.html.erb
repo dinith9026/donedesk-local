@@ -1,0 +1,25 @@
+<% course_presenter.when_user_can(:edit) do %>
+  <%= link_to course_presenter.edit_path, class: 'dropdown-item' do %>
+    <i class="icon-pen3"></i> Edit
+  <% end %>
+<% end %>
+
+<% course_presenter.when_user_can(:show) do %>
+  <%= link_to course_presenter.show_path, class: 'dropdown-item' do %>
+    <i class="icon-eye6"></i> View
+  <% end %>
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% course_presenter.when_user_can(:deactivate) do %>
+  <%= link_to course_presenter.deactivate_path, method: :put, class: 'dropdown-item warning', data: { confirm: "#{course_presenter.confirm_deactivate_message}\n\nDeactivate course?" } do %>
+    <i class="icon-blocked warning"></i> Deactivate
+  <% end %>
+<% end %>
+
+<% course_presenter.when_user_can(:reactivate) do %>
+  <%= link_to course_presenter.reactivate_path, method: :put, class: 'dropdown-item success' do %>
+    <i class="icon-power success"></i> Reactivate
+  <% end %>
+<% end %>

@@ -1,0 +1,10 @@
+Log in w/invalid password 5 times in a row
+  wait for lock to clear
+  log in w/valid password
+
+Import a partner CSV
+Claim an imported account
+
+Create an available appointment
+Book an appointment
+Make appointment request

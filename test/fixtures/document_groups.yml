@@ -1,0 +1,19 @@
+oceanview_default:
+  name: Default for Employees
+  applies_to: 'employees'
+  account: oceanview_dental
+
+oceanview_default_for_offices:
+  name: Default for Offices
+  applies_to: 'offices'
+  account: oceanview_dental
+
+brookside_default:
+  name: Default for Employees
+  applies_to: 'employees'
+  account: brookside_dental
+
+brookside_default_for_offices:
+  name: Default for Offices
+  applies_to: 'offices'
+  account: brookside_dental

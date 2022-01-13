@@ -1,0 +1,8 @@
+<% flash.each do |name, msg| -%>
+  <div class="alert <%= bootstrap_class_for(name) %> alert-dismissible fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span class="ladda-label"><span aria-hidden="true">×</span></span><span class="ladda-spinner"></span>
+    </button>
+    <%= msg %>
+  </div>
+<% end -%>

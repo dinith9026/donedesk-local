@@ -1,0 +1,52 @@
+<p><%= link_to '&larr; All presets'.html_safe, track_presets_path %></p>
+
+<section class="row match-height">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title" id="basic-layout-colored-form-control"><%= @track_preset.name %></h3>
+        <div class="heading-elements">
+          <%= render 'actions', track_preset: @track_preset %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-block">
+          <ul class="list-group" id="track-courses-list">
+            <% @track_preset.courses.each do |course_id| %>
+              <li class="list-group-item grabbable" data-course-id="<%= course_id %>" data-track-id="<%= @track_preset.id %>">
+                <i class="icon-menu5"></i>
+                <span class="pl-1"><%= @course_titles[course_id] %> <span class="tag tag-success font-small-1 text-uppercase" style="display:none" id="tag-success-<%= course_id %>">Saved!</span> <span class="tag tag-danger font-small-1 text-uppercase" style="display:none" id="tag-error-<%= course_id %>">Error!</span></span>
+              </li>
+            <% end %>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+$(document).ready(function(){
+  dragula([document.getElementById('track-courses-list')])
+  .on('drop', function (el) {
+    const trackId = el.dataset.trackId
+    const courseId = el.dataset.courseId
+    const index = $(el).index() + 1
+
+    $.ajax({
+      url: `/track_presets/${trackId}/reorder_courses`,
+      type: 'PUT',
+      data: { position: index, course_id: courseId },
+      success: function(data) {
+        const successTagId = `#tag-success-${courseId}`
+        $(successTagId).finish().show().delay(1000).fadeOut("slow")
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        const errorTagId = `#tag-error-${courseId}`
+        $(errorTagId).finish().show()
+      }
+    });
+  })
+});
+</script>

@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          PTO Entries
+          <div class="font-small-3">
+            <%= @pto_entries_presenter.date_from %> - <%= @pto_entries_presenter.date_to %>
+          </div>
+        </h4>
+        <div class="heading-elements">
+          <%= link_to '#new-pto-entry-modal', data: { toggle: 'modal', target: '#new-pto-entry-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+            <i class="icon-plus4 white"></i> New PTO Entry
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="row">
+            <div class="col-sm-6">
+              <%= form_tag(pto_entries_path, method: :get, id: 'date-filter-form', class: 'form-inline mb-1', autocomplete: 'off') do %>
+                <%= text_field_tag :date_from, @pto_entries_presenter.date_from('%m/%d/%Y'), class: 'form-control datetimepicker3' %>
+                <%= text_field_tag :date_to, @pto_entries_presenter.date_to('%m/%d/%Y'), class: 'form-control datetimepicker3' %>
+                <%= submit_tag 'Go', class: 'btn btn-secondary' %>
+              <% end %>
+            </div>
+            <div class="col-sm-6 text-right">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-sm" id="time-sheets-table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Hours</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @pto_entries_presenter.each do |pto_entry_presenter| %>
+                  <tr>
+                    <td><%= pto_entry_presenter.employee_record_full_name %></td>
+                    <td><%= pto_entry_presenter.date %></td>
+                    <td><%= pto_entry_presenter.hours %></td>
+                    <td class="text-right">
+                      <%= render layout: '/shared/dropdown_layout' do %>
+                        <%= link_to edit_pto_entry_path(pto_entry_presenter.id, date_from: @pto_entries_presenter.date_from('%Y-%m-%d'), date_to: @pto_entries_presenter.date_to('%Y-%m-%d')), class: 'dropdown-item' do %>
+                          <i class="icon-pen3"></i> Edit
+                        <% end %>
+                        <%= link_to pto_entry_path(pto_entry_presenter.id, date_from: @pto_entries_presenter.date_from('%Y-%m-%d'), date_to: @pto_entries_presenter.date_to('%Y-%m-%d')), method: :delete, class: 'dropdown-item danger', data: { confirm: 'Are you sure?' } do %>
+                          <i class="icon-trash danger"></i> Delete
+                        <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%=
+  render 'employee_records/select_employee_modal',
+    employee_records: @pto_entries_presenter.active_employee_records,
+    link_to_path: :new_pto_entry_path,
+    modal_id: 'new-pto-entry-modal'
+%>

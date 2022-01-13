@@ -1,0 +1,9 @@
+<% if local_assigns.has_key?(:errors) && errors.any? %>
+  $('#new-document-type-errors').html('<%= j render partial: 'shared/form_errors', locals: { errors: errors } %>').show();
+<% else %>
+  $('#new-document-type-modal').modal('toggle');
+  $('#new-document-type-errors').hide();
+  $('#document_type_name').val('');
+  $('#document-groups-table tbody').append('<%= j render partial: 'document_groups/document_types_grouping_row', locals: { document_type: document_type, document_types_groupings: [] } %>');
+  toggleAllRequired();
+<% end %>

@@ -1,0 +1,13 @@
+<h1>Hello <%= @employee_record.first_name %>,</h1>
+<p>We added <%= pluralize(@new_courses.count, 'new course') %> to the <%= @track.name %> learning track:</p>
+<ul>
+  <% @new_courses.each do |course| %>
+    <li><p><strong><%= course.title %></strong></p></li>
+  <% end %>
+</ul>
+<br>
+<br>
+<p>
+  Time's ticking!<br>
+  <%= link_to "Login to take the #{'course'.pluralize(@new_courses.count)} now", assignments_url %>
+</p>

@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= r.label :name, for: "name-#{index}" %>
+      <%= r.text_field :name, class: 'form-control', id: "name-#{index}", required: required %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= r.label :email, for: "email-#{index}" %>
+      <%= r.email_field :email, class: 'form-control', id: "email-#{index}", required: required %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="form-group is-required">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control', autofocus: true, required: true %>
+</div>
+
+<div class="form-group is-required">
+  <%= f.label :applies_to %>
+  <% if local_assigns[:disable_applies_to] == true %>
+    <%= f.hidden_field :applies_to %>
+  <% end %>
+  <%= f.select :applies_to, DocumentType.applies_tos.keys.map { |w| [w.titleize, w] }, { include_blank: true }, { class: 'form-control', disabled: local_assigns[:disable_applies_to].presence || false } %>
+</div>
+
+<% if form.editable?(:is_confidential) %>
+  <div class="form-group">
+    <div class="checkbox">
+      <label class="form-check-label">
+        <%= f.check_box :is_confidential, class: 'form-check-input' %>
+        Confidential
+      </label>
+      <a href="javascript:void();"
+        data-toggle="popover"
+        data-content="Only office admins can manage confidential documents for an employee."
+        data-trigger="click"
+        data-placement="bottom"
+      ><i class="icon icon-help-circled"></i></a>
+    </div>
+  </div>
+<% end %>

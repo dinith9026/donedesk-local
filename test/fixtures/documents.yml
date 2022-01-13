@@ -1,0 +1,78 @@
+oceanview_tx_maintenance_checklist:
+  document_type: office_maintenance_checklist
+  summary: Oceanview TX's Maintenance Checklist
+
+brookside_maintenance_checklist:
+  document_type: office_maintenance_checklist
+  summary: Brookside's Maintenance Checklist
+
+oceanview_ed_w4:
+  document_type: w4
+  summary: Ed from Oceanview's W4
+
+oceanview_ed_expired:
+  document_type: cpr_certification
+  summary: Ed's CPR certification
+  expires_on: '2018-01-01'
+
+oceanview_ed_confidential:
+  document_type: oceanview_confidential
+  summary: Ed's Confidential Document
+
+oceanview_ed_expired_confidential:
+  document_type: oceanview_confidential
+  summary: Ed's Expired Confidential Document
+  expires_on: '2018-01-01'
+
+oceanview_eric_w4:
+  document_type: w4
+  summary: Eric from Oceanview's W4
+
+oceanview_eric_expiring:
+  document_type: cpr_certification
+  summary: Eric's CPR certification
+  expires_on: <%= 10.days.from_now %>
+
+oceanview_eric_confidential:
+  document_type: oceanview_confidential
+  summary: Eric Confidential Document
+
+oceanview_mary_w4:
+  document_type: w4
+  summary: Mary from Oceanview's W4
+
+oceanview_mary_confidential:
+  document_type: oceanview_confidential
+  summary: Mary's Confidential Document
+
+oceanview_terminated_expired:
+  document_type: cpr_certification
+  summary: Terminated's CPR certficiation
+  expires_on: '2018-01-01'
+
+oceanview_terminated_expiring:
+  document_type: oceanview_performance_review
+  summary: Terminated's performance review
+  expires_on: <%= 10.days.from_now %>
+
+oceanview_ed_performance_review:
+  document_type: oceanview_performance_review
+  summary: Ed from Oceanview's performance review
+
+brookside_ellen_w4:
+  document_type: w4
+  summary: Ellen from Brookside's W4
+
+brookside_ellen_performance_review:
+  document_type: brookside_performance_review
+  summary: Ellen from Brookside's performance review
+
+brookside_ellen_expired:
+  document_type: cpr_certification
+  summary: Ellen's CPR certification
+  expires_on: '2018-01-01'
+
+brookside_ellen_expiring:
+  document_type: osha_certification
+  summary: Ellen's OSHA certification
+  expires_on: '2018-01-01'

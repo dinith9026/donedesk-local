@@ -1,0 +1,10 @@
+<tr class="<%= row_classes %>">
+  <td><%= link_to track_presenter.name, track_presenter.show_path %></td>
+  <td class="text-center"><%= track_presenter.total_active_courses %></td>
+  <td class="text-center"><%= track_presenter.total_employed_employees_assigned %></td>
+  <td>
+    <%= render layout: '/shared/dropdown_layout' do %>
+      <%= render 'actions', track_presenter: track_presenter %>
+    <% end %>
+  </td>
+</tr>

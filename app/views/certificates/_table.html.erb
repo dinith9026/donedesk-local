@@ -1,0 +1,24 @@
+<table class="table table-striped">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Course</th>
+      <th>Passed On</th>
+      <th>Expiration</th>
+      <th class="text-center">Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% certificates_presenter.each do |certificate_presenter| %>
+      <tr>
+        <td><%= certificate_presenter.course_title %></td>
+        <td><%= certificate_presenter.passed_on %></td>
+        <td><%= certificate_presenter.expiration %></td>
+        <td class="text-center">
+          <%= link_to certificate_presenter.show_path, class: 'btn btn-success btn-sm' do %>
+            <i class="icon-arrow-down4 font-small-1"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

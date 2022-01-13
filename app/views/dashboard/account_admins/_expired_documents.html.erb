@@ -1,0 +1,28 @@
+<div class="card border-danger">
+  <div class="card-header card-head-inverse bg-danger mb-1">
+    <h4 class="card-title"><span class="tag bg-white black"><%= @dashboard.expired_documents.length %></span> Documents Expired</h4>
+  </div>
+  <div class="card-body">
+    <p class="ml-2 mb-2">Employee documents with expiration dates that have expired.</p>
+    <div class="scrollable-dashboard-table">
+      <div class="table-responsive">
+        <table class="table table-xs mb-0">
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>Employee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dashboard.expired_documents.each do |document| %>
+              <tr>
+                <td><%= document.document_name %></td>
+                <td><%= link_to document.employee_name, employee_record_path(document.employee_record) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

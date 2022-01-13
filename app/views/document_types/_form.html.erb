@@ -1,0 +1,37 @@
+<%= form_for @form do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Document Type</h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+                <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                <% if @form.editable?(:is_canned) %>
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <label class="form-check-label">
+                        <%= f.check_box :is_canned, class: 'form-check-input', checked: @form.account_id.blank? %>
+                        Make available to all accounts
+                      </label>
+                    </div>
+                  </div>
+                <% end %>
+
+                <%= render 'form_fields', f: f, form: @form %>
+
+                <%= render '/shared/form_actions' %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

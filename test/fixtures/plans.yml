@@ -1,0 +1,14 @@
+for_oceanview:
+  account: oceanview_dental
+  monthly_price: 50
+  max_employees: 10
+
+for_brookside:
+  account: brookside_dental
+  monthly_price: 100
+  max_employees: 10
+
+for_invited:
+  account: invited
+  monthly_price: 200
+  max_employees: 20

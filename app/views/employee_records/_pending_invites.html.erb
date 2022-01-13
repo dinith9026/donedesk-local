@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Pending Invites</h4>
+    <small>User has not yet accepted the invite.</small>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <ul>
+        <% current_account_presenter.pending_invites.each do |user| %>
+          <li>
+            <%= user.full_name %> - <%= user.email %>
+            [<small>
+              <%= link_to 'resend invite', reinvite_user_path(user), method: :post, data: { confirm: "Resent invite to #{user.email}?" } %>
+              |
+              <button type="button" data-toggle="popover" data-content="<%= edit_user_password_url(user, token: user.confirmation_token) %>" data-original-title="Invite Link" data-trigger="click" data-placement="top" aria-describedby="popover858248" class="btn btn-secondary btn-sm">
+                show invite link
+              </button>
+              <% if user.employee_record.blank? %>
+                |
+                <%= link_to 'delete', user_path(user), class: 'danger', method: :delete, data: { confirm: "Delete invited user #{user.email}?" } %>
+                |
+                <%= link_to 'create employee record', new_user_employee_record_path(user_id: user.id) %>
+              <% end %>
+            </small>]
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

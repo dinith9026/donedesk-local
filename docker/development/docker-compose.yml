@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  nginx_proxy:
+    image: donedesk/nginx:latest-development
+    links:
+      - app
+    volumes:
+      - letsencrypt_certificates:/etc/letsencrypt
+      - letsencrypt_challenge:/var/lib/letsencrypt
+      - ./../../:/donedesk/
+    volumes_from:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+
+  app:
+    image: donedesk/app:latest-development
+    links:
+      - database
+    volumes:
+      - ./../../:/donedesk/
+
+  database:
+    image: donedesk/database:latest-development
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - letsencrypt_certificates:/etc/letsencrypt
+      - letsencrypt_challenge:/var/lib/letsencrypt
+
+volumes:
+  letsencrypt_certificates:
+  letsencrypt_challenge:

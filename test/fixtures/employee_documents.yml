@@ -1,0 +1,63 @@
+oceanview_ed_w4:
+  employee_record: ed
+  document: oceanview_ed_w4
+
+oceanview_ed_expired:
+  employee_record: ed
+  document: oceanview_ed_expired
+
+oceanview_ed_confidential:
+  employee_record: ed
+  document: oceanview_ed_confidential
+
+oceanview_ed_expired_confidential:
+  employee_record: ed
+  document: oceanview_ed_expired_confidential
+
+oceanview_eric_w4:
+  employee_record: eric
+  document: oceanview_eric_w4
+
+oceanview_eric_expiring:
+  employee_record: eric
+  document: oceanview_eric_expiring
+
+oceanview_eric_confidential:
+  employee_record: eric
+  document: oceanview_eric_confidential
+
+oceanview_mary_w4:
+  employee_record: mary
+  document: oceanview_mary_w4
+
+oceanview_mary_confidential:
+  employee_record: mary
+  document: oceanview_mary_confidential
+
+oceanview_terminated_expired:
+  employee_record: with_terminated_status_and_no_assigned_courses
+  document: oceanview_terminated_expired
+
+oceanview_terminated_expiring:
+  employee_record: with_terminated_status_and_no_assigned_courses
+  document: oceanview_terminated_expiring
+
+oceanview_ed_performance_review:
+  employee_record: ed
+  document: oceanview_ed_performance_review
+
+brookside_ellen_w4:
+  employee_record: ellen
+  document: brookside_ellen_w4
+
+brookside_ellen_performance_review:
+  employee_record: ellen
+  document: brookside_ellen_performance_review
+
+brookside_ellen_expired:
+  employee_record: ellen
+  document: brookside_ellen_expired
+
+brookside_ellen_expiring:
+  employee_record: ellen
+  document: brookside_ellen_expiring

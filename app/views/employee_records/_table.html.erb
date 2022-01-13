@@ -1,0 +1,90 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title"><%= local_assigns.fetch :card_title, 'All Employees' %></h4>
+    <div class="heading-elements">
+      <% current_account_presenter.when_user_can(:create_employee_record) do %>
+        <%= link_to employee_records_presenter.new_path, class: 'btn btn-primary btn-sm' do %>
+          <i class="icon-plus4 white"></i> New Employee Record
+        <% end %>
+      <% end %>
+      <%= link_to '#new-document-modal', data: { toggle: 'modal', target: '#new-document-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+        <i class="icon-plus4 white"></i> New Document
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <div class="table-actions">
+        <div class="row">
+          <div class="col-md-7">
+            <span class="pr-1 text-muted">Filter by:</span>
+            <% EmployeeRecord.statuses.keys.each do |status| %>
+              <span class="pr-1">
+                <% if (params[:status] || 'employed') == status && !params[:search].present? %>
+                  <%= status.titleize %>
+                <% else %>
+                  <%= link_to status.titleize, url_for(status: status)  %>
+                <% end %>
+              </span>
+            <% end %>
+          </div>
+          <div class="col-md-5 text-right">
+            <form class="form-inline" method="get">
+              <label class="text-muted" for="search">Search:</label>
+              <input type="text" class="form-control form-control-sm" id="search" name="search" value="<%= params[:search] %>">
+              <button type="submit" class="btn btn-primary btn-sm">Go</button>
+              <% if params[:search].present? %>
+                <%= link_to 'x clear search', url_for(only_path: true), class: 'text-danger' %>
+              <% end %>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="thead-inverse">
+            <%= render '/employee_records/thead' %>
+          </thead>
+          <tbody>
+            <%= render partial: '/employee_records/row',
+                       collection: employee_records_presenter,
+                       as: :employee_record_presenter,
+                       locals: { row_classes: '' } %>
+          </tbody>
+        </table>
+        <div class="text-right"><%= paginate employee_records_presenter, params: { status: params[:status] } %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render '/employee_records/select_employee_modal', employee_records: employee_records_presenter.active, modal_id: 'new-document-modal', link_to_path: :new_document_path %>
+
+<script type="text/javascript">
+$(function() {
+  $('.is-admin-switch').on('change', function(e) {
+    var userId = $(this).data('user-id');
+    var fullName = $(this).data('full-name');
+    var officeName = $(this).data('office-name');
+
+    if ($(this).is(':checked')) {
+      $.ajax({
+        url: '/users/' + userId + '/make_account_manager',
+        type: 'PUT',
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('Error: request failed.');
+        }
+      });
+
+    } else {
+      $.ajax({
+        url: '/users/' + userId + '/make_employee',
+        type: 'PUT',
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('Error: request failed.');
+        }
+      });
+    }
+  });
+});
+</script>

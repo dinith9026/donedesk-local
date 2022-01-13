@@ -1,0 +1,19 @@
+<% library_document_presenter.when_user_can(:edit) do %>
+  <%= link_to library_document_presenter.edit_path, class: 'dropdown-item' do %>
+    <i class="icon-pen3"></i> Edit
+  <% end %>
+<% end %>
+
+<% library_document_presenter.when_user_can(:download) do %>
+  <%= link_to library_document_presenter.download_path, class: 'dropdown-item' do %>
+    <i class="icon-arrow-down4"></i> Download
+  <% end %>
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% library_document_presenter.when_user_can(:destroy) do %>
+  <%= link_to library_document_presenter.destroy_path, method: :delete, class: 'dropdown-item danger', data: { confirm: 'Are you sure?' } do %>
+    <i class="icon-trash danger"></i> Delete
+  <% end %>
+<% end %>

@@ -1,0 +1,4 @@
+# Intentionally blank because the order in which time entries can be created,
+# e.g. clock in must be before clock out, is very specific and having to account
+# for existing records in the database in tests would get confusing. So leave it
+# up to each test to create the necessary records.

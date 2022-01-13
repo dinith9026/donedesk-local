@@ -1,0 +1,57 @@
+<%= render layout: '/shared/modal', locals: { title: 'Assign this document group to...', id: modal_id } do %>
+  <% if unassigned_employees.size > 0 %>
+    <div class="alert alert-warning">
+      Employees can only be assigned to one group, so assigning an employee to a new group overwrites their existing assigned group.
+    </div>
+    <div>
+      <p id="selected-count" data-default="Please select at least one employee:"></p>
+      <%= form_for(:document_group, url: assign_document_group_path) do |f| %>
+        <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+          <ul class="list-unstyled assignable-employees">
+            <% unassigned_employees.each do |title, employee_records_presenter| %>
+              <li class="font-medium-2">
+                <i class="sublist-toggler icon-arrow-right-b"></i>
+                <label for="sublist-toggler-parent-option-<%= title.present? ? title.parameterize : 'no-title' %>">
+                  <input type="checkbox" id="sublist-toggler-parent-option-<%= title.parameterize %>" class="sublist-toggler-parent-option" data-parent="<%= title.parameterize %>">
+                  <%= title.present? ? title.to_s : 'No Title' %>
+                </label>
+
+                <ul style="display:none">
+                  <% employee_records_presenter.each do |employee_record_presenter| %>
+                    <li>
+                      <div class="checkbox">
+                        <label class="form-check-label font-medium-1 checkbox">
+                          <%= check_box_tag 'employee_record_ids[]',
+                            employee_record_presenter.id,
+                            false,
+                            {
+                              class: 'form-check-input checkbox valign-top sublist-toggler-child-option',
+                              id: "employee_record_id_#{employee_record_presenter.id}",
+                              data: { parent: title.parameterize }
+                            }
+                          %>
+                          <%= employee_record_presenter.full_name %> (<%= employee_record_presenter.employment_type %>)
+                        </label>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="form-actions right">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <%= button_tag 'Assign', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      All employees are already assigned to this document group.
+    </div>
+  <% end %>
+<% end %>

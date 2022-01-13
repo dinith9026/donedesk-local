@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Documents</h4>
+        <div class="heading-elements">
+          <%= link_to '#new-employee-document-modal', data: { toggle: 'modal', target: '#new-employee-document-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+            <i class="icon-plus4 white"></i> New Employee Document
+          <% end %>
+          <%= link_to '#new-office-document-modal', data: { toggle: 'modal', target: '#new-office-document-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+            <i class="icon-plus4 white"></i> New Office Document
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-block">
+          <div class="table-actions">
+            <div class="row">
+              <div class="col-md-7">
+                <span class="pr-1 text-muted">Filter by:</span>
+                <% ['employees', 'offices'].each do |type| %>
+                  <span class="pr-1">
+                    <% if (params[:type] || 'employees') == type %>
+                      <%= type.titleize %>
+                    <% else %>
+                      <%= link_to type.titleize, documents_url(type: type)  %>
+                    <% end %>
+                  </span>
+                <% end %>
+              </div>
+              <div class="col-md-5 text-right">
+                <form class="form-inline" method="get">
+                  <input type="hidden" name="type" value="<%= params[:type] %>" />
+                  <label class="text-muted" for="search">Search <%= params[:type] || 'employees' %>: <i class="icon icon-info text-primary" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Search by Type or Name"></i></label>
+                  <input type="text" class="form-control form-control-sm" id="search" name="search" value="<%= params[:search] %>">
+                  <button type="submit" class="btn btn-primary btn-sm">Go</button>
+                  <% if params[:search].present? %>
+                    <%= link_to 'x clear search', documents_url(type: params[:type]), class: 'text-danger' %>
+                  <% end %>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <%= render 'table', documents_presenter: @documents_presenter %>
+            <div class="text-right"><%= paginate @documents_presenter %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'employee_records/select_employee_modal', employee_records: @documents_presenter.employees(current_account), link_to_path: :new_document_path, modal_id: 'new-employee-document-modal' %>
+
+<%= render 'offices/select_office_modal', offices: @documents_presenter.offices(current_account), link_to_path: :new_document_path, modal_id: 'new-office-document-modal' %>

@@ -1,0 +1,2 @@
+class AccountOwnerDashboard < AccountAdminsDashboard
+end

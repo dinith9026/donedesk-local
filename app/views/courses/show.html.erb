@@ -1,0 +1,310 @@
+<% @course_presenter.when_user_can(:index) do %>
+  <p><%= link_to '&larr; All courses'.html_safe, courses_path %></p>
+<% end %>
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+      <%= @course_presenter.title %>
+    </h3>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th class="text-right width-250">Total Passed</th>
+          <td><%= @course_presenter.total_passed(current_account) %></td>
+        </tr>
+        <% @course_presenter.when_user_can_view(:certificate_type) do %>
+          <tr>
+            <th class="text-right">Certificate Type</th>
+            <td><%= @course_presenter.certificate_type %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <th class="text-right">Code</th>
+          <td><%= @course_presenter.code %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Description</th>
+          <td><%= @course_presenter.description %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Compliance Expiration</th>
+          <td><%= @course_presenter.compliance_expiration_in_days %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Due Within</th>
+          <td><%= @course_presenter.days_due_within %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Max Test Retakes</th>
+          <td><%= @course_presenter.max_test_retakes %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Passing Threshold %</th>
+          <td><%= @course_presenter.passing_threshold_percentage %>%</td>
+        </tr>
+        <tr>
+          <th class="text-right">States</th>
+          <td><%= @course_presenter.states %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Material</th>
+          <td><%= @course_presenter.material_file_name %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Supplements</th>
+          <td><%= @course_presenter.supplements_list %></td>
+        </tr>
+        <tr>
+          <th></th>
+          <td>
+            <% @course_presenter.when_user_can(:edit) do %>
+              <%= link_to @course_presenter.edit_path, class: 'btn btn-primary' do %>
+                <i class="icon-pen3 white"></i> Edit
+              <% end %>
+            <% end %>
+            <% @course_presenter.when_user_can(:preview) do %>
+              <%= link_to '#preview-modal', data: { toggle: 'modal', target: '#preview-modal' }, class: 'btn btn-secondary' do %>
+                <i class="icon-eye6"></i> Preview
+              <% end %>
+            <% end %>
+            <% @course_presenter.when_user_can(:deactivate) do %>
+              <%= link_to '#confirm-deactivate-modal', data: { toggle: 'modal', target: '#confirm-deactivate-modal' }, class: 'btn btn-warning' do %>
+                <i class="icon-blocked white"></i> Deactivate
+              <% end %>
+            <% end %>
+            <% @course_presenter.when_user_can(:reactivate) do %>
+              <%= link_to @course_presenter.reactivate_path, method: :put, class: 'btn btn-green', title: 'Reactivate' do %>
+                <i class="icon-power"></i> Reactivate
+              <% end %>
+            <% end %>
+            <% @course_presenter.when_user_can(:download_supplements) do %>
+              <%= link_to @course_presenter.download_supplements_path, class: 'btn btn-success' do %>
+                <i class="icon-arrow-down4"></i> Download Supplements
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<section class="row match-height">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Test Questions</h4>
+        <div class="heading-elements">
+          <% @course_presenter.when_user_can(:new_question) do %>
+            <%= link_to @course_presenter.new_question_path, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> New Question
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="questions-list" role="tablist" aria-multiselectable="true">
+          <div class="card no-border no-shadow">
+            <% @course_presenter.questions.each do |question| %>
+              <div id="question<%= question.id %>" class="card-header">
+                <a data-toggle="collapse"
+                   data-parent="#questions-list"
+                   href="#question<%= question.id %>-choices"
+                   aria-expanded="false"
+                   aria-controls="question<%= question.id %>-choices"
+                   class="collapsed"
+                 ><%= question.text %></a>
+                <span class="float-xs-right">
+                  <% @course_presenter.when_user_can(:edit_question) do %>
+                    <%= link_to edit_question_path(question), class: 'btn btn-sm btn-primary' do %>
+                      <i class="icon-pen3 white"></i>
+                    <% end %>
+                  <% end %>
+                  <% @course_presenter.when_user_can(:destroy_question) do %>
+                    <%= link_to question_path(question), class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                      <i class="icon-remove white"></i>
+                    <% end %>
+                  <% end %>
+                </span>
+              </div>
+              <div id="question<%= question.id %>-choices" role="tabpanel" aria-labelledby="question<%= question.id %>" class="card-collapse collapse" aria-expanded="false">
+                <div class="card-body">
+                  <div class="card-block">
+                    <ul>
+                    <% question.choices.each do |choice| %>
+                      <li class="list-style-<%= choice.is_correct? ? 'disc' : 'circle' %>">
+                        <%= choice.answer %>
+                        <% @course_presenter.when_user_can_delete_choice(policy(choice)) do %>
+                          <%= link_to 'x', choice_path(choice), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Assigned Employees</h4>
+        <div class="heading-elements">
+          <% @course_presenter.when_user_can(:assign) do %>
+            <%= link_to '#assign-modal', data: { toggle: 'modal', target: '#assign-modal' }, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> New Assignment
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <% @course_presenter.when_no_questions_exist do %>
+          <div class="card-block">
+            <div class="bs-callout-warning p-1">
+              <p>You must add <strong>at least one question</strong> before you can assign this course, for example:</p>
+              <p>
+                Question: <em>"Did you read/watch the material?"</em><br>
+                Choices: <em>Yes/No</em>
+              </p>
+            </div>
+          </div>
+        <% end %>
+
+        <table class="table table-xs">
+          <tbody>
+            <% @course_presenter.assignments(current_account).each do |assignment_presenter| %>
+              <tr>
+                <td><%= assignment_presenter.employee_record_full_name %></td>
+                <td class="text-center"><%= assignment_presenter.state_tag %></td>
+                <td><%= assignment_presenter.due_date_with_days_past_due %></td>
+                <td class="text-right">
+                  <% assignment_presenter.when_user_can(:mark_completed) do %>
+                    <%= assignment_presenter.mark_completed_btn %>
+                  <% end %>
+                  <% assignment_presenter.when_user_can(:destroy) do %>
+                    <%= link_to assignment_presenter.delete_path, class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                      <i class="icon-remove white"></i>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% @course_presenter.when_user_can(:assign) do %>
+  <%= render layout: '/shared/modal', locals: { title: 'Assign this course to...', id: 'assign-modal' } do %>
+    <div>
+      <% if @course_presenter.days_due_within %>
+        <p>Due within <%= @course_presenter.days_due_within %>.</p>
+      <% end %>
+
+      <p id="selected-count" data-default="Please select at least one employee:"></p>
+      <%= form_for(:course, url: @course_presenter.assignments_path) do |f| %>
+        <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+          <ul class="list-unstyled assignable-employees">
+            <% @course_presenter.unassigned_employees(current_account).each do |office_name, employee_records_presenter| %>
+              <li class="font-medium-2">
+                <i class="sublist-toggler icon-arrow-right-b"></i>
+                <label for="sublist-toggler-parent-option-<%= office_name.parameterize %>">
+                  <input type="checkbox" id="sublist-toggler-parent-option-<%= office_name.parameterize %>" class="sublist-toggler-parent-option" data-parent="<%= office_name.parameterize %>">
+                  <%= office_name.to_s %>
+                </label>
+
+                <ul style="display:none">
+                  <% employee_records_presenter.each do |employee_record_presenter| %>
+                    <li>
+                      <div class="checkbox">
+                        <label class="form-check-label font-medium-1 checkbox">
+                          <%= check_box_tag 'employee_record_ids[]',
+                            employee_record_presenter.id,
+                            false,
+                            {
+                              class: 'form-check-input checkbox valign-top sublist-toggler-child-option',
+                              id: "employee_record_id_#{employee_record_presenter.id}",
+                              data: { parent: office_name.parameterize }
+                            }
+                          %>
+                          <%= employee_record_presenter.full_name %>
+                        </label>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="form-actions right">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <%= button_tag 'Assign & Notify', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% @course_presenter.when_user_can(:deactivate) do %>
+  <%= render 'deactivate_modal', course_presenter: @course_presenter %>
+<% end %>
+
+<%= render 'shared/mark_assignment_completed_modal' %>
+
+<%= render layout: '/shared/modal', locals: { title: 'Course Preview', id: 'preview-modal', size: 'modal-xl' } do %>
+  <div class="row">
+    <div class="col-md-8">
+      <h4>Material</h4>
+      <div class="mb-1">
+        <% if @course_presenter.material_type == 'pdf' %>
+          <div style="height:700px">
+            <object data="<%= @course_presenter.material_url %>" width="100%" height="100%"></object>
+          </div>
+        <% else %>
+          <video src="<%= @course_presenter.material_url %>" controls controlsList="nodownload" id="video-material"></video>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="mb-3">
+        <h4>Questions</h4>
+        <% if @course_presenter.questions.none? %>
+          <p><em>None.</em></p>
+        <% else %>
+          <ul class="list-style-disc" style="padding-left: 1.2rem;">
+          <% @course_presenter.questions.each do |question| %>
+            <li><%= question.text %></li>
+          <% end %>
+          </ul>
+        <% end %>
+      </div>
+
+      <div class="mb-3">
+        <h4>Supplements</h4>
+        <% if @course_presenter.supplement_filenames.none? %>
+          <p><em>None.</em></p>
+        <% else %>
+          <ul class="list-style-disc" style="padding-left: 1.2rem;">
+          <% @course_presenter.supplement_filenames.each do |supplement_filename| %>
+            <li><%= supplement_filename %></li>
+          <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

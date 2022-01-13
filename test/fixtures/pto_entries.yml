@@ -1,0 +1,9 @@
+for_oceanview_ed:
+  employee_record: ed
+  hours: 8
+  date: <%= 1.week.ago %>
+
+for_brookside_ellen:
+  employee_record: ellen
+  hours: 8
+  date: <%= 1.week.ago %>

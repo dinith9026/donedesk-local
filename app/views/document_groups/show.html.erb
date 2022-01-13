@@ -1,0 +1,93 @@
+<p><%= link_to '&larr; All document groups'.html_safe, document_groups_path %></p>
+
+<section class="row match-height">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title" id="basic-layout-colored-form-control"><%= @document_group_presenter.name %></h3>
+        <div class="heading-elements">
+          <%= render 'document_groups/actions', document_group_presenter: @document_group_presenter %>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="text-right width-25-per">Applies to</th>
+              <td><%= @document_group_presenter.applies_to %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Document types</th>
+              <td>
+                <table class="table table-sm table-striped">
+                  <% @document_group_presenter.document_types_groupings.each do |dtg| %>
+                    <tr>
+                      <td width="80"><%= dtg.required ? 'required' : 'optional' %></td>
+                      <td><%= document_type_display_name(dtg.document_type) %></td>
+                    </tr>
+                  <% end %>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+
+    <% if @document_group_presenter.applies_to == 'employees' %>
+      <div class="card" id="documents-section">
+        <div class="card-header">
+          <h4 class="card-title">Employees</h4>
+          <div class="heading-elements">
+            <%= link_to '#new-document-group-assignment-modal', data: { toggle: 'modal', target: '#new-document-group-assignment-modal' }, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> Assign
+            <% end %>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <table class="table table-sm">
+              <% @document_group_presenter.active_employee_records.each do |employee_record| %>
+                <tr>
+                  <td><%= link_to employee_record.last_comma_first, employee_record_path(employee_record) %></td>
+                  <td><%= employee_record.title %></td>
+                  <td class="text-right"><%= link_to 'reassign', edit_employee_record_path(employee_record) %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+      <%= render 'assign_employees_modal', unassigned_employees: @document_group_presenter.unassigned_employees_grouped_by_title, modal_id: 'new-document-group-assignment-modal' %>
+
+    <% elsif @document_group_presenter.applies_to == 'offices' %>
+      <div class="card" id="documents-section">
+        <div class="card-header">
+          <h4 class="card-title">Offices</h4>
+          <div class="heading-elements">
+            <%= link_to '#new-document-group-assignment-modal', data: { toggle: 'modal', target: '#new-document-group-assignment-modal' }, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> Assign
+            <% end %>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <table class="table table-sm">
+              <% @document_group_presenter.offices.each do |office| %>
+                <tr>
+                  <td><%= link_to office.name, office_path(office) %></td>
+                  <td><%= office.street_address %></td>
+                  <td class="text-right"><%= link_to 'reassign', edit_office_path(office) %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+      <%= render 'assign_offices_modal', unassigned_offices: @document_group_presenter.unassigned_offices, modal_id: 'new-document-group-assignment-modal' %>
+    <% end %>
+  </div>
+</section>

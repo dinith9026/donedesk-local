@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">
+      <%= @assignment_presenter.course_title %>
+      <small class="block"><%= @assignment_presenter.course_description %></small>
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="video-viewer text-center">
+      <video
+         src="<%= @assignment_presenter.course_material_url %>"
+         controls
+         controlsList="nodownload"
+         id="video-material"
+         data-show-continue-modal="<%= @assignment_presenter.show_continue_modal? %>"
+         data-prevent-fwd-seeking="<%= @assignment_presenter.prevent_fwd_seeking? %>"
+       ></video>
+    </div>
+  </div>
+</div>
+
+<%= render layout: 'shared/modal', locals: { title: 'Continue on to the exam...', id: 'continue-modal' } do %>
+  <div>
+    <p>It appears that you've finished watching the video. To complete the course, you'll need to successfully answer some questions based on the material you just watched.</p>
+    <% @assignment_presenter.when_user_can(:take_exam) do %>
+      <%= link_to 'Take the exam', @assignment_presenter.new_exam_path, class: 'btn btn-primary btn-lg' %>
+    <% end %>
+  </div>
+<% end %>
+

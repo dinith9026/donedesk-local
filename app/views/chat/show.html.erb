@@ -1,0 +1,63 @@
+<div style="width: 80%; margin: auto;">
+  <p class="text-center"><em><strong>IMPORTANT:</strong> For inter-office business chat only. No patient information should be shared or discussed via this chat.</em></p>
+  <%= form_tag(chat_url, method: :get, id: 'chat-form', class: '') do %>
+    <fieldset>
+      <div class="input-group">
+        <%= text_field_tag(
+            :user_id,
+            nil,
+            { class: 'form-control chat-autocomplete',
+              data: { autocomplete_source: @chat_presenter.account_users_json },
+              autofocus: true,
+              placeholder: 'Start a conversation with...' }
+          )
+        %>
+        <span class="input-group-btn">
+          <input type="submit" value="Go" class="btn btn-primary">
+        </span>
+      </div>
+    </fieldset>
+  <% end %>
+
+  <div id="talkjs-container" style="width: 90%; margin: 30px auto; height: 500px"><i>Loading chat...</i></div>
+</div>
+
+<script>
+$(function() {
+  var chatAutocompleteSource = $('.chat-autocomplete').data('autocomplete-source');
+
+  $(".chat-autocomplete").autocomplete({
+    source: chatAutocompleteSource,
+    autoFocus: true
+  }).keydown(function(e){
+    if (e.keyCode === 13){
+      $('#chat-form').trigger('submit');
+    }
+  });
+
+  Talk.ready.then(function() {
+    talkSession.syncThemeForLocalDev("<%= stylesheet_path 'talkjs-theme' %>");
+
+    <% @chat_presenter.when_other_user_present do %>
+      var other = new Talk.User({
+        id: "<%= @chat_presenter.other_user_id %>",
+        name: "<%= @chat_presenter.other_user_full_name %>",
+        email: "<%= @chat_presenter.other_user_email %>",
+        photoUrl: "<%= @chat_presenter.other_user_gravatar_url %>",
+        role: "<%= @chat_presenter.other_user_role %>"
+      });
+
+      var conversation = talkSession.getOrCreateConversation(Talk.oneOnOneId(me, other))
+      conversation.setParticipant(me);
+      conversation.setParticipant(other);
+      talkJSInbox = talkSession.createInbox({selected: conversation});
+    <% end %>
+
+    <% @chat_presenter.when_other_user_not_present do %>
+      talkJSInbox = talkSession.createInbox();
+    <% end %>
+
+    talkJSInbox.mount(document.getElementById("talkjs-container"));
+  });
+});
+</script>

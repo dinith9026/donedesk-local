@@ -1,0 +1,24 @@
+<div class="logos"><%= image_tag(image_url('certificate-practicesecure-edu-logo.png'), height: '80') %></div>
+<h1>Practice Secure EDU Course Attendance Verification<br />Practice Secure EDU | Provider ID #: 389654</h1>
+<p>AGD SUBJECT CODE: 550 | <%= @certificate_presenter.course_title %> | 1 CE HOUR | METHOD OF INSTRUCTION: Recorded</p>
+<p><%= @certificate_presenter.passed_on.to_s(:long) %> | INSTRUCTOR: Cary Smith | LOCATION OF EVENT: Zoom Webinar</p>
+<p><strong>ATTENDEE:</strong> <%= @certificate_presenter.full_name %></h2>
+<% if @certificate_presenter.expires_on %>
+  <p><strong>VALID UNTIL:</strong> <%= @certificate_presenter.expires_on.to_s(:long) %></p>
+<% end %>
+<p><strong>AGD MEMBER NUMBER:</strong> <%= @certificate_presenter.agd_member_number.presence || 'N/A' %></h2>
+<br />
+<br />
+<p>Thank you for participating in our compliance training session! This letter provides evidence of your attendance for our training course. <strong><em>Please keep this form for your records.</em></strong></p>
+<p>If you have any questions, please let us know.</p>
+<br />
+<p>Sincerely yours,</p>
+<p><%= image_tag image_url('certificate-signature.png') %></p>
+<p>Cary Smith, CIC</p>
+<p>Practice Secure EDU</p>
+<p>888.539.0080</p>
+<br />
+<p class="pace"><%= image_tag image_url('certificate-agd-pace-logo.png'), style: 'padding-right: 24px; width: 280px; float: left' %>
+<small>Practice Secure EDU is designated as an Approved PACE Program Provider by the Academy of General Dentistry. The formal continuing education programs of this program provider are accepted by the AGD for Fellowship/Mastership and membership maintenance credit. Approval does not imply acceptance by a state or provincial board of dentistry or AGD endorsement. The current term of approval extends from 02/28/2021 to 02/28/2024. Provider ID# 389654.</small></p>
+<br clear="both" />
+<p><strong>AGD Members:</strong> Practice Secure EDU<br />will submit attendance verification to the AGD on your behalf.  Please allow at least 30 days for documentation of participation to be added to your transcript.</p>

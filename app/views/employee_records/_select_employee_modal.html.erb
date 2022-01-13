@@ -1,0 +1,23 @@
+<%= render layout: '/shared/modal', locals: { title: 'Select an employee', id: modal_id } do %>
+  <div class="bs-callout-grey callout-bordered mb-1">
+    <div class="media">
+      <div class="media-body p-1">
+        <p>Select an employee:</p>
+        <ul>
+          <% employee_records.each do |employee_record_presenter| %>
+            <li class="list-style-square">
+              <%= link_to employee_record_presenter.public_send(link_to_path) do %>
+                <%= employee_record_presenter.last_comma_first %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="text-right">
+    <button type="button" class="btn btn-secondary right" data-dismiss="modal">
+      Cancel
+    </button>
+  </div>
+<% end %>

@@ -1,0 +1,5 @@
+<%= render layout: '/shared/callout_layout', locals: { type: 'warning', icon: 'exclamation-triangle' } do %>
+  <p><strong>You have reached the max number of employee that your current plan allows: <%= plan_max_employees %>.</strong></p>
+  <%= link_to 'Request Plan Upgrade', plan_upgrade_requests_path, method: :post, class: 'btn btn-primary' %>
+<% end %>
+

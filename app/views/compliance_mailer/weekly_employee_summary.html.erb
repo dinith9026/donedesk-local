@@ -1,0 +1,98 @@
+<h2 style="border-bottom: solid 1px #ccc; margin-bottom: 32px;">Weekly Compliance Summary</h2>
+
+<h3 style="color: red">Expired Documents</h3>
+<ul>
+  <% if @summary.expired_documents.none? %>
+    <li><em>Congratulations! No expired documents.</em></li>
+  <% else %>
+    <% @summary.expired_documents.each do |document| %>
+      <li style="padding-bottom: 6px">
+        <span style="color: red"><%= document.expires_on.strftime('%m/%d/%Y') %></span> - <%= document.document_name %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<br>
+
+<h3 style="color: red">Expired Courses</h3>
+<ul>
+  <% if @summary.expired_course_assignments.none? %>
+    <li><em>Congratulations! No expired courses.</em></li>
+  <% else %>
+    <% @summary.expired_course_assignments.each do |assignment| %>
+      <li style="padding-bottom: 6px">
+        <span style="color: red"><%= assignment.expires_on.strftime('%m/%d/%Y') %></span> - <%= assignment.course_title %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<br>
+
+<h3 style="color: orange">Incomplete Courses</h3>
+<ul>
+  <% if @summary.incomplete_course_assignments.none? %>
+    <li><em>Congratulations! No incomplete courses.</em></li>
+  <% else %>
+    <% @summary.incomplete_course_assignments.each do |assignment| %>
+      <li style="padding-bottom: 6px">
+        <%= link_to assignment.course_title, assignment %> <%= due_in_or_past_due_x_days(assignment.days_until_due) %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<br>
+
+<h3 style="color: orange">Missing/Required Documents</h3>
+<ul>
+  <% if @summary.missing_required_documents.none? %>
+    <li><em>Congratulations! No missing/required documents.</em></li>
+  <% else %>
+    <% @summary.missing_required_documents.each do |document_type| %>
+      <li style="padding-bottom: 6px">
+        <%= document_type.name %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<br>
+
+<h3 style="color: gold">Documents Expiring Soon</h3>
+<ul>
+  <% if @summary.expiring_documents.none? %>
+    <li><em>Congratulations! No documents expiring soon.</em></li>
+  <% else %>
+    <% @summary.expiring_documents.each do |document| %>
+      <li style="padding-bottom: 6px">
+        <span style="color: gold"><%= document.expires_on.strftime('%m/%d/%Y') %></span> - <%= document.document_name %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<br>
+
+<h3 style="color: gold">Courses Expiring Soon</h3>
+<ul>
+  <% if @summary.expiring_course_assignments.none? %>
+    <li><em>Congratulations! No courses expiring soon.</em></li>
+  <% else %>
+    <% @summary.expiring_course_assignments.each do |assignment| %>
+      <li style="padding-bottom: 6px">
+        <span style="color: gold"><%= assignment.expires_on.strftime('%m/%d/%Y') %></span> - <%= assignment.course_title %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<br>
+
+<hr>
+<br>
+
+<div style="margin-top:48px; text-align: center;">
+  <%= link_to 'Login', sign_in_url, class: 'btn', style: 'font-size:24px' %>
+</div>

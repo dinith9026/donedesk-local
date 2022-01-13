@@ -1,0 +1,305 @@
+<section class="row match-height">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title" id="basic-layout-colored-form-control">
+          <%= image_tag user_avatar_url(employee_record_presenter.user), size: 100, class: 'rounded-circle mr-1' %>
+          <%= employee_record_presenter.full_name %>
+          <span class="tag tag-default <%= tag_class_for_employee_status(employee_record_presenter.status) %> font-small-1 valign-middle"><%= employee_record_presenter.status %></span>
+          <% employee_record_presenter.when_terminated do %>
+            <span class="font-small-2 text-muted"><em><%= employee_record_presenter.terminated_on %></em></span>
+          <% end %>
+        </h3>
+        <% employee_record_presenter.when_show_actions do %>
+          <div class="heading-elements">
+            <%= render layout: '/shared/dropdown_layout' do %>
+              <%= render 'employee_records/actions', employee_record_presenter: employee_record_presenter %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="text-right width-200">Document Group</th>
+              <td><%= link_to employee_record_presenter.document_group_name, employee_record_presenter.document_group_show_path %></td>
+            </tr>
+            <tr>
+              <th class="text-right width-200">Office</th>
+              <td><%= link_to employee_record_presenter.office_name, employee_record_presenter.office_show_path %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Employment type</th>
+              <td><%= employee_record_presenter.employment_type %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Date of birth</th>
+              <td><%= employee_record_presenter.dob %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Marital status</th>
+              <td><%= employee_record_presenter.marital_status %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Title</th>
+              <td><%= employee_record_presenter.title %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Phone</th>
+              <td><%= employee_record_presenter.phone %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Address</th>
+              <td><%= employee_record_presenter.address %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Hired on</th>
+              <td><%= employee_record_presenter.hired_on %></td>
+            </tr>
+            <tr>
+              <th class="text-right">AGD Member Number</th>
+              <td><%= employee_record_presenter.agd_member_number %></td>
+            </tr>
+            <% employee_record_presenter.when_terminated do %>
+              <tr>
+                <th class="text-right">Terminated on</th>
+                <td><%= employee_record_presenter.terminated_on %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <th class="text-right">Emergency contact</th>
+              <td>
+                <%= employee_record_presenter.emergency_contact_name %><br>
+                <%= employee_record_presenter.emergency_contact_email %><br>
+                <%= employee_record_presenter.emergency_contact_phone %><br>
+                <%= employee_record_presenter.emergency_contact_relationship %>
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <% employee_record_presenter.when_user_can(:edit) do %>
+                  <%= link_to employee_record_presenter.edit_path, class: 'btn btn-primary' do %>
+                    <i class="icon-pen3 white"></i> Edit
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card" id="documents-section">
+      <div class="card-header">
+        <h4 class="card-title">Documents</h4>
+        <div>
+          <%= employee_record_presenter.document_group_name %>
+          <% employee_record_presenter.when_user_can_edit(:document_group_id) do %>
+            <small class="text-lowercase font-small-3"><%= link_to 'edit', employee_record_presenter.edit_path %></small>
+          <% end %>
+        </div>
+        <div class="heading-elements">
+          <% employee_record_presenter.when_user_can(:new_document) do %>
+            <%= link_to employee_record_presenter.new_document_path, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> New Document
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-block">
+          <div class="row">
+            <div class="col-sm-3">
+              <i class="icon-flag danger"></i> Expired
+            </div>
+            <div class="col-sm-4">
+              <i class="icon-flag warning"></i> Expiring Soon
+            </div>
+            <div class="col-sm-5">
+              <i class="icon-flag grey"></i> Required/Missing
+            </div>
+          </div>
+          <hr>
+          <ul class="list-unstyled">
+
+            <% employee_record_presenter.documents_listing.each do |document_status_presenter| %>
+              <% document_status_presenter.when_document_visible do %>
+                <li>
+                  <i class="icon-<%= document_status_presenter.icon_type %> <%= document_status_presenter.status_color_class %>" title="<%= document_status_presenter.status %>"></i>
+                  <% document_status_presenter.when_document_downloadable do %>
+                    <%= link_to document_status_presenter.name, document_type_employee_record_documents_path(employee_record_id: employee_record_presenter.id, document_type_id: document_status_presenter.document_type_id), class: document_status_presenter.status_class, data: { remote: true } %>
+                  <% end %>
+                  <% document_status_presenter.when_document_not_downloadable do %>
+                    <span class="<%= document_status_presenter.status_class %>"><%= document_status_presenter.name %>
+                  <% end %>
+                  <% document_status_presenter.when_user_can(:create) do %>
+                    <small><%= link_to 'add', employee_record_presenter.new_document_path(document_status_presenter.document_type_id) %></small>
+                  <% end %>
+                </li>
+              <% end %>
+            <% end %>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%= render layout: '/shared/modal', locals: { id: 'doc-history-modal', title: 'Document History' } do %>
+  <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+    <ul class="list-unstyled" id="document-history">
+    </ul>
+  </div>
+<% end %>
+
+<% employee_record_presenter.when_has_login do %>
+  <%= render '/users/user', user_presenter: employee_record_presenter.user_presenter %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:list_assigned_offices) do %>
+  <%= render 'employee_records/assigned_offices', employee_record_presenter: employee_record_presenter %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:list_documents) do %>
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">All Documents</h4>
+    <div class="heading-elements">
+      <% employee_record_presenter.when_user_can(:new_document) do %>
+        <%= link_to employee_record_presenter.new_document_path, class: 'btn btn-primary btn-sm' do %>
+          <i class="icon-plus white"></i> New Document
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <div class="table-responsive no-dropdowns">
+        <%= render 'documents/table', documents_presenter: employee_record_presenter.documents_presenter, hide_belongs_to: true, datatables: true %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Assignments</h4>
+    <div class="heading-elements">
+      <% employee_record_presenter.when_user_can(:assign_course) do %>
+        <%= link_to '#assign-course-modal', data: { toggle: 'modal', target: '#assign-course-modal' }, class: 'btn btn-primary btn-sm' do %>
+          <i class="icon-plus white"></i> Assign Courses
+        <% end %>
+      <% end %>
+      <% employee_record_presenter.when_user_can(:assign_track) do %>
+        <%= link_to '#assign-track-modal', data: { toggle: 'modal', target: '#assign-track-modal' }, class: 'btn btn-primary btn-sm' do %>
+          <i class="icon-plus white"></i> Assign Tracks
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <div class="table-responsive no-dropdowns">
+        <%= render 'assignments/table', employee_record_presenter: employee_record_presenter %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Certificates</h4>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <div class="table-responsive no-dropdowns">
+        <%= render 'certificates/table', certificates_presenter: employee_record_presenter.certificates_presenter %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% employee_record_presenter.when_user_can(:list_employee_notes) do %>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Employee Notes</h4>
+      <div class="heading-elements">
+        <% employee_record_presenter.when_user_can(:create_employee_note) do %>
+          <%= link_to employee_record_presenter.new_employee_note_path, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus white"></i> New Note
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="card-body collapse in">
+      <div class="card-block card-dashboard">
+        <div class="table-responsive no-dropdowns">
+          <%= render 'employee_notes/table', employee_record_presenter: employee_record_presenter %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:assign_course) do %>
+  <%= render layout: '/shared/modal', locals: { id: 'assign-course-modal', title: 'Assign courses' } do %>
+    <p>Select one or more courses:</p>
+    <%= form_for(:assignment, url: employee_record_presenter.assignments_path, method: :post) do |f| %>
+      <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+        <ul class="list-unstyled">
+          <% employee_record_presenter.assignable_courses.each do |course_presenter| %>
+            <li>
+              <div class="checkbox">
+                <label class="form-check-label checkbox">
+                  <%= check_box_tag 'course_ids[]', course_presenter.id, false, { class: 'form-check-input checkbox', id: "course_#{course_presenter.id}" } %>
+                  <%= course_presenter.title %>
+                </label>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag employee_record_presenter.can_notify? ? 'Assign & Notify' : 'Assign', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:assign_track) do %>
+  <%= render layout: '/shared/modal', locals: { id: 'assign-track-modal', title: 'Assign tracks' } do %>
+    <p>Select one or more tracks:</p>
+    <%= form_for(:assigned_track, url: employee_record_presenter.assigned_tracks_path, method: :post) do |f| %>
+      <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+        <ul class="list-unstyled">
+          <% employee_record_presenter.assignable_tracks.each do |track_presenter| %>
+            <li>
+              <div class="checkbox">
+                <label class="form-check-label checkbox">
+                  <%= check_box_tag 'track_ids[]', track_presenter.id, false, { class: 'form-check-input checkbox', id: "track_#{track_presenter.id}" } %>
+                  <%= track_presenter.name %>
+                </label>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag employee_record_presenter.can_notify? ? 'Assign & Notify' : 'Assign', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

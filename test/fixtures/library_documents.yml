@@ -1,0 +1,27 @@
+oceanview_doc:
+  name: Oceanview Library Document
+  summary: A library document for Oceanview Dental
+  account: oceanview_dental
+  is_visible_to_employees: true
+
+oceanview_invisible_doc:
+  name: Oceanview Invisible Library Document
+  summary: A library document for Oceanview Dental that's invisible to employees
+  account: oceanview_dental
+  is_visible_to_employees: false
+
+brookside_doc:
+  name: Brookside Library Document
+  summary: A library document for Brookside Dental
+  account: brookside_dental
+  is_visible_to_employees: true
+
+canned:
+  name: Canned Library Document
+  summary: A canned library document
+  is_visible_to_employees: true
+
+canned_invisible:
+  name: Canned Invisible Library Document
+  summary: A canned library document invisible to employees
+  is_visible_to_employees: false

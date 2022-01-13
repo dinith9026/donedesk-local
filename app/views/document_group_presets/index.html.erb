@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Document Group Presets</h4>
+        <div class="heading-elements">
+          <%= link_to '#new-preset-modal', data: { toggle: 'modal', target: '#new-preset-modal' }, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> New Preset
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Title</th>
+                  <th>Applies To</th>
+                  <th># Types</th>
+                  <th class="text-right" width="60" data-orderable="false">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @document_group_presets.each do |document_group_preset| %>
+                <tr>
+                  <td><%= link_to document_group_preset.name, document_group_preset_path(document_group_preset) %></td>
+                  <td><%= document_group_preset.applies_to %>
+                  <td><%= document_group_preset.document_types.size %>
+                  <td class="text-right" width="80">
+                    <%= render 'actions', document_group_preset: document_group_preset %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Select one', id: 'new-preset-modal' } do %>
+  <div class="bs-callout-grey callout-bordered mb-1">
+    <div class="media">
+      <div class="media-body p-1">
+        <p>To which does this document group apply?</p>
+        <ul>
+          <li class="list-style-square">
+            <%= link_to 'Employees', new_document_group_preset_path(applies_to: 'employees') %>
+          </li>
+          <li class="list-style-square">
+            <%= link_to 'Offices', new_document_group_preset_path(applies_to: 'offices') %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="text-right">
+    <button type="button" class="btn btn-secondary right" data-dismiss="modal">
+      Cancel
+    </button>
+  </div>
+<% end %>

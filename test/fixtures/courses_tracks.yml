@@ -1,0 +1,84 @@
+course_1_for_oceanview:
+  course: oceanview_handbook
+  track: for_oceanview
+  position: 1
+
+course_2_for_oceanview:
+  course: canned
+  track: for_oceanview
+  position: 2
+
+course_3_not_belonging_to_any_other_track_for_oceanview:
+  course: belonging_to_only_one_track
+  track: for_oceanview
+  position: 3
+
+course_1_for_oceanview2:
+  course: oceanview_handbook
+  track: for_oceanview2
+  position: 1
+
+course_2_for_oceanview2:
+  course: canned
+  track: for_oceanview2
+  position: 2
+
+course1_for_oceanview_deactivated:
+  course: canned_for_texas
+  track: for_oceanview_deactivated
+  position: 1
+
+course2_for_oceanview_deactivated:
+  course: oceanview_handbook
+  track: for_oceanview_deactivated
+  position: 2
+
+course1_for_track_with_one_course:
+  course: oceanview_handbook
+  track: with_one_course
+  position: 1
+
+active_course1_for_track_with_3_active_courses_and_1_deactivated_course:
+  course: oceanview_handbook
+  track: with_3_active_courses_and_1_deactivated_course
+  position: 1
+
+active_course2_for_track_with_3_active_courses_and_1_deactivated_course:
+  course: canned
+  track: with_3_active_courses_and_1_deactivated_course
+  position: 2
+
+active_course3_for_track_with_3_active_courses_and_1_deactivated_course:
+  course: canned_for_texas
+  track: with_3_active_courses_and_1_deactivated_course
+  position: 3
+
+deactivated_course_for_track_with_3_active_courses_and_1_deactivated_course:
+  course: oceanview_deactivated
+  track: with_3_active_courses_and_1_deactivated_course
+  position: 4
+
+course1_for_unassigned:
+  course: canned_for_texas
+  track: unassigned
+  position: 1
+
+course2_for_unassigned:
+  course: oceanview_handbook
+  track: unassigned
+  position: 2
+
+course3_for_unassigned:
+  course: belonging_to_unassigned_track
+  track: unassigned
+  position: 3
+
+course1_for_brookside:
+  course: brookside_handbook
+  track: for_brookside
+  position: 1
+
+course1_for_brookside_deactivated:
+  course: canned
+  track: for_brookside_deactivated
+  position: 1

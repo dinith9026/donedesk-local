@@ -1,0 +1,59 @@
+<% employee_record_presenter.when_user_can(:edit) do %>
+  <%= link_to employee_record_presenter.edit_path, class: 'dropdown-item' do %>
+    <i class="icon-pen3"></i> Edit
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:show) do %>
+  <%= link_to employee_record_presenter.show_path, class: 'dropdown-item' do %>
+    <i class="icon-eye6"></i> View
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:invite) do %>
+  <div class="dropdown-divider"></div>
+
+  <%= link_to employee_record_presenter.new_invite_path, class: 'dropdown-item' do %>
+    <i class="icon-mail6"></i> Invite
+  <% end %>
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% employee_record_presenter.when_user_can(:new_document) do %>
+  <%= link_to employee_record_presenter.new_document_path, class: 'dropdown-item' do %>
+    <i class="icon-circle-plus"></i> New Document
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:create_employee_note) do %>
+  <%= link_to employee_record_presenter.new_employee_note_path, class: 'dropdown-item' do %>
+    <i class="icon-circle-plus"></i> New Note
+  <% end %>
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% employee_record_presenter.when_user_can(:suspend) do %>
+  <%= link_to employee_record_presenter.suspend_path, method: :put, class: 'dropdown-item', data: { confirm: "Are you sure?\n\nNOTE: Employee will be unassigned from all tracks/courses." } do %>
+    <i class="icon-exclamation-triangle warning"></i> <span class="warning">Suspend</span>
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:unsuspend) do %>
+  <%= link_to employee_record_presenter.unsuspend_path, method: :put, class: 'dropdown-item', data: { confirm: 'Are you sure?' } do %>
+    <i class="icon-check success"></i> <span class="success">Unsuspend</span>
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:terminate) do %>
+  <%= link_to employee_record_presenter.terminate_path, method: :put, class: 'dropdown-item', data: { confirm: "Are you sure?\n\nNOTE: Employee will be unassigned from all tracks/courses." } do %>
+    <i class="icon-exclamation-circle danger"></i> <span class="danger">Terminate</span>
+  <% end %>
+<% end %>
+
+<% employee_record_presenter.when_user_can(:rehire) do %>
+  <%= link_to employee_record_presenter.rehire_path, method: :put, class: 'dropdown-item', data: { confirm: 'Are you sure?' } do %>
+    <i class="icon-check success"></i> <span class="success">Rehire</span>
+  <% end %>
+<% end %>

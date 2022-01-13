@@ -1,0 +1,37 @@
+for_oceanview:
+  account: oceanview_dental
+  name: "Oceanview Track 1"
+
+for_oceanview2:
+  account: oceanview_dental
+  name: "Oceanview Track 2"
+
+for_oceanview_deactivated:
+  account: oceanview_dental
+  name: "Oceanview Deactivated Track"
+  deactivated_at: <%= 1.day.ago %>
+
+with_course_also_in_another_track:
+  account: oceanview_dental
+  name: "Oceanview Track w/Course Also In Another Track"
+
+with_one_course:
+  account: oceanview_dental
+  name: "Oceanview Track w/One Course"
+
+with_3_active_courses_and_1_deactivated_course:
+  account: oceanview_dental
+  name: "With 3 Active Courses + 1 Deactivated"
+
+unassigned:
+  account: oceanview_dental
+  name: "Unassigned Oceanview Track"
+
+for_brookside:
+  account: brookside_dental
+  name: "Brookside Track"
+
+for_brookside_deactivated:
+  account: brookside_dental
+  name: "Brookside Deactivated Track"
+  deactivated_at: <%= 1.day.ago %>

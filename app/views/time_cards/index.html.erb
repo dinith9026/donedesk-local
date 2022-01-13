@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          Time Cards
+          <small>
+            <span class="text-lowercase">for</span>
+            <%= @time_cards_presenter.date_from %> - <%= @time_cards_presenter.date_to %>
+          </small>
+        </h4>
+        <div class="heading-elements">
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="row">
+            <div class="col-sm-6">
+              <%= form_tag(@time_cards_presenter.time_cards_path, method: :get, id: 'date-filter-form', class: 'form-inline mb-1', autocomplete: 'off') do %>
+                <%= text_field_tag :date_from, @time_cards_presenter.date_from('%m/%d/%Y'), class: 'form-control datetimepicker3' %>
+                <%= text_field_tag :date_to, @time_cards_presenter.date_to('%m/%d/%Y'), class: 'form-control datetimepicker3' %>
+                <%= submit_tag 'Go', class: 'btn btn-secondary' %>
+              <% end %>
+            </div>
+            <div class="col-sm-6 text-right">
+              <i class="icon icon-warning2 text-warning"></i> = Missing entries
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-sm" id="time-cards-table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>&nbsp;</th>
+                  <th>Hours</th>
+                  <th>Break</th>
+                  <th>PTO</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @time_cards_presenter.each do |time_card_presenter| %>
+                  <tr>
+                    <td>
+                      <%= link_to time_card_presenter.date, time_card_presenter.time_entries_path %>
+                      <% time_card_presenter.when_missing_entries do %>
+                        <i class="icon icon-warning2 text-warning" title="missing entries"></i>
+                      <% end %>
+                    </td>
+                    <% time_card_presenter.when_missing_entries do %>
+                      <td>-</td>
+                      <td>-</td>
+                    <% end %>
+                    <% time_card_presenter.when_not_missing_entries do %>
+                      <td><%= time_card_presenter.regular_time %></td>
+                      <td><%= time_card_presenter.break_time %></td>
+                    <% end %>
+                    <td><%= time_card_presenter.pto_time %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

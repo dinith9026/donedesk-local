@@ -1,0 +1,5 @@
+#!/bin/bash
+
+\curl -sSL https://raw.githubusercontent.com/codeship/scripts/master/deployments/heroku.sh | bash -s $HEROKU_APP_NAME
+
+heroku run rails db:migrate --app $HEROKU_APP_NAME

@@ -1,0 +1,29 @@
+<%= link_to office_presenter.edit_path, class: 'dropdown-item', title: 'Edit' do %>
+  <i class="icon-pen3"></i> Edit
+<% end %>
+
+<%= link_to office_presenter.show_path, class: 'dropdown-item', title: 'View' do %>
+  <i class="icon-eye6"></i> View
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% office_presenter.when_user_can(:new_document) do %>
+  <%= link_to office_presenter.new_document_path, class: 'dropdown-item' do %>
+    <i class="icon-circle-plus"></i> New Document
+  <% end %>
+<% end %>
+
+<% office_presenter.when_user_can(:destroy) do %>
+  <%= link_to '#confirm-delete-modal',
+              data: {
+                toggle: 'modal',
+                target: '#confirm-delete-modal',
+                office_id: office_presenter.id,
+                office_name: office_presenter.name,
+              },
+              class: 'dropdown-item delete-btn danger' do
+  %>
+    <i class="icon-trash danger"></i> Delete
+  <% end %>
+<% end %>

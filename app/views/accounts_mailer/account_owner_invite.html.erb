@@ -1,0 +1,7 @@
+<h1><%= @owner_first_name %>, you're invited to Done Desk!</h1>
+<p>
+  Get started now by <%= link_to 'setting a password and confirming payment', new_registration_url(invite_token: @invite_token) %>.
+</p>
+<p>
+  Once you've done that, you'll be automatically redirected to a form where you can add your employees and get started!
+</p>

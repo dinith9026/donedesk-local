@@ -1,0 +1,66 @@
+<%= form_for @form, url: form_path, method: :put do |f| %>
+  <div class="row match-height">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control">Edit User Profile/Login</h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                    <%= f.label :photo %>
+                    <div class="row">
+                      <div class="col-md-1">
+                        <div class="form-group">
+                          <%= image_tag user_avatar_url(@form.context.user), size: 44, class: 'rounded-circle' %>
+                        </div>
+                      </div>
+                      <div class="col-md-11">
+                        <div class="form-group">
+                          <%= f.file_field :avatar, class: 'form-control', accept: 'image/*' %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :email %>
+                      <%= f.email_field :email, class: 'form-control', required: true, autofocus: true %>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :first_name %>
+                          <%= f.text_field :first_name, class: 'form-control', required: true %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :last_name %>
+                          <%= f.text_field :last_name, class: 'form-control', required: true %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <% @form.when_user_can_edit(:two_factor_enabled) do %>
+                      <div class="form-group">
+                        <%= f.label :two_factor_enabled %>
+                        <%= f.select :two_factor_enabled, [["Yes", true], ["No", false]], { include_blank: 'Not Set', selected: @form.two_factor_enabled }, { class: 'form-control' } %>
+                      </div>
+                    <% end %>
+
+                    <%= render '/shared/form_actions' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<% end %>

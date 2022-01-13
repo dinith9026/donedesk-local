@@ -1,0 +1,2 @@
+$('#document-history').html("<%= escape_javascript(render 'employee_documents/history', employee_documents_presenter: @employee_documents_presenter) %>");
+$('#doc-history-modal').modal('show');

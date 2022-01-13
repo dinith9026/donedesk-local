@@ -1,0 +1,48 @@
+<%= nav_link(request.path, 'Offices', offices_path, 'menu-title','office') if policy(Office).index? %>
+
+<li class="nav-item has-sub">
+  <a href="#"><i class="icon-group"></i><span class="menu-title">Employees</span></a>
+  <ul class="menu-content">
+    <%= nav_link(request.path, 'Employee Records', employee_records_path, 'menu-item') if policy(EmployeeRecord).index? %>
+    <%= nav_link(request.path, 'Time Sheets <span class="tag tag-pill font-small-1 bg-white black">beta</span>'.html_safe, time_sheets_path, 'menu-item') if policy(TimeSheet).index? %>
+    <%= nav_link(request.path, 'PTO Entries <span class="tag tag-pill font-small-1 bg-white black">beta</span>', pto_entries_path, 'menu-item') if policy(PTOEntry).index? %>
+  </ul>
+</li>
+
+<li class="nav-item has-sub">
+  <a href="#"><i class="icon-book"></i><span class="menu-title">Training</span></a>
+  <ul class="menu-content">
+    <%= nav_link(request.path, 'My Assignments', assignments_path, 'menu-item') if policy(Assignment).index? %>
+    <%= nav_link(request.path, 'Courses', courses_path, 'menu-item') if policy(Course).index? %>
+    <%= nav_link(request.path, 'Learning Tracks', tracks_path, 'menu-item') if policy(Track).index? %>
+  </ul>
+</li>
+
+<li class="nav-item has-sub">
+  <a href="#"><i class="icon-document-text"></i><span class="menu-title">Documents</span></a>
+  <ul class="menu-content">
+    <%= nav_link(request.path, 'All Documents', documents_path, 'menu-item') if policy(Document).index? %>
+    <%= nav_link(request.path, 'Document Types', document_types_path, 'menu-item') if policy(DocumentType).index? %>
+    <%= nav_link(request.path, 'Document Groups', document_groups_path, 'menu-item') if policy(DocumentGroup).index? %>
+  </ul>
+</li>
+
+<li class="nav-item has-sub">
+  <a href="#"><span class="iconify" data-icon="mdi:whistle" data-width="26" data-height="26" style="vertical-align: middle"></span> <span class="menu-title">Coaching</span></a>
+  <ul class="menu-content">
+    <%= nav_link(request.path, 'Compliance', compliance_coaching_page_path, 'menu-item') if policy(StaticPage).compliance_coaching? %>
+    <%= nav_link(request.path, 'HR', hr_coaching_page_path, 'menu-item') if policy(StaticPage).hr_coaching? %>
+    <%= nav_link(request.path, 'Health Insurance', health_insurance_coaching_page_path, 'menu-item') if policy(StaticPage).health_insurance_coaching? %>
+  </ul>
+</li>
+
+<%= nav_link(request.path, 'Library Documents', library_documents_path, 'menu-title', 'paper-stack') if policy(LibraryDocument).index? %>
+
+<li class="nav-item has-sub">
+  <a href="#"><i class="icon-bell3"></i><span class="menu-title">Services</span></a>
+  <ul class="menu-content">
+    <%= nav_link(request.path, 'Insurance', insurance_page_path, 'menu-item') if policy(StaticPage).insurance? %>
+    <%= nav_link(request.path, 'Payroll', payroll_page_path, 'menu-item') if policy(StaticPage).payroll? %>
+    <%= nav_link(request.path, 'Employee Testing', background_check_page_path, 'menu-item') if policy(StaticPage).background_check? %>
+  </ul>
+</li>

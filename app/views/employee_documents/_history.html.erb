@@ -1,0 +1,4 @@
+<li class="mb-2"><strong><%= employee_documents_presenter.first.name %></strong></li>
+<% employee_documents_presenter.each do |employee_document_presenter| %>
+  <%= render 'documents/history', document_presenter: employee_document_presenter.document_presenter %>
+<% end %>

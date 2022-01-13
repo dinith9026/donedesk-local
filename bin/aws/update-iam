@@ -1,0 +1,52 @@
+#!/bin/sh
+
+PROFILE=donedesk
+ROLE_NAME=DoneDeskECSRole
+POLICY_NAME=DoneDeskECSRolePolicy
+INSTANCE_PROFILE=DoneDeskServer
+LAUNCH_CONFIGURATION=DoneDesk-ECS-Configuration-Profile
+ASG_NAME=DoneDeskAutoScalingGroup
+
+# aws iam create-role \
+#     --role-name $ROLE_NAME \
+#     --assume-role-policy-document file://./bin/aws/ecs-policy.json \
+#     --profile $PROFILE
+# 
+# aws iam put-role-policy \
+#     --role-name $ROLE_NAME \
+#     --policy-name $POLICY_NAME \
+#     --policy-document file://./bin/aws/role-policy.json \
+#     --profile $PROFILE
+# 
+# aws iam create-instance-profile \
+#     --instance-profile-name $INSTANCE_PROFILE \
+#     --profile $PROFILE
+# 
+# aws iam add-role-to-instance-profile \
+#     --instance-profile-name $INSTANCE_PROFILE \
+#     --role-name $ROLE_NAME \
+#     --profile $PROFILE
+
+aws autoscaling delete-auto-scaling-group \
+    --auto-scaling-group-name $ASG_NAME \
+    --profile $PROFILE   
+
+aws autoscaling delete-launch-configuration \
+    --launch-configuration-name $LAUNCH_CONFIGURATION \
+    --profile $PROFILE
+
+aws autoscaling create-launch-configuration \
+    --cli-input-json "`cat ./bin/aws/launch-configuration.json | tr '\n' ' '`" \
+    --profile $PROFILE
+
+
+aws autoscaling create-auto-scaling-group \
+    --auto-scaling-group-name $ASG_NAME \
+    --launch-configuration-name $LAUNCH_CONFIGURATION \
+    --min-size 1 \
+    --max-size 2 \
+    --desired-capacity 1 \
+    --default-cooldown 600 \
+    --placement-group my-placement-group \
+    --termination-policies "OldestInstance" \
+    --vpc-zone-identifier subnet-5684b631

@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Track Presets</h4>
+        <div class="heading-elements">
+          <%= link_to new_track_preset_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> New Preset
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Name</th>
+                  <th># Courses</th>
+                  <th class="text-right" width="60" data-orderable="false">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @track_presets.each do |track_preset| %>
+                <tr>
+                  <td><%= link_to track_preset.name, track_preset_path(track_preset) %></td>
+                  <td><%= track_preset.courses.size %>
+                  <td class="text-right" width="80">
+                    <%= render 'actions', track_preset: track_preset %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

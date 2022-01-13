@@ -1,0 +1,49 @@
+<% account_presenter.when_user_can(:edit) do %>
+  <%= link_to account_presenter.edit_path, class: 'dropdown-item', title: t('.edit') do %>
+    <i class="icon-pen3"></i> Edit
+  <% end %>
+<% end %>
+
+<%= link_to account_presenter.show_path, class: 'dropdown-item' do %>
+  <i class="icon-eye6"></i> View
+<% end %>
+
+<%= link_to account_presenter.switch_account_path, method: :put, class: 'dropdown-item', title: 'Switch to this account' do %>
+  <i class="icon-arrow-swap"></i> Switch To
+<% end %>
+
+<% account_presenter.when_user_can(:reinvite) do %>
+  <%= link_to account_presenter.reinvite_path, method: :post, class: 'dropdown-item', data: { confirm: "Resend owner invite email to #{account_presenter.owner_email}?" } do %>
+    <i class="icon-email"></i> Resend Invite
+  <% end %>
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% account_presenter.when_user_can(:new_plan) do %>
+  <%= link_to account_presenter.new_plan_path, class: 'dropdown-item' do %>
+    <i class="icon-circle-plus"></i> New Plan
+  <% end %>
+<% end %>
+
+<% account_presenter.when_user_can(:new_office) do %>
+  <%= link_to account_presenter.new_office_path, class: 'dropdown-item' do %>
+    <i class="icon-circle-plus"></i> New Office
+  <% end %>
+<% end %>
+
+<div class="dropdown-divider"></div>
+
+<% account_presenter.when_user_can(:deactivate) do %>
+  <%= link_to '#confirm-deactivate-modal',
+        data: { toggle: 'modal', target: '#confirm-deactivate-modal', account_id: account_presenter.id, account_name: account_presenter.name },
+        class: 'dropdown-item deactivate-link' do %>
+    <i class="icon-blocked warning"></i> <span class="warning">Deactivate</span>
+  <% end %>
+<% end %>
+
+<% account_presenter.when_user_can(:reactivate) do %>
+  <%= link_to account_presenter.reactivate_path, method: :put, class: 'dropdown-item', data: { confirm: 'Are you sure?' } do %>
+    <i class="icon-check success"></i> <span class="success">Reactivate</span>
+  <% end %>
+<% end %>

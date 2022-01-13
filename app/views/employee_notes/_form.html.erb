@@ -1,0 +1,38 @@
+<%= form_for @form, url: form_action do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Note</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                    <div class="form-group">
+                      <%= label_tag 'Employee' %>
+                      <%= text_field_tag :employee_name, @form.employee_record_full_name, class: 'form-control', readonly: true %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :body %>
+                      <%= f.text_area :body, class: 'form-control', rows: 10 %>
+                    </div>
+
+                    <%= render 'employee_notes/warning' %>
+
+                    <%= render '/shared/form_actions' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

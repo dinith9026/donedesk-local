@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -ex
+
+CERT_PATH=/tmp/tls/letsencrypt/live/test.aws.donedesk.com
+
+mkdir -p $CERT_PATH
+
+openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
+    -keyout $CERT_PATH/privkey.pem \
+    -out $CERT_PATH/fullchain.pem \
+    -subj /CN=test.aws.donedesk.com
+
+cp $CERT_PATH/fullchain.pem $CERT_PATH/chain.pem
+
+openssl dhparam -out $CERT_PATH/dhparam.pem 4096
+
+cp -rn $CERT_PATH /tmp/tls/letsencrypt/live/production.aws.donedesk.com
+cp -rn $CERT_PATH /tmp/tls/letsencrypt/live/staging.aws.donedesk.com
+cp -rn $CERT_PATH /tmp/tls/letsencrypt/live/development.aws.donedesk.com

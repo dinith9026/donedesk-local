@@ -1,0 +1,266 @@
+<% @track_presenter.when_user_can(:index) do %>
+  <p><%= link_to '&larr; All tracks'.html_safe, tracks_path %></p>
+<% end %>
+
+<section class="row match-height">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= @track_presenter.name %>
+        </h3>
+        <div class="heading-elements">
+          <%= render layout: '/shared/dropdown_layout' do %>
+            <%= render 'tracks/actions', track_presenter: @track_presenter %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="text-right width-250">Name</th>
+              <td><%= @track_presenter.name %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Created</th>
+              <td><%= @track_presenter.created_at %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Updated</th>
+              <td><%= @track_presenter.updated_at %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><%= pluralize(@track_presenter.courses.size, 'course') %></h4>
+        <div class="heading-elements">
+          <% @track_presenter.when_user_can(:add_course) do %>
+            <%= link_to '#add-courses-modal', data: { toggle: 'modal', target: '#add-courses-modal' }, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus white"></i> Add Courses
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block">
+          <p>Employees will be required to take each course in the order you specify here.</p>
+          <ul class="list-group" id="track-courses-list">
+            <% @track_presenter.courses.each do |course| %>
+              <li class="list-group-item grabbable" data-course-id="<%= course.id %>" data-track-id="<%= @track_presenter.id %>">
+                <i class="icon-menu5"></i>
+                <span class="pl-1"><%= course.title %> <span class="tag tag-success font-small-1 text-uppercase" style="display:none" id="tag-success-<%= course.id %>">Saved!</span> <span class="tag tag-danger font-small-1 text-uppercase" style="display:none" id="tag-error-<%= course.id %>">Error!</span></span>
+                <% if course.days_due_within.present? %>
+                  <small class="text-muted pl-1">due within <%= pluralize(course.days_due_within, 'day') %></small>
+                <% end %>
+                <% @track_presenter.when_user_can(:remove_course) do %>
+                  <%= link_to track_course_path(@track, course), class: 'btn btn-sm btn-danger float-xs-right', method: :delete, data: { confirm: "Are you sure?\n\nThis action ONLY removes the course from the track." } do %>
+                    Remove
+                  <% end %>
+                <% end %>
+                <% @track_presenter.when_show_disabled_remove_course_btn do %>
+                  <span class="float-xs-right">
+                    <button type="button"  class="btn btn-sm btn-danger" disabled>Remove</button>
+                    <a href="javascript:void();"
+                      data-toggle="popover"
+                      data-html="true"
+                      data-content="A track must have at least one course.<br />Add another course and you'll be able to delete this one."
+                      data-trigger="hover"
+                      data-placement="left"
+                    ><i class="icon icon-help-circled"></i></a>
+                  </span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title"><%= pluralize(@track_presenter.assigned_tracks_count, 'Assigned Employee') %></h4>
+    <div class="heading-elements">
+    <% @track_presenter.when_user_can(:assign) do %>
+      <%= link_to '#assign-employees-modal', data: { toggle: 'modal', target: '#assign-employees-modal' }, class: 'btn btn-primary btn-sm' do %>
+        <i class="icon-plus white"></i> Assign Employees
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block">
+      <div class="table-responsive no-dropdowns">
+        <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Employee</th>
+              <th>Progress</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @track_presenter.assigned_tracks_presenter.each do |assigned_track_presenter| %>
+              <tr>
+                <td><%= link_to assigned_track_presenter.employee_record_last_comma_first, assigned_track_presenter.show_employee_record_path %></td>
+                <td>
+                  <progress class="progress progress-success" value="<%= assigned_track_presenter.progress %>" max="100"></progress>
+                </td>
+                <td class="text-right">
+                  <% @track_presenter.when_user_can(:unassign) do %>
+                    <%= link_to assigned_track_presenter.destroy_path, class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                      Remove
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="text-right"><%= paginate @track_presenter.assigned_tracks_presenter %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Add courses to this track...', id: 'add-courses-modal' } do %>
+  <% @track_presenter.when_unassigned_courses_exist do %>
+    <p><strong>Don't see your course listed?</strong><br />Make sure it has at least one question and is <em>not</em> deactivated.</p>
+    <p>Select one or more courses:</p>
+    <%= form_for(:tracks_course, url: @track_presenter.add_courses_path) do |f| %>
+      <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+        <% @track_presenter.unassigned_courses.each do |course| %>
+          <div class="form-check">
+            <label class="form-check-label" for="course-<%= course.id %>">
+              <%= check_box_tag 'track[course_ids][]', course.id, false, { class: 'form-check-input', id: "course-#{course.id}" } %>
+              <%= course.title %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @track_presenter.assigned_tracks_count > 0 %>
+        <div class="form-group">
+          <div class="checkbox">
+            <label class="form-check-label checkbox">
+              <input type="checkbox" name="track[notify_employees]" value="1" />
+              Send email notification to <%= pluralize(@track_presenter.assigned_tracks_count, 'assigned employee') %>
+            </label>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag 'Add', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% @track_presenter.when_no_unassigned_courses_exist do %>
+    <div class="alert alert-info">
+      All courses have already been added to this track.
+    </div>
+  <% end %>
+<% end %>
+
+<%= render layout: '/shared/modal', locals: { title: 'Assign this track to...', id: 'assign-employees-modal' } do %>
+  <% @track_presenter.when_unassigned_employees_exist do %>
+    <div>
+      <p id="selected-count" data-default="Please select at least one employee:"></p>
+      <%= form_for(:track, url: @track_presenter.create_assigned_track_path) do |f| %>
+        <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+          <ul class="list-unstyled assignable-employees">
+            <% @track_presenter.unassigned_employees.each do |office_name, employee_records_presenter| %>
+              <li class="font-medium-2">
+                <i class="sublist-toggler icon-arrow-right-b"></i>
+                <label for="sublist-toggler-parent-option-<%= office_name.parameterize %>">
+                  <input type="checkbox" id="sublist-toggler-parent-option-<%= office_name.parameterize %>" class="sublist-toggler-parent-option" data-parent="<%= office_name.parameterize %>">
+                  <%= office_name.to_s %>
+                </label>
+
+                <ul style="display:none">
+                  <% employee_records_presenter.each do |employee_record_presenter| %>
+                    <li>
+                      <div class="checkbox">
+                        <label class="form-check-label font-medium-1 checkbox">
+                          <%= check_box_tag 'employee_record_ids[]',
+                            employee_record_presenter.id,
+                            false,
+                            {
+                              class: 'form-check-input checkbox sublist-toggler-child-option',
+                              id: "employee_record_id_#{employee_record_presenter.id}",
+                              data: { parent: office_name.parameterize }
+                            }
+                          %>
+                          <%= employee_record_presenter.full_name %>
+                        </label>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox">
+            <label class="form-check-label checkbox">
+              <input type="checkbox" name="notify_employees" value="1" />
+              Send email notification to employees
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions right">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <%= button_tag 'Assign', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% @track_presenter.when_no_unassigned_employees_exist do %>
+    <div class="alert alert-info">
+      All employees have already been assigned to this track.
+    </div>
+  <% end %>
+<% end %>
+
+<script>
+$(document).ready(function(){
+  dragula([document.getElementById('track-courses-list')])
+  .on('drop', function (el) {
+    const trackId = el.dataset.trackId
+    const courseId = el.dataset.courseId
+    const index = $(el).index() + 1
+
+    $.ajax({
+      url: `/tracks/${trackId}/courses/${courseId}`,
+      type: 'PUT',
+      data: { position: index },
+      success: function(data) {
+        const successTagId = `#tag-success-${courseId}`
+        $(successTagId).finish().show().delay(1000).fadeOut("slow")
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        const errorTagId = `#tag-error-${courseId}`
+        $(errorTagId).finish().show()
+      }
+    });
+  })
+});
+</script>

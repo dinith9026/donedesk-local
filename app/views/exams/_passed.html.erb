@@ -1,0 +1,7 @@
+<%= render layout: '/shared/callout_layout', locals: { type: 'success', icon: 'smile' } do %>
+  <strong>Congratulations!</strong>
+  <p>You passed the test. This course is now considered complete. You may rewatch/reread the material at any time.</p>
+<% end %>
+
+<p><%= link_to '&larr; Back to list of assigned courses'.html_safe, assignments_url %></p>
+

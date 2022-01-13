@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><%= t '.all_accounts' %></h4>
+        <div class="heading-elements">
+          <%= button_to @accounts_presenter.new_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> <%= t('.new_account') %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in accounts-list">
+        <div class="card-block card-dashboard">
+          <div class="table-actions mb-1">
+          </div>
+          <ul class="nav nav-tabs mb-2">
+            <li class="nav-item">
+              <a class="nav-link active" id="base-active-accounts" data-toggle="tab" aria-controls="active-accounts" href="#active-accounts" aria-expanded="false">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="base-deactivated-accounts" data-toggle="tab" aria-controls="deactivated-accounts" href="#deactivated-accounts" aria-expanded="false">Deactivated</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="active-accounts" aria-expanded="false" aria-labelledby="base-active-accounts">
+              <div class="table-responsive">
+                <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]' data-order-fixed='[[ 1, "asc" ]]' data-row-group='{ "dataSrc": 1 }'>
+                  <thead class="thead-inverse">
+                    <%= render 'thead' %>
+                  </thead>
+                  <tbody>
+                    <%= render partial: 'row',
+                               collection: @accounts_presenter.active,
+                               as: :account_presenter,
+                               locals: { row_classes: '' } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="deactivated-accounts" aria-expanded="false" aria-labelledby="base-deactivated-accounts">
+              <div class="table-responsive">
+                <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]' data-order-fixed='[[ 1, "asc" ]]' data-row-group='{ "dataSrc": 1 }'>
+                  <thead class="thead-inverse">
+                    <%= render 'thead' %>
+                  </thead>
+                  <tbody>
+                    <%= render partial: 'row',
+                               collection: @accounts_presenter.deactivated,
+                               as: :account_presenter,
+                               locals: { row_classes: 'grey lighten-1' } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'deactivate_modal', id: '', name: '' %>
+
+<script type="text/javascript" charset="utf-8">
+$('.deactivate-link').on('click', function(e){
+  var accountId = $(this).data('account-id');
+  var accountName = $(this).data('account-name');
+
+  $('#deactivate-account-form').attr('action', '/accounts/' + accountId + '/deactivate');
+  $('.modal-account-name').html(accountName);
+});
+</script>

@@ -1,0 +1,212 @@
+<%= form_for form do |f| %>
+  <div class="row match-height">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Employee Record</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: form.errors.full_messages %>
+
+                    <% if form.context&.user && form.new_record? %>
+                      <%= f.hidden_field :user_id %>
+                      <div class="form-group">
+                        <%= label_tag 'User' %>
+                        <%= text_field_tag :user_name, form.context.user.full_name, class: 'form-control', readonly: true %>
+                      </div>
+                    <% end %>
+
+                    <div class="form-group is-required">
+                      <%= f.label :office %>
+                      <%= f.collection_select :office_id, form.offices, :id, :name, { prompt: '' }, { class: 'form-control', autofocus: true, required: true } %>
+                    </div>
+
+                    <% unless current_user.employee? %>
+                      <div class="form-group is-required">
+                        <%= f.label :document_group %>
+                        <%= f.collection_select :document_group_id, form.document_groups.order(:name), :id, :name, {}, { class: 'form-control', autofocus: true, required: true } %>
+                      </div>
+                    <% end %>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :first_name %>
+                          <%= f.text_field :first_name, class: 'form-control', required: true %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :last_name %>
+                          <%= f.text_field :last_name, class: 'form-control', required: true %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :employment_type %>
+                          <%= f.select :employment_type, EmployeeRecord.employment_types.map { |k, v| [k.titleize, k] }, { prompt: '' }, { class: 'form-control', required: true } %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :title %>
+                          <%= f.text_field :title, class: 'form-control ac-title', autocomplete: 'off', placeholder: 'e.g. Receptionist, Hygienist' %>
+                        </div>
+                      </div>
+<script type="text/javascript">
+$('.ac-title').autocomplete({
+  source: ['Dental Hygienist', 'Dental Assistant', 'Secretary', 'Receptionist', 'Financial Coordinator', 'Office Manager', 'Dental Laboratory Technician', 'Sterilization Assistant']
+});
+</script>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :dob, 'Date of birth <em><small>mm/dd/yyyy</small></em>'.html_safe %>
+                          <%= f.text_field :dob, value: form.dob_formatted, class: 'form-control date-inputmask' %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :phone %>
+                          <%= f.text_field :phone, class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :address %>
+                      <%= f.text_area :address, rows: 4, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :marital_status %>
+                      <%= f.select :marital_status, EmployeeRecord.marital_statuses.map { |k, v| [k.titleize, k] }, { prompt: '' }, { class: 'form-control' } %>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <% form.when_user_can_edit(:hired_on) do %>
+                          <div class="form-group">
+                            <%= f.label :hired_on, 'Hired on <em><small>mm/dd/yyyy</small></em>'.html_safe %>
+                            <%= f.text_field :hired_on, value: form.hired_on_formatted, class: 'form-control date-inputmask' %>
+                          </div>
+                        <% end %>
+                      </div>
+                      <div class="col-md-6">
+                        <% form.when_user_can_edit(:terminated_on) do %>
+                          <div class="form-group">
+                            <%= f.label :terminated_on, 'Terminated on <em><small>mm/dd/yyyy</small></em>'.html_safe %>
+                            <%= f.text_field :terminated_on, value: form.terminated_on_formatted, class: 'form-control date-inputmask' %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :agd_member_number, 'AGD Member Number' %>
+                      <%= f.text_field :agd_member_number, class: 'form-control' %>
+                    </div>
+
+                    <h4 class="form-section"><i class="icon-person"></i> Emergency Contact</h4>
+                    <div class="form-group">
+                      <%= f.label :emergency_contact_name, 'Name' %>
+                      <%= f.text_field :emergency_contact_name, class: 'form-control' %>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :emergency_contact_email, 'Email' %>
+                          <%= f.email_field :emergency_contact_email, class: 'form-control' %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :emergency_contact_phone, 'Phone' %>
+                          <%= f.text_field :emergency_contact_phone, class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :emergency_contact_relationship, 'Relationship' %>
+                      <%= f.text_field :emergency_contact_relationship, class: 'form-control' %>
+                    </div>
+
+                    <% if current_account.tracks.active.any?  %>
+                      <h4 class="form-section"><i class="icon-book"></i> Initial Learning Tracks <em>(optional)</em></h4>
+                      <p>The tracks you assign will show up in the employee's welcome email. Don't worry, you can always assign tracks at any time.</p>
+                      <div class="form-group">
+                        <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+                        <% current_account.tracks.active.each do |track| %>
+                          <div class="checkbox">
+                            <label class="form-check-label" for="<%= track.id %>-check">
+                              <input name="employee_record[track_ids][]" class="form-check-input" type="checkbox" value="<%= track.id %>" id="<%= track.id %>-check">
+                              <%= track.name %>
+                            </label>
+                          </div>
+                        <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <% if form.new_record? || (!form.new_record? && !form.user_id.blank?) %>
+                      <h4 class="form-section"><i class="icon-key2"></i> DoneDesk Login <em>(optional)</em></h4>
+                      <% if form.new_record? && form.user_id.blank? %>
+                        <div class="alert alert-info">
+                          <p>Don't worry, you can always invite this employee at any time.</p>
+                          <strong>NOTE:</strong> If you enter an email address, an invite will be sent to the employee allowing them to create a DoneDesk login.
+                        </div>
+                      <% end %>
+
+                      <%= f.fields_for :user, form.user do |u| %>
+                        <%= u.label :photo %>
+                        <div class="row">
+                          <div class="col-md-1">
+                            <div class="form-group">
+                              <%= image_tag user_avatar_url(form.context.user), size: 44, class: 'rounded-circle' %>
+                            </div>
+                          </div>
+                          <div class="col-md-11">
+                            <div class="form-group">
+                              <%= u.file_field :avatar, class: 'form-control', accept: 'image/*' %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <%= u.label :email %>
+                          <%= u.text_field :email, class: 'form-control', placeholder: 'john@example.com' %>
+                        </div>
+                        <% if form.new_record? && form.user_id.blank? %>
+                          <div class="form-group">
+                            <div class="checkbox">
+                              <label class="form-check-label">
+                                <%= u.check_box :role, { class: 'form-check-input', include_hidden: false }, 'account_manager' %>
+                                Make Admin
+                              </label>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+
+                    <%= render '/shared/form_actions' %>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

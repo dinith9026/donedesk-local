@@ -1,0 +1,19 @@
+<%= render 'employee_notes/warning' %>
+<table class="table table-striped">
+  <thead class="thead-inverse">
+    <tr>
+      <th width="900">Note</th>
+      <th>Created By</th>
+      <th>Created On</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% employee_record_presenter.employee_notes.each do |employee_note_presenter| %>
+    <tr>
+      <td><%= employee_note_presenter.html_body %></td>
+      <td><%= employee_note_presenter.creator_full_name %></td>
+      <td><%= employee_note_presenter.created_on %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

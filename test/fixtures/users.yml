@@ -1,0 +1,141 @@
+DEFAULTS: &DEFAULTS
+  encrypted_password: <%= TestPasswordHelper.default_password_digest %>
+  two_factor_enabled: false
+
+super_admin:
+  <<: *DEFAULTS
+  first_name: Sally
+  last_name: SuperAdmin
+  email: $LABEL@example.com
+  role: <%= User.roles[:super_admin] %>
+  remember_token: <%= Clearance::Token.new %>
+
+account_owner:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Oscar
+  last_name: Owner
+  email: $LABEL@example.com
+  role: <%= User.roles[:account_owner] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+another_account_owner:
+  <<: *DEFAULTS
+  account: brookside_dental
+  first_name: Owen
+  last_name: Owner
+  email: $LABEL@example.com
+  role: <%= User.roles[:account_owner] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+invited_account_owner:
+  <<: *DEFAULTS
+  account: invited
+  first_name: Ivan
+  last_name: Invited
+  email: $LABEL@example.com
+  role: <%= User.roles[:account_owner] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+account_manager:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Mary
+  last_name: Manager
+  email: $LABEL@example.com
+  role: <%= User.roles[:account_manager] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+account_manager_with_no_employee_record:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Mark
+  last_name: Manager
+  email: $LABEL@example.com
+  role: <%= User.roles[:account_manager] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+employee:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Ed
+  last_name: Employee
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+employee_with_no_employee_record:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Ezra
+  last_name: Employee
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+employee_with_assigned_track:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Employee
+  last_name: WithAssignedTracks
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+coworker:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Eric
+  last_name: Employee
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+for_employee_record_with_no_assigned_courses:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Uma
+  last_name: Thomas
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+terminated_employee:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Tom
+  last_name: Terminated
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+employee_with_no_employee_record:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  first_name: Employee
+  last_name: WithNoEmpRec
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }
+
+another_employee:
+  <<: *DEFAULTS
+  account: brookside_dental
+  first_name: Ellen
+  last_name: Employee
+  email: $LABEL@example.com
+  role: <%= User.roles[:employee] %>
+  remember_token: <%= Clearance::Token.new %>
+  settings: { send_compliance_summary_email: true }

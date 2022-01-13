@@ -1,0 +1,71 @@
+Monthly Compliance Summary
+==========
+
+= EXPIRED DOCUMENTS =
+
+<% if @summary.expired_documents.none? %>
+Congratulations! No expired documents.
+<% else %>
+<% @summary.expired_documents.each do |document| %>
+<%= document.expires_on.strftime('%m/%d/%Y') %> - <%= document.document_name %>
+-----
+<% end %>
+<% end %>
+
+
+= EXPIRED COURSES =
+
+<% if @summary.expired_course_assignments.none? %>
+Congratulations! No expired courses.
+<% else %>
+<% @summary.expired_course_assignments.each do |assignment| %>
+<%= assignment.expires_on.strftime('%m/%d/%Y') %> - <%= assignment.course_title %>
+-----
+<% end %>
+<% end %>
+
+
+= DOCUMENTS EXPIRING SOON =
+
+<% if @summary.expiring_documents.none? %>
+Congratulations! No documents expiring soon.
+<% else %>
+<% @summary.expiring_documents.each do |document| %>
+<%= document.expires_on.strftime('%m/%d/%Y') %> - <%= document.document_name %>
+-----
+<% end %>
+<% end %>
+
+
+= COURSES EXPIRING SOON =
+
+<% if @summary.expiring_course_assignments.none? %>
+Congratulations! No courses expiring soon.
+<% else %>
+<% @summary.expiring_course_assignments.each do |assignment| %>
+<%= assignment.expires_on.strftime('%m/%d/%Y') %> - <%= assignment.course_title %>
+-----
+<% end %>
+<% end %>
+
+= INCOMPLETE COURSES =
+
+<% if @summary.incomplete_course_assignments.none? %>
+Congratulations! No incomplete courses.
+<% else %>
+<% @summary.incomplete_course_assignments.each do |assignment| %>
+<%= assignment.course_title %> (<%= assignment_url(assignment) %> <%= due_in_or_past_due_x_days(assignment.days_until_due) %>
+-----
+<% end %>
+<% end %>
+
+= MISSING/REQUIRED DOCUMENTS =
+
+<% if @summary.missing_required_documents.none? %>
+Congratulations! No missing/required documents.
+<% else %>
+<% @summary.missing_required_documents.each do |document_type| %>
+<%= document_type.name %>
+-----
+<% end %>
+<% end %>

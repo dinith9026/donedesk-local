@@ -1,0 +1,128 @@
+<% current_account_presenter.when_show_plan_alert do %>
+  <%= render 'shared/plan_alert', plan_max_employees: current_account_presenter.plan_max_employees %>
+<% end %>
+
+<% @dashboard.when_no_employee_records_exist do %>
+  <div class="bs-callout-success mb-1">
+    <div class="media">
+      <div class="media-left media-middle bg-success px-2">
+        <i class="icon-smile white font-medium-5"></i>
+      </div>
+      <div class="media-body p-1">
+        <strong>Welcome to DoneDesk, <%= current_user.first_name %>!</strong>
+        <p>Your account is setup and ready to go. Get started by creating your first employee.</p>
+      </div>
+    </div>
+  </div>
+  <%= render 'employee_records/form', form: @dashboard.new_employee_record_form, action: 'New' %>
+<% end %>
+
+<% @dashboard.when_employee_records_exist do %>
+  <%= render 'dashboard/account_admins/action_buttons' %>
+
+  <div class="card">
+    <div class="card-body">
+      <%= form_tag(employee_records_url, method: :get, id: 'employee-search-form', class: '') do %>
+        <fieldset>
+          <div class="input-group">
+            <%= text_field_tag(
+                :employee_record_id,
+                nil,
+                { class: 'form-control input-lg employee-search-autocomplete',
+                  autofocus: true,
+                  placeholder: 'Search all employees...' }
+              )
+            %>
+          </div>
+        </fieldset>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="text-center mb-2">
+    <%= button_to('Re-calculate Dashboard Stats', jobs_path(job: 'calculate_compliance_stats'), class: 'btn btn-secondary btn-round btn-lg', data: { disable_with: 'Please wait...' }, disabled: @dashboard.disable_calc_stats_btn?) %>
+    <div class="text-muted font-small-2 mt-1">
+      Last calculated:
+      <% @dashboard.when_not_calculating_stats do %>
+        <%= @dashboard.stats_last_updated_at %> (calculated nightly)
+      <% end %>
+      <% @dashboard.when_calculating_stats do %>
+        <em>Calculating...refresh/revisit this page in a couple minutes!</em>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="card-block">
+        <%= render 'dashboard/compliance_percentages', dashboard: @dashboard %>
+      </div>
+    </div>
+  </div>
+
+  <section class="row match-height font-small-2">
+    <div class="col-12 col-xl-6">
+      <%= render 'dashboard/account_admins/missing_documents' %>
+    </div>
+    <div class="col-12 col-xl-6">
+      <%= render 'dashboard/account_admins/past_due_or_expired_assignments' %>
+    </div>
+  </section>
+
+  <section class="row match-height font-small-2">
+    <div class="col-12 col-xl-6">
+      <%= render 'dashboard/account_admins/expired_documents' %>
+    </div>
+    <div class="col-12 col-md-6">
+      <%= render 'dashboard/account_admins/due_soon_or_expiring_soon_assignments' %>
+    </div>
+  </section>
+
+  <section class="row match-height font-small-2">
+    <div class="col-12 col-xl-6">
+      <%= render 'dashboard/account_admins/expiring_documents' %>
+    </div>
+    <div class="col-12 col-md-6">
+    </div>
+  </section>
+
+  <%= render 'employee_records/select_employee_modal', employee_records: @dashboard.active_employee_records, modal_id: 'new-employee-document-modal', link_to_path: :new_document_path %>
+<% end %>
+
+<script>
+$(function() {
+  $(".employee-search-autocomplete").autocomplete({
+    autoFocus: true,
+    minLength: 2,
+    source: function (request, response) {
+      $.ajax({
+        url: '<%= employee_records_url %>',
+        dataType: 'json',
+        data: { search: request.term },
+        success: function(data) {
+          response(data);
+        }
+      });
+    },
+    select: function(event, ui) {
+      //assign value back to the form element
+      if(ui.item){
+        $(event.target).val(ui.item.value);
+      }
+      //submit the form
+      $(event.target.form).submit();
+    }
+  });
+
+  $('#employee-search-form').submit(function(e) {
+    e.preventDefault();
+
+    var employee_record_id = $('.employee-search-autocomplete').val();
+    var url = '/employee_records/' + employee_record_id
+
+    window.location.href = url;
+
+    return false;
+  });
+});
+</script>

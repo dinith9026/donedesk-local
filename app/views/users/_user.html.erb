@@ -1,0 +1,71 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">
+      User Profile/Login
+    </h4>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th class="text-right width-250">Photo</th>
+          <td><%= image_tag user_avatar_url(user_presenter.user), size: 44, class: 'rounded-circle' %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Email</th>
+          <td><%= user_presenter.email %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Name</th>
+          <td><%= user_presenter.full_name %></td>
+        </tr>
+        <% user_presenter.when_user_can_view(:two_factor_enabled) do %>
+          <tr>
+            <th class="text-right">
+              <acronym title="Two-Factor Authentication">2FA</acronym> Enabled
+              <a href="javascript:void();"
+                data-toggle="popover"
+                data-content="If set, will override the account or system default setting"
+                data-trigger="click"
+                data-placement="bottom"
+              ><i class="icon icon-help-circled"></i></a>
+            </th>
+            <td>
+              <%= user_presenter.two_factor_enabled? %> <%= user_presenter.parent_two_factor_setting %><br />
+              <% user_presenter.when_two_factor_required do %>
+                <small class="text-success"><i class="icon-check2"></i> 2FA will be required at login</small>
+              <% end %>
+              <% user_presenter.when_two_factor_not_required do %>
+                <small class="text-danger"><i class="icon-warning"></i> 2FA will NOT be required at login</small>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        <% user_presenter.when_password_reset_token_present do %>
+          <tr>
+            <th class="text-right">
+              Password Reset URL
+              <a href="javascript:void();"
+                data-toggle="popover"
+                data-content="If a user is not receiving the password reset email, you can directly email them this URL."
+                data-trigger="click"
+                data-placement="bottom"
+              ><i class="icon icon-help-circled"></i></a>
+            </th>
+            <td><%= user_presenter.password_reset_url %></p></td>
+          </tr>
+        <% end %>
+        <tr>
+          <th></th>
+          <td>
+            <% user_presenter.when_user_can(:edit) do %>
+              <%= link_to user_presenter.edit_path, class: 'btn btn-primary' do %>
+                <i class="icon-pen3 white"></i> Edit
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

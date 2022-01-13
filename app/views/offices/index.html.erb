@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Offices</h4>
+        <div class="heading-elements">
+          <%= button_to @offices_presenter.new_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> New Office
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Name</th>
+                  <th class="text-center"># Employees</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th class="text-right" width="60" data-orderable="false">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @offices_presenter.each do |office_presenter| %>
+                <tr>
+                  <td><%= link_to office_presenter.name, office_presenter.show_path %></td>
+                  <td class="text-center"><%= office_presenter.employed_employees_count %></td>
+                  <td><%= office_presenter.phone %></td>
+                  <td><%= office_presenter.street_address %></td>
+                  <td class="text-right">
+                    <%= render layout: '/shared/dropdown_layout' do %>
+                      <%= render 'actions', office_presenter: office_presenter %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Delete this office?', id: 'confirm-delete-modal' } do %>
+  <%= render layout: '/shared/callout_layout', locals: { type: 'warning', icon: 'warning' } do %>
+    <div><strong class="modal-office-name"></strong></div>
+  <% end %>
+
+  <div>
+    <%= form_tag('/offices', method: :delete, id: 'delete-office-form') do |f| %>
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag type: 'submit', class: 'btn btn-danger' do %>
+          <i class="icon-trash"></i> Delete
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.delete-btn').on('click', function(e){
+  var officeId = $(this).data('office-id');
+  var officeName = $(this).data('office-name');
+
+  $('#delete-office-form').attr('action', '/offices/' + officeId);
+  $('.modal-office-name').html(officeName);
+});
+</script>

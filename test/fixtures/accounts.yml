@@ -1,0 +1,14 @@
+oceanview_dental:
+  name: Oceanview Dental
+  time_tracking: true
+  compliance_stats_last_updated_at: <%= Time.now.to_s(:db) %>
+
+brookside_dental:
+  name: Brookside Dental
+  time_tracking: false
+  compliance_stats_last_updated_at: <%= Time.now.to_s(:db) %>
+
+invited:
+  name: Invited Account
+  invite_token: <%= Clearance::Token.new %>
+  compliance_stats_last_updated_at: <%= Time.now.to_s(:db) %>

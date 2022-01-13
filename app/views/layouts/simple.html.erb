@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" data-textdirection="ltr" class="loading">
+  <head>
+    <%= render "shared/common-head" %>
+    <title><%= t 'app_name' %></title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body data-open="click" data-menu="vertical-menu" data-col="1-column" class="vertical-layout vertical-menu 1-column  blank-page blank-page">
+    <div class="app-content content container-fluid">
+      <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+
+        <div class="content-body">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    <%= render 'shared/stripe_js' %>
+    <%= javascript_include_tag 'nonblocking' %>
+  </body>
+</html>

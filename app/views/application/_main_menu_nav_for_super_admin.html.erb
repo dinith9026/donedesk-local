@@ -1,0 +1,9 @@
+<%= nav_link(request.path, t('.accounts'), accounts_path, 'menu-title', 'building-o') if policy(Account).index? %>
+<%= nav_link(request.path, 'Doc Group Presets', document_group_presets_path, 'menu-title', 'sliders') if policy(DocumentGroupPreset).index? %>
+<%= nav_link(request.path, 'Track Presets', track_presets_path, 'menu-title', 'sliders') if policy(TrackPreset).index? %>
+
+<li class="navigation-header">
+  <span><small><%= current_account.name %></small></span>
+</li>
+
+<%= render 'main_menu_nav_for_account_admins' %>

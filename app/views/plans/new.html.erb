@@ -1,0 +1,42 @@
+<%= form_for @form, url: account_plans_path(@account) do |f| %>
+  <section class="row match-height">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control">
+            New Plan
+            <small class="text-muted">
+              <span class="text-lowercase">for</span>
+              <strong><%= @account.name %></em></strong>
+            </small>
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="form-body">
+                <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                <%= render 'plans/form_fields', f: f %>
+
+                <%= render '/shared/form_actions' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Current Plan</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <%= render 'plans/plan', plan: @account.plan %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>

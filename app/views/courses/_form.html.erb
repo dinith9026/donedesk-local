@@ -1,0 +1,202 @@
+<%= form_for @form, html: { class: 'direct-upload', id: 'course-form', data: { 'material-form-data' => (@form.material_presigned_post.fields), 'material-presigned-post-url' => @form.material_presigned_post.url, 'supplement-form-data' => (@form.supplement_presigned_post.fields) } } do |f| %>
+
+  <%= f.hidden_field :material_s3_key %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Course</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                    <% @form.when_user_can_edit(:is_canned) do %>
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label class="form-check-label">
+                            <%= f.check_box :is_canned, { checked: @form.is_canned?, class: 'form-check-input' } %>
+                            Make available to all accounts
+                          </label>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <% @form.when_user_can_edit(:certificate_type) do %>
+                      <div class="form-group">
+                        <%= f.label :certificate_type %>
+                        <%= f.select :certificate_type, Course.certificate_types.keys.map { |w| [w.humanize.upcase, w] }, {}, { class: 'form-control' } %>
+                      </div>
+                    <% end %>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :title %>
+                          <%= f.text_field :title, class: 'form-control' %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :code, 'Code <em><small>(optional)</small>'.html_safe %></em>
+                          <%= f.text_field :code, class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :description, 'Description  <em><small>(optional)</small></em>'.html_safe %>
+                      <%= f.text_field :description, class: 'form-control' %>
+                    </div>
+
+                    <% @form.when_user_can_edit(:is_canned) do %>
+                      <div class="form-group">
+                        <%= f.label :states, 'States <em><small>(optional)</small></em>'.html_safe %>
+                        <div class="form-group">
+                          <%= f.select :states, us_states, { include_hidden: false }, { data: { actions_box: true, icon_base: 'icon', tick_icon: 'icon-check', dropup_auto: false, size: 5 }, class: 'selectpicker form-control', multiple: true, title: "" } %>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :compliance_expiration_in_days, 'Compliance expires' %>
+                          <%= f.select :compliance_expiration_in_days, Course.compliance_expiration_in_days.keys.map { |w| [w.humanize, w] }, {}, { class: 'form-control' } %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= f.label :days_due_within, 'Days due within <em><small>(optional)</small></em>'.html_safe %>
+                          <%= f.number_field :days_due_within, class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :max_test_retakes %>
+                          <%= f.number_field :max_test_retakes, class: 'form-control' %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group is-required">
+                          <%= f.label :passing_threshold_percentage, 'Passing threshold %' %>
+                          <%= f.number_field :passing_threshold_percentage, class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group is-required">
+                      <label for="course_material">Material <em><small>(allowed: PDF or video)</small></em> <i class="icon icon-info text-primary" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<%= file_exts_from_mime_types(Course::ALLOWED_FILE_TYPES).join(', ') %>"></i></label>
+                      <%= f.file_field :material, class: 'form-control', accept: Course::ALLOWED_FILE_TYPES.join(',') %>
+                      <div id="course-material-progress-bar-container">
+                        <progress class="progress progress-striped progress-primary" value="0" max="100" id="course-material-progress-bar"></progress>
+                        <div><small><em id="course-material-progress-bar-caption">Uploading, please wait. This could take a several minutes.</em></small></div>
+                      </div>
+                      <div id="course-material-upload-success">
+                        <i class="icon-check success"></i> <span class="text-success">Uploaded <strong id="course-material-filename"><%= @form.material_file_name %></strong></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="course_supplements">Supplements <i class="icon icon-info text-primary" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<%= file_exts_from_mime_types(Course::ALLOWED_SUPPLEMENT_TYPES).join(', ') %>"></i> <em><small>(optional)</small></em> </label>
+                      <div class="dropzone" id="uploader"></div>
+                    </div>
+
+                    <%= render '/shared/form_actions' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  var keys = [];
+
+  <% @form.supplements.each do |supplement| %>
+    keys.push('<%= supplement %>');
+  <% end %>
+
+  $(function() {
+    Dropzone.autoDiscover = false;
+
+    var myDropzone = new Dropzone('#uploader', {
+      url: "<%= @form.supplement_presigned_post.url %>",
+      createImageThumbnails: false,
+      addRemoveLinks: true,
+      maxFiles: 10,
+      acceptedFiles: "<%= Course::ALLOWED_SUPPLEMENT_TYPES.join(',') %>",
+      dictResponseError: 'Upload failed. Please try again in a few minutes.',
+      init: function () {
+        <% @form.detailed_supplements.each do |detailed_supplement| %>
+          var mockFile = {
+            name: '<%= detailed_supplement[:name] %>',
+            size: '<%= detailed_supplement[:size] %>',
+            type: '<%= detailed_supplement[:type] %>',
+            accepted: true,
+            s3_key: '<%= detailed_supplement[:s3_key] %>'
+          };
+          this.files.push(mockFile); // Add to files array
+          this.emit("addedfile", mockFile);
+          this.emit("complete", mockFile);
+      <% end %>
+      }
+    });
+
+    myDropzone.on('success', function(file, request) {
+      var resp = $.parseXML(request);
+      var filePath = $(resp).find('Key').text();
+      file.s3_key = filePath;
+      keys.push(filePath);
+    });
+
+    myDropzone.on('sending', function(file, xhr, formData) {
+      var presignedPostFields = $('#course-form').data('supplement-form-data');
+
+      $.each(presignedPostFields, function(field, value) {
+        formData.append(field, value);
+      });
+
+      formData.append('Content-Type', file.type);
+    });
+
+    myDropzone.on('removedfile', function(file) {
+      var index = keys.indexOf(file.s3_key);
+      if (index > -1) {
+        keys.splice(index, 1);
+      }
+
+      $.ajax({
+        url: '/supplements/' + file.s3_key,
+        type: 'DELETE'
+      });
+    });
+
+    $('#course-form').submit(function(e) {
+      $.each(keys, function(i, v){
+        var input = $("<input>").attr({"type":"hidden","name":"course[supplements][]"}).val(v);
+        $('#course-form').append(input);
+      });
+    });
+  });
+
+  function keepAlive() {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('GET', '/');
+    httpRequest.send(null);
+  }
+
+  setInterval("keepAlive()", <%= keep_alive_interval_in_milliseconds %>);
+</script>

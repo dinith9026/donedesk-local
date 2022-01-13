@@ -1,0 +1,28 @@
+<tr>
+  <td class="pt-1 pl-0 pb-0">
+    <div class="checkbox">
+      <label for="document_types_groupings_id_<%= document_type.id %>" class="form-check-label">
+        <%= check_box_tag "document_group[document_types_groupings][][document_type_id]",
+                          document_type.id,
+                          document_types_groupings.map(&:document_type_id).include?(document_type.id),
+                          {
+                            id: "document_types_groupings_id_#{document_type.id}",
+                            class: 'document-type-checkbox',
+                            data: { document_type_id: document_type.id }
+                          } %>
+        <%= document_type_display_name(document_type) %>
+      </label>
+    </div>
+  </td>
+  <td width="190" class="pt-1 pl-0 pb-0">
+    <div class="checkbox ml-1 mb-1">
+      <label for="document_types_groupings_required_<%= document_type.id %>" class="form-check-label">
+        <%= check_box_tag "document_group[document_types_groupings][][required]",
+                          true,
+                          document_types_groupings.find { |dtg| dtg.document_type_id == document_type.id }&.required,
+                          { id: "document_types_groupings_required_#{document_type.id}" } %>
+        Required
+      </label>
+    </div>
+  </td>
+</tr>

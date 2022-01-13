@@ -1,0 +1,11 @@
+<%= render @assignment_presenter.material_content_partial %>
+
+<script type="text/javascript">
+function keepAlive() {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('GET', '/');
+    httpRequest.send(null);
+}
+
+setInterval("keepAlive()", <%= keep_alive_interval_in_milliseconds %>);
+</script>

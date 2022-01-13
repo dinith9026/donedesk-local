@@ -1,0 +1,95 @@
+oceanview_handbook_for_employee:
+  course: oceanview_handbook
+  employee_record: ed
+
+oceanview_ed_expired:
+  course: with_expiration
+  employee_record: ed
+
+oceanview_deactived_for_ed:
+  course: canned_deactivated
+  employee_record: ed
+
+oceanview_eric_expiring:
+  course: with_expiration
+  employee_record: eric
+
+oceanview_passed:
+  course: oceanview_passed
+  employee_record: ed
+
+oceanview_handbook_for_eric:
+  course: oceanview_handbook
+  employee_record: eric
+
+oceanview_handbook_for_account_manager:
+  course: oceanview_handbook
+  employee_record: mary
+
+oceanview_canned_for_account_manager:
+  course: canned
+  employee_record: mary
+
+oceanview_handbook_for_employee_with_assigned_track:
+  course: oceanview_handbook
+  employee_record: with_assigned_track
+
+for_course_belonging_to_unassigned_track:
+  course: belonging_to_unassigned_track
+  employee_record: ed
+
+canned_for_employee_with_assigned_track:
+  course: canned
+  employee_record: with_assigned_track
+
+canned_for_texas_for_employee_with_assigned_track:
+  course: canned_for_texas
+  employee_record: with_assigned_track
+
+oceanview_deactivated_for_employee_with_assigned_track:
+  course: oceanview_deactivated
+  employee_record: with_assigned_track
+
+oceanview_for_course_not_belonging_to_any_tracks:
+  course: not_belonging_to_any_tracks
+  employee_record: ed
+
+oceanview_ed_for_course_belonging_to_only_one_track:
+  course: belonging_to_only_one_track
+  employee_record: ed
+
+oceanview_eric_for_course_belonging_to_only_one_track:
+  course: belonging_to_only_one_track
+  employee_record: eric
+
+oceanview_mary_for_course_belonging_to_only_one_track:
+  course: belonging_to_only_one_track
+  employee_record: mary
+
+oceanview_ed_incomplete:
+  course: for_oceanview_with_incomplete_assignment
+  employee_record: ed
+
+oceanview_mary_incomplete:
+  course: for_oceanview_with_incomplete_assignment
+  employee_record: mary
+
+brookside_handbook:
+  course: brookside_handbook
+  employee_record: ellen
+
+oceanview_canned:
+  course: canned
+  employee_record: ed
+
+oceanview_canned_for_eric:
+  course: canned
+  employee_record: eric
+
+brookside_canned:
+  course: canned
+  employee_record: ellen
+
+oceanview_canned_tx_for_mary:
+  course: canned_for_texas
+  employee_record: mary

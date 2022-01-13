@@ -1,0 +1,50 @@
+<%= render '/users/user', user_presenter: @user_presenter %>
+
+<% unless current_user.super_admin? %>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        Settings
+      </h4>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th class="text-right width-250">Compliance Summary Emails</th>
+            <td>
+              <%= check_box_tag :send_compliance_summary_email,
+                        true,
+                        @user_presenter.send_compliance_summary_email,
+                        class: 'js-switch send-compliance-summary-email-switch',
+                        data: { user_id: @user_presenter.id } %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+$(function() {
+  $('.send-compliance-summary-email-switch').on('change', function(e) {
+    var userId = $(this).data('user-id');
+
+    $.ajax({
+      url: '/settings',
+      type: 'PUT',
+      data: { settings: { send_compliance_summary_email: $(this).is(':checked') }},
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert('Error: request failed.');
+      }
+    });
+  });
+
+  var elems = Array.prototype.slice.call(document.querySelectorAll('.send-compliance-summary-email-switch'));
+
+  elems.forEach(function(html) {
+    var switchery = new Switchery(html, { size: 'small' });
+  });
+});
+</script>

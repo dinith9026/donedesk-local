@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          Time Entries
+          <small>
+            <span class="text-lowercase">for</span>
+            <%= @time_entries_presenter.date %>
+          </small>
+        </h4>
+        <div class="heading-elements">
+          <% @time_entries_presenter.when_user_can(:new_time_entry) do %>
+            <%= button_to @time_entries_presenter.new_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus4 white"></i> New Time Entry
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" id="time-entries-table" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Employee</th>
+                  <th>Type</th>
+                  <th>Time</th>
+                  <% @time_entries_presenter.when_user_can_manage_entries do %>
+                    <th class="text-right" width="60" data-orderable="false">Actions</th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody>
+              <% @time_entries_presenter.each do |time_entry_presenter| %>
+                <tr>
+                  <td><%= time_entry_presenter.employee_record_full_name %></td>
+                  <td><%= time_entry_presenter.entry_type %></td>
+                  <td><%= time_entry_presenter.occurred_at_in_zone %></td>
+                  <% @time_entries_presenter.when_user_can_manage_entries do %>
+                    <td class="text-right">
+                      <%= render layout: '/shared/dropdown_layout' do %>
+                        <% time_entry_presenter.when_user_can(:edit) do %>
+                          <%= link_to edit_time_entry_path(time_entry_presenter.id, date: @time_entries_presenter.date_param), class: 'dropdown-item' do %>
+                            <i class="icon-pen3"></i> Edit
+                          <% end %>
+                        <% end %>
+                        <% time_entry_presenter.when_user_can(:destroy) do %>
+                          <%= link_to time_entry_path(time_entry_presenter.id, date: @time_entries_presenter.date_param), method: :delete, class: 'dropdown-item danger', data: { confirm: 'Are you sure?' } do %>
+                            <i class="icon-trash danger"></i> Delete
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

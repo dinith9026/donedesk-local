@@ -1,0 +1,6 @@
+<div class="form-actions">
+  <%= button_tag type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Saving...' } do %>
+    <i class="icon-<%= local_assigns.has_key?(:btn_icon) ? btn_icon : 'check2' %>"></i> <%= local_assigns.has_key?(:btn_text) ? btn_text : 'Save' %>
+  <% end %>
+  <%= link_to 'Cancel', smart_back_path, class: 'btn btn-secondary' %>
+</div>

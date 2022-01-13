@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block card-dashboard">
+          <%= render '/contacts/details' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block card-dashboard">
+          <div class="row">
+            <div class="col-md-6"><h3>Notes</h3></div>
+            <div class="col-md-6">
+              <%= link_to "/contact_note/#{@contact_details.id}/note", class: "btn btn-sm btn-primary float-right" do %>
+                <i class="icon-plus4 white"></i> New Note
+              <% end %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Note</th>
+                    <th scope="col">mm/dd/yyyy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @contact_details.contact_notes.each do |note| %>
+                    <tr>
+                      <td><%= note.note %></td>
+                      <td><%= note.created_at.strftime('%m/%d/%Y') %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-md-6"><h3>Related Documents</h3></div>
+            <div class="col-md-6">
+              <%= link_to "/contacts/#{@contact_details.id}/note", class: "btn btn-sm btn-primary float-right" do %>
+                <i class="icon-plus4 white"></i> New Document
+              <% end %>
+            </div>
+            <div class="col-md-12 mt-2">
+              <% @contact_details.document.each do |doc| %>
+                <li><%= doc.filename %>&nbsp;&nbsp;<%= link_to "View", doc, target: :_blank %></li>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

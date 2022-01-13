@@ -1,0 +1,33 @@
+DEFAULTS: &DEFAULTS
+  city: San Antonio
+  state: TX
+  zip: 78205
+  phone: 2105554321
+
+oceanview_tx:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  name: $LABEL
+  street_address: 1 Oceanview Drive
+  address2: Suite 1
+  tracks_time: true
+  document_group: oceanview_default_for_offices
+
+oceanview_oh:
+  <<: *DEFAULTS
+  account: oceanview_dental
+  name: $LABEL
+  street_address: 5 Circle Road
+  address2: Suite 7
+  state: OH
+  tracks_time: false
+  document_group: oceanview_default_for_offices
+
+brookside:
+  <<: *DEFAULTS
+  account: brookside_dental
+  name: $LABEL
+  street_address: 9 Brookside Drive
+  address2: Suite 9
+  tracks_time: true
+  document_group: brookside_default_for_offices

@@ -1,0 +1,19 @@
+oceanview_past_due:
+  assignment: oceanview_handbook_for_employee
+  status: new
+  due_date: <%= 1.day.ago %>
+
+oceanview_due_soon:
+  assignment: oceanview_eric_expiring
+  status: new
+  due_date: <%= Date.current %>
+
+brookside_past_due:
+  assignment: brookside_handbook
+  status: new
+  due_date: <%= 1.day.ago %>
+
+brookside_due_soon:
+  assignment: brookside_canned
+  status: new
+  due_date: <%= Date.current %>

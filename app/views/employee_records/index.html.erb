@@ -1,0 +1,25 @@
+<% current_account_presenter.when_show_plan_alert do %>
+  <%= render 'shared/plan_alert', plan_max_employees: current_account_presenter.plan_max_employees %>
+<% end %>
+
+<% current_account_presenter.when_invites_pending do %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render 'pending_invites' %>
+    </div>
+  </div>
+<% end %>
+
+<% @employee_records_presenter.when_employee_records_pending do %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render 'pending_employee_records', employee_records_presenter: @employee_records_presenter %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <%= render 'table', employee_records_presenter: @employee_records_presenter %>
+  </div>
+</div>

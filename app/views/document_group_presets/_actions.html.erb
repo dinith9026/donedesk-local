@@ -1,0 +1,12 @@
+<%= render layout: '/shared/dropdown_layout' do %>
+  <%= link_to edit_document_group_preset_path(document_group_preset), class: 'dropdown-item' do %>
+    <i class="icon-pen3"></i> Edit
+  <% end %>
+  <%= link_to document_group_preset_path(document_group_preset), class: 'dropdown-item' do %>
+    <i class="icon-eye6"></i> View
+  <% end %>
+  <div class="dropdown-divider"></div>
+  <%= link_to document_group_preset_path(document_group_preset), method: :delete, class: 'dropdown-item danger', data: { confirm: 'Are you sure?' } do %>
+    <i class="icon-trash danger"></i> Delete
+  <% end %>
+<% end %>

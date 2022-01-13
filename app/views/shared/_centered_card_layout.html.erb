@@ -1,0 +1,18 @@
+<div class="<%= local_assigns[:grid_classes].presence || 'col-md-4 offset-md-4' %> col-sm-10 offset-sm-1  box-shadow-2 p-0">
+  <div class="card border-grey border-lighten-3 m-0">
+    <div class="card-header no-border">
+      <div class="card-title text-xs-center">
+        <%= image_tag("logo/donedesk-blue.png", alt: t('logo_alt'), width: 300, style: "padding: 1rem") %>
+      </div>
+      <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span><%= heading %></span></h6>
+      <%= render 'shared/flash' %>
+    </div>
+    <div class="card-body collapse in">
+      <div class="card-block">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="card-footer">
+    </div>
+  </div>
+</div>

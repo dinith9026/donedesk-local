@@ -1,0 +1,17 @@
+<section class="flexbox-container">
+  <%= render layout: '/shared/centered_card_layout', locals: { heading: 'Choose a new password' } do %>
+    <p class="font-small-3">Enter a new password for <strong><%= @user.email %></strong></p>
+    <%= form_for :password_reset, url: user_password_path(@user, token: @user.confirmation_token), html: { method: :put, id: 'sign-in-form', class: 'form-horizontal' } do |f| %>
+
+      <div class="form-group mb-1">
+        <%= f.password_field :password, class: 'form-control form-control-lg input-lg', placeholder: 'Password', required: true, autofocus: true %>
+      </div>
+
+      <%= render '/passwords/requirements_list' %>
+
+      <%= render '/passwords/strength_estimate' %>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> Submit</button>
+    <% end %>
+  <% end %>
+</section>

@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-header mb-1">
+    <h4 class="card-title">
+      Chat Terms
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="card-block">
+      For inter-office business chat only. No patient information should be shared or discussed via this chat.
+
+      <%= form_tag(accept_chat_terms_url, method: :put) do %>
+        <div class="form-actions">
+          <%= button_tag type: 'submit', class: 'btn btn-success', data: { disable_with: 'Please wait...' } do %>
+            <i class="icon-check2"></i> I agree
+          <% end %>
+          <%= link_to 'Cancel', root_url, class: 'btn btn-secondary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

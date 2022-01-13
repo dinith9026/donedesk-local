@@ -1,0 +1,2 @@
+class AssignmentsPresenter < CollectionPresenter
+end

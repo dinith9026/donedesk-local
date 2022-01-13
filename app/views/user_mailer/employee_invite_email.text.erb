@@ -1,0 +1,20 @@
+Hello <%= @user.first_name %>,
+
+Your employer, <%= @user.account_name %>, just signed you up for Done Desk. You can say goodbye to lost paperwork and hello to awesome training!
+
+Hurry up! Just visit this link to get started as a Done Desk user:
+
+<%= edit_user_password_url(@user, token: @user.confirmation_token.html_safe) %>
+
+<% if @assigned_tracks.any? %>
+  You've also been assigned <%= pluralize(@assigned_tracks.size, 'learning track') %>:
+  <% @assigned_tracks.each do |assigned_track| %>
+    - <%= link_to assigned_track.track_name, assignments_url %>
+  <% end %>
+<% end %>
+
+Check out a super cool video to show you what Done Desk is all about!
+
+https://donedesk.wistia.com/medias/y1p61kycy5
+
+If you have any questions please speak with your office manager or you can send us an email at support@donedesk.com.

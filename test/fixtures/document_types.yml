@@ -1,0 +1,40 @@
+w4:
+  name: "W-4 <%= SecureRandom.hex %>"
+  applies_to: 'employees'
+
+cpr_certification:
+  name: "CPR Certification <%= SecureRandom.hex %>"
+  applies_to: 'employees'
+
+osha_certification:
+  name: "OSHA Certification <%= SecureRandom.hex %>"
+  applies_to: 'employees'
+
+agreements:
+  name: "Agreements <%= SecureRandom.hex %>"
+  applies_to: 'employees'
+
+office_maintenance_checklist:
+  name: "Maintenance Checklist <%= SecureRandom.hex %>"
+  applies_to: 'offices'
+
+oceanview_performance_review:
+  name: "Performance Review <%= SecureRandom.hex %>"
+  account: oceanview_dental
+  applies_to: 'employees'
+
+oceanview_confidential:
+  name: "Confidential Documents <%= SecureRandom.hex %>"
+  account: oceanview_dental
+  is_confidential: true
+  applies_to: 'employees'
+
+oceanview_required:
+  name: "Required Documents <%= SecureRandom.hex %>"
+  account: oceanview_dental
+  applies_to: 'employees'
+
+brookside_performance_review:
+  name: "Performance Review <%= SecureRandom.hex %>"
+  account: brookside_dental
+  applies_to: 'employees'

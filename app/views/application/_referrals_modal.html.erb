@@ -1,0 +1,24 @@
+<%= render layout: '/shared/modal', locals: { title: 'Refer a few friends', id: 'referrals-modal' } do %>
+  <p>We'll reach out and let them know you sent us!</p>
+
+  <div id="referrals-result"></div>
+
+  <%= form_tag(referrals_path, id: 'referrals-form', remote: true) do %>
+    <div class="card card-block bg-faded">
+      <%= fields_for 'referrals[]', Referral.new do |r| %>
+        <%= render 'referrals/fields', r: r, index: 1, required: false %>
+
+        <% [2,3].each.with_index do |index| %>
+          <%= render 'referrals/fields', r: r, index: index, required: false %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="form-actions right">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        Cancel
+      </button>
+      <%= button_tag 'Submit Referrals', type: 'submit', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+<% end %>
+

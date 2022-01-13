@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title" id="basic-layout-colored-form-control">
+      <%= office_presenter.name %>
+    </h3>
+    <div class="heading-elements">
+      <%= render layout: '/shared/dropdown_layout' do %>
+        <%= render 'offices/actions', office_presenter: office_presenter %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th class="text-right width-25-per">Document Group</th>
+          <td><%= link_to office_presenter.document_group_name, office_presenter.document_group_show_path %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Phone</th>
+          <td><%= office_presenter.phone %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Street Address</th>
+          <td><%= office_presenter.street_address %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Address 2</th>
+          <td><%= office_presenter.address2 %></td>
+        </tr>
+        <tr>
+          <th class="text-right">City</th>
+          <td><%= office_presenter.city %></td>
+        </tr>
+        <tr>
+          <th class="text-right">State</th>
+          <td><%= office_presenter.state %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Zip</th>
+          <td><%= office_presenter.zip %></td>
+        </tr>
+        <tr>
+          <th class="text-right">Time Zone</th>
+          <td><%= office_presenter.time_zone %></td>
+        </tr>
+        <% office_presenter.when_time_tracking_enabled_for_account do %>
+          <tr>
+            <th class="text-right">Time Tracking Enabled?</th>
+            <td><%= office_presenter.tracks_time? %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <th></th>
+          <td>
+            <% office_presenter.when_user_can(:edit) do %>
+              <%= link_to office_presenter.edit_path, class: 'btn btn-primary' do %>
+                <i class="icon-pen3 white"></i> Edit
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

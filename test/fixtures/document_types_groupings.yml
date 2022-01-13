@@ -1,0 +1,24 @@
+default_required:
+  document_type: w4
+  document_group: oceanview_default
+  required: true
+
+default_required_2:
+  document_type: oceanview_performance_review
+  document_group: oceanview_default
+  required: true
+
+default_required_oceanview:
+  document_type: oceanview_required
+  document_group: oceanview_default
+  required: true
+
+default_required_confidential_oceanview:
+  document_type: oceanview_confidential
+  document_group: oceanview_default
+  required: true
+
+default_optional:
+  document_type: cpr_certification
+  document_group: oceanview_default
+  required: false

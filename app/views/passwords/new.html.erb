@@ -1,0 +1,14 @@
+<section class="flexbox-container">
+  <%= render layout: '/shared/centered_card_layout', locals: { heading: 'Reset your password' } do %>
+    <p><%= t('passwords.new.description') %></p>
+    <%= form_for :password, url: passwords_path, html: { id: 'sign-in-form', class: 'form-horizontal' } do |f| %>
+      <div class="form-group position-relative has-icon-left mb-1">
+        <%= f.text_field :email, class: 'form-control form-control-lg input-lg', placeholder: 'Email', required: true, autofocus: true %>
+        <div class="form-control-position">
+          <i class="icon-head"></i>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> Submit</button>
+    <% end %>
+  <% end %>
+</section>

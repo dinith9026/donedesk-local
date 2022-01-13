@@ -1,0 +1,2 @@
+class OfficeDocumentsPresenter < CollectionPresenter
+end

@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Courses</h4>
+        <div class="heading-elements">
+          <%= link_to @courses_presenter.new_path, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> New Course
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-actions">
+            <div class="row">
+              <div class="col-md-7">
+                <span class="pr-1 text-muted">Filter by:</span>
+                <% ['all', 'my courses', 'other courses'].each do |status| %>
+                  <span class="pr-1">
+                    <% if (params[:status] || 'all') == status && !params[:search].present? %>
+                      <%= status.titleize %>
+                    <% else %>
+                      <%= link_to status.titleize, courses_url(status: status)  %>
+                    <% end %>
+                  </span>
+                <% end %>
+              </div>
+              <div class="col-md-5 text-right">
+                <form class="form-inline" method="get">
+                  <label class="text-muted" for="search">Search:</label>
+                  <input type="text" class="form-control form-control-sm" id="search" name="search" value="<%= params[:search] %>">
+                  <button type="submit" class="btn btn-primary btn-sm">Go</button>
+                  <% if params[:search].present? %>
+                    <%= link_to 'x clear search', courses_url, class: 'text-danger' %>
+                  <% end %>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead class="thead-inverse">
+                <%= render 'thead' %>
+              </thead>
+              <tbody>
+                <%= render partial: 'row',
+                           collection: @courses_presenter,
+                           as: :course_presenter,
+                           locals: { row_classes: '' } %>
+              </tbody>
+            </table>
+            <div class="text-right"><%= paginate @courses_presenter, params: { status: params[:status] } %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

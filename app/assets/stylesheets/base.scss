@@ -1,0 +1,239 @@
+$donedesk-blue: #29c4f0;
+
+// Default bootstrap variables
+@import "theme/bootstrap/variables";
+
+// Theme bootstrap variables override
+@import "theme/core/variables/variables";
+@import "theme/core/variables/app-variables";
+@import "theme/core/mixins/transitions";
+
+// App bootstrap variables override
+@import "variables/variables";
+@import "variables/app-variables";
+
+$menu-dark-bg: #526671;
+
+@import "theme/bootstrap";
+@import "theme/bootstrap-extended";
+@import "bootstrap-select";
+@import "theme/fonts/icomoon";
+@import "sliders/slick/slick";
+@import "extensions/pace";
+@import "ui/jquery-ui.min";
+@import "ui/dragula.min";
+@import "pickers/datetime/bootstrap-datetimepicker";
+@import "forms/toggle/switchery.min";
+@import "file-uploaders/dropzone.min";
+@import "theme/fonts/flag-icon/flag-icon";
+@import "theme/app";
+@import "theme/colors";
+@import "theme/core/colors/palette-callout";
+@import "style";
+@import "theme/core/menu/menu-types/vertical-menu";
+@import "theme/core/menu/menu-types/vertical-overlay-menu";
+@import "theme/pages/login-register";
+@import "theme/pages/project";
+@import "theme/plugins/file-uploaders/dropzone";
+@import "dataTables.bootstrap4";
+@import "rowGroup.dataTables.min";
+@import "jquery.password-requirements-checker";
+@import "forms/icheck/square/green";
+@import "forms/icheck/custom";
+
+@import "pw-strength";
+
+/* Ensure there's plenty of space between the sticky footer and page content. */
+html body .content .content-wrapper {
+  padding-bottom: 6rem;
+}
+
+.icon {
+  width: 24px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.actions-col {
+  width: 135px;
+}
+
+.field_with_errors {
+  @extend .has-danger;
+}
+
+.radio .field_with_errors {
+  display: inline-block;
+}
+
+.table-responsive {
+  padding-bottom: 20rem; /* Account for actions drop down height */
+}
+
+.table-responsive.no-dropdowns {
+  padding-bottom: 2rem;
+}
+
+abbr[title],
+abbr[data-original-title] {
+  text-decoration: none;
+}
+
+.icon-blank:before {
+  content: "\eb2a";
+  color: transparent !important;
+}
+
+.scrollable-dashboard-table {
+  height: 175px;
+  overflow: scroll;
+}
+
+/* Fix fields getting cut off */
+form .form-body {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.no-shadow { box-shadow: none !important; }
+
+.list-style-disc { list-style-type: disc; }
+
+#video-material {
+  width: 100%;
+  height: auto;
+}
+
+.terms-container {
+  height: 300px;
+  overflow: scroll;
+}
+
+.progress {
+  margin-bottom: 0.2rem;
+}
+
+.StripeElement {
+  @extend .form-control;
+  @extend .form-control-lg;
+  @extend .input-lg;
+}
+
+.popover{
+  max-width: 100%;
+}
+
+.bootstrap-select .btn-default {
+  border-color: #ccc;
+}
+
+.field_with_errors .bootstrap-select .btn-default{
+  border-color: #DA4453;
+}
+
+.bootstrap-select .dropdown-menu > li > a {
+  clear: both;
+  padding: 5px 20px;
+  white-space: nowrap;
+  color: #414141;
+}
+
+.assignable-employees ul {
+  list-style: none;
+}
+
+.sublist-toggler {
+  cursor: pointer;
+}
+
+/**
+ * Prevent navbar from overlapping the drop down from account switcher autocomplete field
+ * .navbar uses z-index 1030
+ */
+.ui-autocomplete.ui-front {
+  z-index: 1031;
+}
+
+/**
+ * Decrease size of DataTable's pagination buttons
+ */
+.dataTables_paginate {
+  font-size: 0.8rem;
+}
+.paginate_button {
+  line-height: 1rem;
+}
+
+/**
+ * Fixes width for DataTables with hidden columns
+ * https://github.com/DataTables/DataTables/issues/633#issuecomment-133487514
+ */
+.table {
+  width: 100% !important;
+}
+
+.time-entry {
+  font-family: monospace;
+}
+
+/**
+ * Prevent error tooltip from covering the "Remove file" link"
+ * https://stackoverflow.com/questions/28691280/dropzone-js-remove-link-hidden-behind-pop-up-message
+ */
+.dropzone .dz-preview .dz-error-message {
+  top: 150px;
+}
+
+/**
+ * Make Dropzone's error mark red instead of white, which is hard to see.
+ */
+.dropzone .dz-preview.dz-error .dz-error-mark svg g g {
+  fill: #be2626;
+}
+
+/**
+ * Fix placement of Dropzone default messages. It's too high when
+ * embedded in the course form.
+ */
+#course-form .dropzone .dz-message {
+  top: 70%;
+}
+
+/* Add asterisk to label for required form fields */
+.form-group.is-required > label:first-child:after,
+.form-group.is-required .field_with_errors > label:first-child:after {
+  color: red;
+  content: '*';
+  margin-left: 2px;
+}
+
+.form-group.is-required > label:first-child,
+.form-group.is-required .field_with_errors > label:first-child {
+  font-weight: bold;
+}
+
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+ /* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+@include media-breakpoint-down(xs) {
+  .blank-page .content-wrapper .flexbox-container {
+    height: auto;
+  }
+}

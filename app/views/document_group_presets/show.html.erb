@@ -1,0 +1,35 @@
+<section class="row match-height">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title" id="basic-layout-colored-form-control"><%= @document_group_preset.name %></h3>
+        <div class="heading-elements">
+          <%= render 'actions', document_group_preset: @document_group_preset %>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="text-right width-25-per">Applies to</th>
+              <td><%= @document_group_preset.applies_to %></td>
+            </tr>
+            <tr>
+              <th class="text-right">Document types</th>
+              <td>
+                <table class="table table-sm table-striped">
+                  <% @document_group_preset.document_types.each do |document_type| %>
+                    <tr>
+                      <td width="100"><%= document_type['required'] ? 'required' : 'optional' %></td>
+                      <td><%= @document_type_names[document_type['id']] %></td>
+                    </tr>
+                  <% end %>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

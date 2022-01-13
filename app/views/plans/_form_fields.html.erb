@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :monthly_price %>
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        <%= f.number_field :monthly_price, class: 'form-control' %>
+        <span class="input-group-addon">.00</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :max_employees %>
+      <%= f.number_field :max_employees, class: 'form-control' %>
+    </div>
+  </div>
+</div>

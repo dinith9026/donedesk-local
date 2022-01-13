@@ -1,0 +1,22 @@
+<%= render layout: '/shared/modal', locals: { title: 'Deactivate this account?', id: 'confirm-deactivate-modal' } do %>
+  <div class="bs-callout-warning callout-bordered mb-1">
+    <div class="media">
+      <div class="media-left media-middle bg-warning px-2">
+        <i class="icon-warning white font-medium-5"></i>
+      </div>
+      <div class="media-body p-1">
+        <div><strong class="modal-account-name"><%= name %></strong></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <%= form_tag(deactivate_account_path(id: id), method: :put, id: 'deactivate-account-form') do |f| %>
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag 'Yes, deactivate it', type: 'submit', class: 'btn btn-warning' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

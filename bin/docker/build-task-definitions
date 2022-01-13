@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+environments = [
+  'staging',
+  'production'
+]
+
+def variables(environment)
+  env = {}
+
+  File.readlines(".env.#{environment}").select do |line|
+    line.strip.empty? == false
+  end.each do |line|
+    key, value = line.strip.split('=')
+    env[key] = "#{value}"
+  end
+
+  env
+end
+
+def task_variables(environment)
+  variables(environment).map do |key, value|
+    {
+      "name" => key,
+      "value" => value
+    }
+  end
+end
+
+environments.each do |environment|
+
+  task_definition = JSON.parse(File.read("aws/com.donedesk.aws.#{environment}/task-definition.template.json"))
+
+  task_definition["containerDefinitions"].each do |container|
+    container.merge!({"environment" => task_variables(environment)})
+  end
+
+  task_definition = task_definition.to_json
+
+  task_definition.gsub!('${GIT_SHORT_TAG}', `git rev-parse --short HEAD`.strip)
+
+  File.write("tmp/task-definition.#{environment}.json", task_definition)
+end

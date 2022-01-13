@@ -1,0 +1,41 @@
+<div class="table-responsive">
+  <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+    <thead class="thead-inverse">
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Contact Number</th>
+        <th>Email Address</th>
+        <th>Address</th>
+        <th class="text-right" width="60" data-orderable="false">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @contacts.each do |contact| %>
+        <tr>
+          <td><%= contact.first_name %></td>
+          <td><%= contact.last_name %></td>
+          <td><%= contact.contact_number_1 %></td>
+          <td><%= contact.contact_email %></td>
+          <td><%= contact.contact_address %></td>
+          <td class="text-right">
+            <span class="dropdown">
+              <button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary btn-sm dropdown-toggle dropdown-menu-right">
+                <i class="icon-cog3 white"></i>
+              </button>
+              <span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+                <%= link_to "/contacts/#{contact.id}/edit" do %>
+                  <i class="icon-plus4 white"></i> Edit
+                <% end %>
+                <br>
+                <%= link_to "/contacts/#{contact.id}/view" do %>
+                  <i class="icon-plus4 white"></i> View
+                <% end %>
+              </span>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

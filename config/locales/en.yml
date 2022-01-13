@@ -1,0 +1,136 @@
+en:
+  date:
+    formats:
+      default: '%m/%d/%Y'
+
+  app_name: DoneDesk
+  meta_description: DoneDesk provides dental practices with the ability to manage HR, time keeping, payroll and training.
+  logo_alt: DoneDesk Logo
+  copyright_html: '&copy; %{year} DoneDesk, All rights reserved.'
+
+  layouts:
+    application:
+      dashboard: Dashboard
+      accounts: Accounts
+      sign_out: Sign out
+      search: Search
+
+  sessions:
+    new:
+      sign_in_to_account: Sign in to your account
+      sign_in: Sign in
+      two_factor_auth: Two-Factor Authentication
+      email: Email
+      password: Password
+      remember_me: Remember me
+      forgot_pw?: Forgot password?
+      new?: New to DoneDesk?
+      sign_up: Sign up
+    create:
+      failure_error: Sign in failed
+
+  accounts:
+    form:
+      form_title: '%{action} account'
+      pricing: Pricing
+      owner: Owner
+      office: Office
+      save: Save
+      cancel: Cancel
+    index:
+      actions: Actions
+      active?: Active?
+      all_accounts: All Accounts
+      deactivate: Deactivate
+      edit: Edit
+      first_office: First Office
+      monthly_price: Monthly $
+      new_account: New Account
+      office_count: Office Count
+      owner_name: Owner Name
+      per_employee_price: Per employee $
+      view: View
+    create:
+      success: Account created!
+    update:
+      success: Account updated!
+    deactivate:
+      deactivated: Account deactivated!
+
+  registrations:
+    new:
+      complete_your_registration: Complete your account registration
+      set_a_password: Set a secure password
+      password: Password
+      password_confirmation: Password confirmation
+      i_agree: I have read and agree to the
+      terms: Terms of Service
+      submit: Submit
+      need_help?: Need help?
+      contact_us: Contact us
+      choose_plan: Choose a plan
+      payment_info: Enter your payment information
+      card_number: Card number
+      card_exp: MM/YY
+      card_cvc: CVC
+      card_zip: Zip
+
+  passwords:
+    edit:
+      description: Choose a new password below.
+
+  shared:
+    form-errors:
+      fix_errors: 'Please fix the following errors:'
+
+  DoneDesk::Account:
+    unauthorized: The account owner %{owner_name} is not authorized to complete this account's registration
+
+  DoneDesk::ArgumentError:
+    invalid_type: Expected to receive %{expected}, but received %{actual} instead
+
+  DoneDesk::Account::Owner:
+    name_error: "The account owner's %{label} cannot be blank"
+
+  DoneDesk::Account::Name:
+    name_error: "The account name cannot be blank"
+
+  DoneDesk::Account::Office::Name:
+    name_error: "The office name cannot be blank"
+
+  DoneDesk::Address:
+    empty_street: "The street address cannot be empty"
+    empty_city: "The city cannot be empty"
+    empty_state: "The state cannot be empty"
+    empty_zip_code: "The zip code cannot be empty"
+    invalid_zip_code: "The zip code must be five digits, but %{value} was provided"
+
+  DoneDesk::PhoneNumber:
+    empty: "The phone number cannot be blank"
+
+  DoneDesk::Money:
+    invalid_money_value: Money cannot be created from the value "%{value}"
+
+  DoneDesk::MultipleValidationErrors: 'There are multiple errors, please send :errors to this object'
+
+  DoneDesk::ProgrammingError:
+    DoneDesk::ValidatingConverterCollection:
+      invalid_converter: "DoneDesk::ValidatingConverterCollection#convert called with an invalid object. The supplied object (%{converter_class}) must itself respond to the #convert method"
+
+  DoneDesk::ValidationError:
+    DoneDesk::CompleteRegistrationRequest::RegistrationTokenConverter: The registration token cannot be empty
+    DoneDesk::CompleteRegistrationRequest::AcceptedTermsOfServiceConverter: You must accept the terms of service to complete registration
+    DoneDesk::CompleteRegistrationRequest::PasswordConfirmationConverter: The password and password confirmation must match
+    DoneDesk::CompleteRegistrationRequest::AcceptedPricingConverter: You must accept the pricing to complete registration
+  NilClass: "A nil error"
+
+  DoneDesk::Email::InvalidEmail:
+    DoneDesk::Email: The email provided (%{email}) is not a valid email
+
+  DoneDesk::SocialSecurityNumber::InvalidFormat:
+    DoneDesk::SocialSecurityNumber: The Social Security Number provided (%{value}) is in the wrong format. Expected aaa-bb-cccc
+
+  DoneDesk::EmploymentType::InvalidEmploymentType:
+    DoneDesk::EmploymentType: The provided employment type (%{value}) is not valid. Please choose from Full-Time, Part-Time, Contract, or Temp
+  DoneDesk::MaritalStatus::InvalidMaritalStatus:
+    DoneDesk::MaritalStatus: The provided marital status (%{value}) is invalid. Please choose from "Married" or "Single"

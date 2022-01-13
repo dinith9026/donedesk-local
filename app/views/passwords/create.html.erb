@@ -1,0 +1,6 @@
+<section class="flexbox-container">
+  <%= render layout: '/shared/centered_card_layout', locals: { heading: 'Password reset successful' } do %>
+    <div class="alert alert-success"><%= t("passwords.create.description") %></div>
+    <p class="text-xs-center"><%= link_to 'Sign in', sign_in_path %>
+  <% end %>
+</section>

@@ -1,0 +1,31 @@
+#password-strength-meter {
+  background-color: #eee;
+  height: 15px;
+  width: 100%;
+
+  .strength {
+    height: 15px;
+  }
+
+  &.strength-0 .strength {
+    background-color: red;
+    width: 20%;
+  }
+  &.strength-1 .strength {
+    background-color: orange;
+    width: 40%;
+  }
+  &.strength-2 .strength {
+    background-color: gold;
+    width: 60%;
+  }
+  &.strength-3 .strength {
+    background-color: green;
+    width: 80%;
+  }
+  &.strength-4 .strength {
+    background-color: green;
+    width: 100%;
+  }
+}
+

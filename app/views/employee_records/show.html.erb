@@ -1,0 +1,5 @@
+<% @employee_record_presenter.when_user_can(:index) do %>
+  <p><%= link_to '&larr; All employee records'.html_safe, employee_records_path %></p>
+<% end %>
+
+<%= render 'employee_record', employee_record_presenter: @employee_record_presenter %>

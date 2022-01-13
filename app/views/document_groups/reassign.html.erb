@@ -1,0 +1,33 @@
+<%= form_tag document_group_path(@document_group), method: :delete do %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control">Delete Document Group <%= @document_group.name %>?</h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+
+                <div class="form-group is-required">
+                  <label for="group_id">Reassign <%= pluralize(@document_group.employee_records.size, 'employee') %> to:</label>
+                  <%= select_tag :group_id, options_from_collection_for_select(@all_groups, :id, :name), { class: 'form-control', autofocus: true, required: true } %>
+                </div>
+
+                <div class="form-actions">
+                  <%= button_tag type: 'submit', class: 'btn btn-danger', data: { disable_with: 'Saving...' } do %>
+                    <i class="icon-check2"></i> Reassign &amp; Delete
+                  <% end %>
+                  <%= link_to 'Cancel', smart_back_path, class: 'btn btn-secondary' %>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

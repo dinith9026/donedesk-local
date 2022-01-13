@@ -1,0 +1,45 @@
+<%= form_for @form, url: form_action do |f| %>
+  <div class="row match-height">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Time Entry</h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+            <div class="form">
+
+              <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+
+                    <div class="form-group">
+                      <p><%= @form.employee_record_full_name %></p>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :entry_type %>
+                      <%= f.select :entry_type, TimeEntry.entry_types.map { |key, value| [key.humanize, key] }, { include_blank: true }, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :occurred_at %>
+                      <%= f.text_field :occurred_at, value: @form.formatted_occurred_at_in_time_zone, class: 'form-control datetimepicker4', autocomplete: 'off' %>
+                      <p class="form-text text-muted">
+                        <%= @form.time_zone %>
+                      </p>
+                    </div>
+
+                    <%= render '/shared/form_actions' %>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<% end %>

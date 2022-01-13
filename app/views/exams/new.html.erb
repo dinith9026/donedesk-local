@@ -1,0 +1,62 @@
+<h1><%= @form.course_title %></h1>
+<p><%= @form.course_description %></p>
+
+<%= form_for(:exam, url: @form.form_path) do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control">Exam</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                    <% @form.questions.each_with_index do |q, i| %>
+                      <fieldset class="form-group">
+                        <%= hidden_field_tag "exam[answers][#{i}][question_id]", q.id, {} %>
+                        <legend><%= q.text %></legend>
+                        <div class="card-block bg-grey bg-lighten-4">
+                          <% q.choices.each do |choice| %>
+                            <div class="radio">
+                              <label>
+                                <%= radio_button_tag "exam[answers][#{i}][choice_id]",
+                                                     choice.id,
+                                                     @form.answer_for(q.id) == choice.id %>
+                                <%= choice.answer %>
+                              </label>
+                            </div>
+                          <% end %>
+                        </div>
+                      </fieldset>
+                    <% end %>
+
+                    <div class="form-actions">
+                      <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+                        <i class="icon-check2"></i> Submit
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+function keepAlive() {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('GET', '/');
+    httpRequest.send(null);
+}
+
+setInterval("keepAlive()", <%= keep_alive_interval_in_milliseconds %>);
+</script>

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -ex
+
+cp -r /tmp/donedesk-public/* /donedesk/public/
+
+bundle exec puma -C /donedesk/config/puma.rb

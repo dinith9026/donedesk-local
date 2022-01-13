@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Document Groups</h4>
+        <div class="heading-elements">
+          <%= link_to '#copy-preset-modal', data: { toggle: 'modal', target: '#copy-preset-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+            <i class="icon-plus4 white"></i> Add Preset
+          <% end %>
+          <%= link_to '#new-group-modal', data: { toggle: 'modal', target: '#new-group-modal' }, class: 'btn btn-primary btn-sm' do %>
+            <i class="icon-plus4 white"></i> New Group
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ 0, "asc" ]]'>
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Name</th>
+                  <th class="text-center">Applies To</th>
+                  <th class="text-center"># Types</th>
+                  <th class="text-right" width="60" data-orderable="false">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @document_groups_presenter.each do |document_group_presenter| %>
+                <tr>
+                  <td><%= link_to document_group_presenter.name, document_group_presenter.show_path %></td>
+                  <td class="text-center"><%= document_group_presenter.applies_to_count %> <%= document_group_presenter.applies_to %></td>
+                  <td class="text-center"><%= document_group_presenter.document_types_groupings.size %></td>
+                  <td class="text-right">
+                    <%= render 'document_groups/actions', document_group_presenter: document_group_presenter %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Select a preset', id: 'copy-preset-modal' } do %>
+  <%= form_tag copy_document_group_preset_path(@document_groups_presenter.presets[0]), data: { path_template: '/document_group_presets/:id/copy' }, id: 'copy-preset-form' do %>
+    <div class="bs-callout-grey callout-bordered mb-1">
+      <div class="media">
+        <div class="media-body p-1">
+          <div class="form-group is-required">
+            <%= select_tag :preset_id, options_from_collection_for_select(@document_groups_presenter.presets, :id, :name), { class: 'form-control', autofocus: true, required: true } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions right">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        Cancel
+      </button>
+      <%= button_tag 'Add', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render layout: '/shared/modal', locals: { title: 'Select one', id: 'new-group-modal' } do %>
+  <div class="bs-callout-grey callout-bordered mb-1">
+    <div class="media">
+      <div class="media-body p-1">
+        <p>To which does this document group apply?</p>
+        <ul>
+          <li class="list-style-square">
+            <%= link_to 'Employees', new_document_group_path(applies_to: 'employees') %>
+          </li>
+          <li class="list-style-square">
+            <%= link_to 'Offices', new_document_group_path(applies_to: 'offices') %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="text-right">
+    <button type="button" class="btn btn-secondary right" data-dismiss="modal">
+      Cancel
+    </button>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+var copyPresetForm = $('#copy-preset-form');
+var formPathTemplate = copyPresetForm.data('path-template');
+
+$(function() {
+  $('#preset_id').on('change', function(e) {
+    var id = $(this).val();
+    var newAction = formPathTemplate.replace(':id', id)
+    copyPresetForm.attr('action', newAction);
+  });
+});
+</script>

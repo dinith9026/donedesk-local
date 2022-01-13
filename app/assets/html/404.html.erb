@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Page Not Found</title>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+  <body data-open="click" data-menu="vertical-menu" data-col="1-column" class="vertical-layout vertical-menu 1-column blank-page blank-page">
+    <div class="app-content content container-fluid">
+      <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+          <section class="flexbox-container">
+            <div class="col-md-6 offset-md-3 col-xs-12 p-0">
+              <div class="card border-grey border-lighten-3 px-1 py-1 box-shadow-3">
+                <div class="card-block">
+                  <span class="card-title text-xs-center">
+                    <%= image_tag("logo/donedesk-logo-dark.svg", alt: 'DoneDesk', class: 'img-fluid mx-auto d-block pt-2', width: 180) %>
+                  </span>
+                </div>
+                <div class="card-block text-xs-center">
+                  <h3>Page Not Found</h3>
+                  <p>The page you requested was not found.</p>
+                  <div class="mt-2"><i class="icon-exclamation-triangle font-large-2"></i></div>
+                </div>
+                <hr>
+                <p class="card-text text-xs-center pt-2 pb-2">
+                Need help? Email <a href="mailto:<%= Rails.configuration.donedesk.support_email %>" class="card-link"><%= Rails.configuration.donedesk.support_email %></a>
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

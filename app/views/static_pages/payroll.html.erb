@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-header mb-1">
+    <h4 class="card-title">
+      Payroll
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="card-block">
+      <p>If you're already using our payroll program, you can sign in:</p>
+      <p><a href="https://secure.surepayroll.com/SPF/Login/Auth.aspx" class="btn btn-primary">Sign In to Payroll</a></p>
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6">
+
+          <p>You don’t have to pay high fees for payroll services. Our simple and affordable payroll program saves you time and frustration!</p>
+
+          <p><strong>Run payroll in minutes from anywhere at anytime.</strong></p>
+          <p>We automatically pay and file your federal, state and local payroll taxes for you. It&rsquo;s simple!</p>
+
+          <p><strong>With Done Desk Payroll you can rely on us to:</strong></p>
+
+          <ul class="list-style-square">
+            <li>Save you time with payroll you can run in minutes, even while on-the-go with your mobile device.</li>
+            <li>Save you up to up to 50% compared to traditional payroll providers.</li>
+            <li>Provide you peace of mind with federal, state and local payroll taxes automatically paid and filed for you.</li>
+            <li>Give you experienced customer support, available 6 days a week by phone, email or online live chat.</li>
+          </ul>
+
+          <p><strong>Thanks to these unbeatable features:</strong></p>
+          <ul class="list-style-square">
+            <li>W-2s and 1099s posted online at year-end for you to preview and approve.</li>
+            <li>Automatic pay and file of your quarterly 941 tax returns and your annual 940 tax return.</li>
+            <li>Automatic new hire reporting and access to labor law posters, business forms and HR how-to guides.</li>
+            <li>Direct deposit or print checks yourself.</li>
+            <li>Accounting integration lets you import payroll information into your general ledger—works with the leading accounting providers to save you time and avoid entry errors.</li>
+            <li>Secure online access to employee’s individual pay stubs and payroll history.</li>
+          </ul>
+        </div>
+        <div class="col-md-5 offset-md-1">
+          <h4>Request More Information</h4>
+          <hr>
+          <%= form_tag(payroll_requests_path) do %>
+            <div class="form-group">
+              <%= label_tag :primary_payroll_contact_name %>
+              <%= text_field_tag :primary_payroll_contact_name, nil, class: 'form-control', required: true %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :phone_number %>
+              <%= text_field_tag :phone_number, nil, class: 'form-control', required: true %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :email_address %>
+              <%= text_field_tag :email_address, nil, class: 'form-control', required: true %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :current_payroll_provider %>
+              <%= text_field_tag :current_payroll_provider, nil, class: 'form-control', required: true %>
+            </div>
+            <div class="form-group">
+              <%= button_tag 'Submit', class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

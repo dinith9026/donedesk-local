@@ -1,0 +1,81 @@
+for_oceanview_handbook:
+  course: oceanview_handbook
+  text: 'Did you read the handbook?'
+
+for_oceanview_passed:
+  course: oceanview_passed
+  text: 'Did you read the handbook?'
+
+for_oceanview_deactivated:
+  course: oceanview_deactivated
+  text: 'Did you read the handbook?'
+
+for_oceanview_unassigned:
+  course: oceanview_unassigned
+  text: 'Did you read the material?'
+
+for_belonging_to_unassigned_track:
+  course: belonging_to_unassigned_track
+  text: 'Did you read the material?'
+
+for_brookside_handbook:
+  course: brookside_handbook
+  text: 'Did you read the handbook?'
+
+for_with_expiration:
+  course: with_expiration
+  text: 'Did you read the material?'
+
+for_not_belonging_to_any_tracks:
+  course: not_belonging_to_any_tracks
+  text: 'Did you read the material?'
+
+for_belonging_to_only_one_track:
+  course: belonging_to_only_one_track
+  text: 'Did you read the material?'
+
+for_for_oceanview_with_incomplete_assignment:
+  course: for_oceanview_with_incomplete_assignment
+  text: 'Did you read the material?'
+
+for_canned_with_multiple_supplements:
+  course: canned_with_multiple_supplements
+  text: 'Did you read the material?'
+
+for_canned_with_one_supplement:
+  course: canned_with_one_supplement
+  text: 'Did you read the material?'
+
+for_canned:
+  course: canned
+  text: 'Did you read the material?'
+
+for_canned_for_texas:
+  course: canned_for_texas
+  text: 'Did you read the material?'
+
+for_canned_for_ohio:
+  course: canned_for_ohio
+  text: 'Did you read the material?'
+
+for_canned_for_utah:
+  course: canned_for_utah
+  text: 'Did you read the material?'
+
+for_canned_no_states:
+  course: canned_no_states
+  text: 'Did you read the material?'
+
+for_canned_deactivated:
+  course: canned_deactivated
+  text: 'Did you read the material?'
+
+<% 1.upto(Course::MAX_ALLOWED_QUESTIONS) do |i| %>
+question_<%= i %>:
+  course: with_question_limit_reached
+  text: <%= "Question#{i}" %>
+<% end %>
+
+for_with_mixed_case_states:
+  course: with_mixed_case_states
+  text: 'Did you read the material?'

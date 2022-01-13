@@ -1,0 +1,94 @@
+<% if local_assigns[:datatables] == true %>
+  <table class="table table-striped" data-datatable="true" data-page-length="10" data-order='[[ 3, "desc" ]]'>
+<% else %>
+  <table class="table table-striped">
+<% end %>
+  <thead class="thead-inverse">
+    <tr>
+      <th>Type</th>
+      <% unless local_assigns[:hide_belongs_to] == true %>
+        <th>Belongs To</th>
+      <% end %>
+      <th>Summary</th>
+      <th>Filename</th>
+      <th>Expires</th>
+      <th>Created</th>
+      <th class="text-right" width="60" data-orderable="false">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% documents_presenter.each do |document_presenter| %>
+      <% document_presenter.when_user_can(:show) do %>
+        <tr>
+          <td><%= document_presenter.name %></td>
+          <% unless local_assigns[:hide_belongs_to] == true %>
+            <td>
+              <% if document_presenter.instance_of? EmployeeDocumentPresenter %>
+                <%= link_to document_presenter.employee_record_full_name, document_presenter.show_employee_record_path %>
+              <% else %>
+                <%= link_to document_presenter.office_name, document_presenter.show_office_path %>
+              <% end %>
+            </td>
+          <% end %>
+          <td><%= document_presenter.summary %></td>
+          <td><%= document_presenter.file_name %></td>
+          <td><%= document_presenter.expires_on %></td>
+          <td><%= document_presenter.created_at %></td>
+          <td class="text-right">
+            <% document_presenter.when_user_can_manage do %>
+              <%= render layout: '/shared/dropdown_layout' do %>
+                <%= render 'documents/actions', document_presenter: document_presenter %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render layout: '/shared/modal', locals: { title: 'Delete this document?', id: 'confirm-delete-modal' } do %>
+  <div class="bs-callout-warning callout-bordered mb-1">
+    <div class="media">
+      <div class="media-left media-middle bg-warning px-2">
+        <i class="icon-warning white font-medium-5"></i>
+      </div>
+      <div class="media-body p-1">
+        <div><strong class="modal-document-name"></strong> for <strong class="modal-belongs-to-name"></strong></div>
+      </div>
+    </div>
+  </div>
+
+  <p>If you want to:
+    <ul>
+      <li class="list-style-square"><strong>add a new version</strong> of this document, simply <strong>create a new document</strong> instead of deleting it&mdash;we'll keep track of which one is the newest</li>
+      <li class="list-style-square"><strong>change the type</strong> (W-4, I-9, etc.) of this document, simply <strong>edit the document</strong> instead of deleting it</li>
+    </ul>
+  </p>
+  <p>We recommend deleting a document <em>only</em> if you uploaded a completely invalid file.</p>
+
+  <div>
+    <%= form_tag('#', method: :delete, id: 'delete-document-form') do |f| %>
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag type: 'submit', class: 'btn btn-danger' do %>
+          <i class="icon-trash"></i> Delete
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.delete-btn').on('click', function(e){
+  var destroyDocumentPath = $(this).data('destroy-document-path');
+  var documentTypeName = $(this).data('document-type-name');
+  var belongsToName = $(this).data('belongs-to-name');
+
+  $('#delete-document-form').attr('action', destroyDocumentPath);
+  $('.modal-document-name').html(documentTypeName);
+  $('.modal-belongs-to-name').html(belongsToName);
+});
+</script>

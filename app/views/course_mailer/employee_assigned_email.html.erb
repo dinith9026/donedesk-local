@@ -1,0 +1,13 @@
+<h1>Hello <%= @employee_record.first_name %>,</h1>
+<p>You've been assigned <%= pluralize(@new_assignments.count, 'new course') %>:</p>
+<ul>
+  <% @new_assignments.each do |assignment| %>
+    <li><p><strong><%= assignment.course_title %></strong> - <%= assignment.course_description %></p></li>
+  <% end %>
+</ul>
+<br>
+<br>
+<p>
+  Time's ticking!<br>
+  <%= link_to "Login to take your #{'course'.pluralize(@new_assignments.count)} now", assignments_url %>
+</p>

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -ex
+
+cp Gemfile Gemfile.lock docker/aws/app/
+
+TAG=`git rev-parse --short HEAD`
+
+for IMAGE in app nginx_proxy letsencrypt
+do
+  docker build -f docker/aws/$IMAGE/Dockerfile . -t donedesk/$IMAGE:$TAG -t 794131257860.dkr.ecr.us-west-2.amazonaws.com/donedesk/$IMAGE:$TAG
+done
+
+docker image ls | grep $TAG | sort

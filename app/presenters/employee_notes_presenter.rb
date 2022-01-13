@@ -1,0 +1,2 @@
+class EmployeeNotesPresenter < CollectionPresenter
+end

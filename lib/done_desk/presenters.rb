@@ -1,0 +1,2 @@
+class DoneDesk::Presenters
+end

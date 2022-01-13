@@ -1,0 +1,15 @@
+<% @dashboard.when_employee_record_exists do %>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-block">
+        <%= render 'dashboard/compliance_percentages', dashboard: @dashboard, hide_document_compliance: true %>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'employee_records/employee_record', employee_record_presenter: @dashboard.employee_record_presenter %>
+<% end %>
+
+<% @dashboard.when_no_employee_record_exists do %>
+  <%= render 'employee_records/form', form: @dashboard.new_employee_record_form, action: 'New' %>
+<% end %>

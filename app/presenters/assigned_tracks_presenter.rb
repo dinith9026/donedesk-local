@@ -1,0 +1,2 @@
+class AssignedTracksPresenter < CollectionPresenter
+end

@@ -1,0 +1,55 @@
+<%= form_for @form, url: form_action do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Track</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <div class="form">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+                    <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                    <div class="form-group">
+                      <%= f.label :name %>
+                      <%= f.text_field :name, class: 'form-control' %>
+                    </div>
+
+                    <% if @form.new_record? %>
+                      <div class="form-group">
+                        <%= f.label :courses, class: 'mb-0' %>
+                        <p><small class="form-text text-muted">You'll be able to adjust the order after you save the track.</small></p>
+                        <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+                          <% @form.courses.each do |course| %>
+                            <div class="checkbox">
+                              <label for="course_<%= course.id %>" class="form-check-label <%= "text-muted" if !course.assignable? %>">
+                                <%= check_box_tag :course_ids, course.id, @form.course_ids.include?(course.id), name: 'track[course_ids][]', id: "course_#{course.id}", disabled: !course.assignable? %>
+                                <%= course.title %>
+                              </label>
+                              <% if !course.assignable? %>
+                                <i class="icon icon-warning text-muted" title="Needs at least one question"></i>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+
+                      <div>
+                        <small><i class="icon icon-warning text-muted"></i> Indicates that course needs at least one question</small>
+                      </div>
+                    <% end %>
+
+                    <%= render '/shared/form_actions' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

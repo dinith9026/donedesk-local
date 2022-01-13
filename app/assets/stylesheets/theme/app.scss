@@ -1,0 +1,49 @@
+// ================================================================================================
+// 	File Name: components.scss
+// 	Description: Common components file to includ all theme specific custom components.
+// 	----------------------------------------------------------------------------------------------
+// 	Item Name: Robust - Responsive Admin Theme
+// 	Version: 1.2
+// 	Author: PIXINVENT
+// 	Author URL: http://www.themeforest.net/user/pixinvent
+// ================================================================================================
+
+// Variables
+// ------------------------------
+
+// Perfect Scrollbar
+
+// Core
+// ------------------------------
+// layouts
+@import "core/layouts/content";
+@import "core/layouts/sidebar";
+@import "core/layouts/horizontal";
+@import "core/layouts/footer";
+// menu
+@import "core/menu/navigation";
+
+// Components
+// ------------------------------
+@import "components/helper";
+@import "components/avatar";
+// @import "components/fullscreen-search";
+// @import "components/chart";
+// @import "components/callout";
+// @import "components/bootstrap-social";
+
+// Plugins
+// ------------------------------
+@import "plugins/menu/perfect-scrollbar/ps-custom";
+@import "plugins/ui/breakpoints";
+// TODO:A: Set this scss page specific
+@import "plugins/forms/tags/basic-input";
+// @import "plugins/forms/select2/select2";
+// @import "plugins/pagination/pagination";
+// @import "plugins/editors/editors";
+// @import "plugins/tables/datatables";
+
+// Pickers TODO:M
+// ------------------------------
+// Bootstrap colorpicker
+// @import "plugins/pickers/colorpicker/colorpicker";

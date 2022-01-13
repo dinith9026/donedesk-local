@@ -1,0 +1,84 @@
+<%= form_for @form do |f| %>
+  <%= f.hidden_field :applies_to  %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Document Group Preset for <%= @form.applies_to.titleize %></h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+                <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+
+                <div class="form-group">
+                  <%= f.label :name, 'Document Group Name' %>
+                  <%= f.text_field :name, class: 'form-control' %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :document_types %>
+                  <table class="table table-sm table-striped font-small-3">
+                    <% @document_types.each do |document_type| %>
+                      <tr>
+                        <td class="pt-1 pl-0 pb-0">
+                          <div class="checkbox">
+                            <label for="document_types_groupings_id_<%= document_type.id %>" class="form-check-label">
+                              <%= check_box_tag "document_types_groupings[][id]", document_type.id, @form.document_types.to_a.map { |values| values['id'] }.include?(document_type.id), { id: "document_types_groupings_id_#{document_type.id}", class: 'document-type-checkbox', data: { document_type_id: document_type.id }} %>
+                              <%= document_type.name %>
+                            </label>
+                          </div>
+                        </td>
+                        <td width="190" class="pt-1 pl-0 pb-0">
+                          <div class="checkbox ml-1 mb-1">
+                            <label for="document_types_groupings_required_<%= document_type.id %>" class="form-check-label">
+                              <%= check_box_tag "document_types_groupings[][required]", true, @form.document_types.to_a.find { |dtg| dtg['id'] == document_type.id }&.fetch('required', false), { id: "document_types_groupings_required_#{document_type.id}" } %>
+                              Required
+                            </label>
+                          </div>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+
+                <%= render '/shared/form_actions' %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+function toggleRequired(elm) {
+  var id = elm.data('document-type-id');
+  var requiredLabel = $("label[for='document_types_groupings_required_" + id + "']");
+  var requiredCheckbox = $("#document_types_groupings_required_" + id);
+
+  if (elm.is(':checked')) {
+    requiredLabel.removeClass('text-muted');
+    requiredCheckbox.attr('disabled', false);
+  } else {
+    requiredLabel.addClass('text-muted');
+    requiredCheckbox.attr('disabled', true);
+    requiredCheckbox.attr('checked', false);
+  }
+}
+
+$(function() {
+  $('.document-type-checkbox').each(function(index) {
+    toggleRequired($(this));
+  });
+
+  $('.document-type-checkbox').on('change', function(e) {
+    toggleRequired($(this));
+  });
+});
+</script>

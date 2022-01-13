@@ -1,0 +1,17 @@
+for_oceanview_ed:
+  course: oceanview_handbook
+  employee_record: ed
+  passed_on: <%= Date.current %>
+  expires_on: <%= 90.days.from_now %>
+
+for_oceanview_eric:
+  course: oceanview_handbook
+  employee_record: eric
+  passed_on: <%= Date.current %>
+  expires_on: <%= 90.days.from_now %>
+
+for_brookside_ellen:
+  course: brookside_handbook
+  employee_record: ellen
+  passed_on: <%= Date.current %>
+  expires_on: <%= 90.days.from_now %>

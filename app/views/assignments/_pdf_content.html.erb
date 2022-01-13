@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">
+      <%= @assignment_presenter.course_title %>
+      <small class="block"><%= @assignment_presenter.course_description %></small>
+    </h4>
+    <div class="heading-elements">
+      <% @assignment_presenter.when_course_has_supplements do %>
+        <%= link_to 'Download Supplements', @assignment_presenter.download_supplements_path, class: 'btn btn-success btn-primary' %>
+      <% end %>
+      <% @assignment_presenter.when_user_can(:take_exam) do %>
+        <%= link_to 'Take Exam', @assignment_presenter.new_exam_path, class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="pdf-viewer" style="height:1200px">
+      <object data="<%= @assignment_presenter.course_material_url %>" type="application/pdf" width="100%" height="100%">
+        <div class="card-block text-center">
+          <%= link_to @assignment_presenter.download_material_path, class: 'btn btn-success btn-lg' do %>
+            <i class="icon-arrow-down4"></i> Download PDF to read
+          <% end %>
+        </div>
+      </object>
+    </div>
+  </div>
+  <div class="card-footer text-muted text-center">
+    <% @assignment_presenter.when_course_has_supplements do %>
+      <%= link_to 'Download Supplements', @assignment_presenter.download_supplements_path, class: 'btn btn-success btn-primary btn-lg' %>
+    <% end %>
+    <% @assignment_presenter.when_user_can(:take_exam) do %>
+      <%= link_to 'Take Exam', @assignment_presenter.new_exam_path, class: 'btn btn-primary btn-lg' %>
+    <% end %>
+  </div>
+</div>
+

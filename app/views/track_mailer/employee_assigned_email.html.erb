@@ -1,0 +1,13 @@
+<h1>Hello <%= @employee_record.first_name %>,</h1>
+<p>You've been assigned <%= pluralize(@new_tracks.count, 'new learning track') %>:</p>
+<ul>
+  <% @new_tracks.each do |track| %>
+    <li><p><strong><%= track.name %></strong></p></li>
+  <% end %>
+</ul>
+<br>
+<br>
+<p>
+  Time's ticking!<br>
+  <%= link_to "Login to take the first course now", assignments_url %>
+</p>

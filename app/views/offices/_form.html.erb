@@ -1,0 +1,44 @@
+<%= form_for(@form, url: url) do |f| %>
+  <div class="row match-height">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Office</h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+            <div class="form">
+              <%= render 'shared/form_errors', errors: @form.errors.full_messages %>
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-body">
+
+                    <div class="form-group is-required">
+                      <%= f.label :document_group %>
+                      <%= f.collection_select :document_group_id, @form.document_groups.order(:name), :id, :name, {}, { class: 'form-control', autofocus: true, required: true } %>
+                    </div>
+
+                    <%= render 'offices/form_fields', f: f %>
+
+                    <% @form.when_user_can_edit(:tracks_time) do %>
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label class="form-check-label">
+                            <%= f.check_box :tracks_time, class: 'form-check-input' %>
+                            Enable time tracking for this office
+                          </label>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <%= render '/shared/form_actions' %>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<% end %>

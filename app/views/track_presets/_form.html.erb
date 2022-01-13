@@ -1,0 +1,43 @@
+<%= form_for @track_preset do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="basic-layout-colored-form-control"><%= action %> Track Preset</h4>
+        </div>
+        <div class="card-body collapse in">
+          <div class="card-block">
+
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+                <%= render 'shared/form_errors', errors: @track_preset.errors.full_messages %>
+
+                <div class="form-group">
+                  <%= f.label :name, 'Track Name' %>
+                  <%= f.text_field :name, class: 'form-control' %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :courses, class: 'mb-0' %>
+                  <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+                    <% @courses.each do |course| %>
+                      <div class="checkbox">
+                        <label for="course_<%= course.id %>" class="form-check-label">
+                          <%= check_box_tag :course_ids, course.id, @track_preset.courses.include?(course.id), name: 'track_preset[courses][]', id: "course_#{course.id}" %>
+                          <%= course.title %>
+                        </label>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+
+                <%= render '/shared/form_actions' %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

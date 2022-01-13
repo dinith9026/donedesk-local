@@ -1,0 +1,3 @@
+<%= nav_link(request.path, 'My Assignments', assignments_path, 'menu-title', 'pencil') if policy(Assignment).index? %>
+<%= nav_link(request.path, 'My Time Cards', time_cards_path, 'menu-title', 'clock') if policy(TimeCard).index? %>
+<%= nav_link(request.path, 'Library Documents', library_documents_path, 'menu-title', 'paper-stack') if policy(LibraryDocument).index? %>

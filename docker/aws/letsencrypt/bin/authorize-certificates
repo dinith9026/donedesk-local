@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -ex
+
+certbot certonly -n \
+  -d $DONEDESK_HOSTNAME \
+  --expand
+
+update-certificates-on-s3

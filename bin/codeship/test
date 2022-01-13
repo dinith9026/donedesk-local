@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+echo "rvm_silence_path_mismatch_check_flag=1" >> $HOME/.rvmrc
+
+source $HOME/.rvm/scripts/rvm
+
+rvm use "$(cat .ruby-version)" --install
+
+bundle exec rake test

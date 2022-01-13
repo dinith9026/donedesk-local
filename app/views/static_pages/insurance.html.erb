@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-header mb-1">
+    <h4 class="card-title">
+      Insurance
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-6">
+          <p>Insurance services provided through our exclusive partnership with Dentist Secure.  Upload your policy information to make a connection with our licensed agents for a quote!
+
+          <ul class="list-style-square">
+            <li>We have great rates and can simplify your insurance programs with solutions that are designed just for dental professionals.</li>
+            <li>We access hundreds of insurance companies and shop for the best coverage and princes.</li>
+            <li>Our licensed agents are experts at insuring dental practices!</li>
+          </ul>
+
+          <p><strong>Health Benefits</strong>- Our advisors can help you manage the total cost of health benefits and save you unnecessary premiums. Group plans from major carriers like Blue Cross Blue Shield, Humana, Aetna, and United Healthcare.</p>
+
+          <p><strong>Workers&rsquo; Compensation</strong>- Take care of your employees when they become injured while on the job. Our programs include coverage for sharps injuries and required treatment.</p>
+
+          <p><strong>Business Insurance</strong>- Aggressive rates on insuring your practice’s property and general liability.</p>
+
+          <p><strong>Malpractice Insurance</strong>- Amazing rates on state of the art defense for dentists. Pure consent to settle so you remain in charge of settlement decisions.</p>
+
+          <p><strong>Life &amp; Disability Insurance</strong>- Cover your lost income from death or disability. Amazing rates for coverage that will take care of your family should you not be able to practice dentistry.</p>
+
+          <p><strong>Voluntary Benefits</strong>- Dental, Vision, Short Term Disability and More!</p>
+
+          <p>All insurance services are provided by licensed agents of Dentist Secure.</p>
+        </div>
+        <div class="col-md-5 offset-md-1">
+          <h4>Get a Quote</h4>
+          <div id="success-msg" class="alert alert-success" style="display:none">
+            <strong>Your message has been sent.</strong><br>We will contact you shortly.
+          </div>
+          <div id="error-msg" class="alert alert-danger" style="display:none">
+            <strong>Sorry, we were unable to send your request.</strong><br>Please contact us directly.
+          </div>
+          <%= form_tag(insurance_quote_requests_path, multipart: true, id: 'insurance-form') do %>
+            <div class="form-group">
+              <textarea id="message" name="message" class="form-control" placeholder="Notes, message, questions, etc." rows="8"></textarea>
+            </div>
+            <div class="dropzone mb-1" id="dpz-insurance-files">
+              <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+            </div>
+            <div class="form-group">
+              <%= button_tag 'Submit', class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

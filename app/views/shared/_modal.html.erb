@@ -1,0 +1,15 @@
+<div class="modal fade text-xs-left" id="<%= id %>" tabindex="-1" role="dialog" aria-labelledby="modalTitle-<%= id %>" aria-hidden="true">
+  <div class="modal-dialog <%= local_assigns[:size] %>" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="<%= id %>-close-btn">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalTitle-<%= id %>"><%= title %></h4>
+      </div>
+      <div class="modal-body">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>

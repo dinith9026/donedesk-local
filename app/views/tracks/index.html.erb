@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">All Learning Tracks</h4>
+        <div class="heading-elements">
+          <% @tracks_presenter.when_user_can(:new) do %>
+            <% if @tracks_presenter.presets.any? %>
+              <%= link_to '#copy-preset-modal', data: { toggle: 'modal', target: '#copy-preset-modal' }, class: 'btn btn-primary btn-sm new-btn' do %>
+                <i class="icon-plus4 white"></i> Add Preset
+              <% end %>
+            <% end %>
+            <%= link_to @tracks_presenter.new_path, method: :get, class: 'btn btn-primary btn-sm' do %>
+              <i class="icon-plus4 white"></i> New Track
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body collapse in">
+        <div class="card-block card-dashboard">
+          <ul class="nav nav-tabs mb-1">
+            <li class="nav-item">
+              <a class="nav-link active" id="base-active-tracks" data-toggle="tab" aria-controls="active-tracks" href="#active-tracks" aria-expanded="false">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="base-deactivated-tracks" data-toggle="tab" aria-controls="deactivated-tracks" href="#deactivated-tracks" aria-expanded="false">Deactivated</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="active-tracks" aria-expanded="false" aria-labelledby="base-active-tracks">
+              <div class="table-responsive">
+                <table class="table table-striped" width="100%">
+                  <thead class="thead-inverse">
+                    <%= render 'thead' %>
+                  </thead>
+                  <tbody>
+                    <%= render partial: 'row',
+                               collection: @tracks_presenter.active,
+                               as: :track_presenter,
+                               locals: { row_classes: '' } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="deactivated-tracks" aria-labelledby="base-deactivated-tracks" aria-expanded="false">
+              <table class="table table-striped">
+                <thead class="thead-inverse">
+                  <%= render 'thead' %>
+                </thead>
+                <tbody>
+                  <%= render partial: 'row',
+                             collection: @tracks_presenter.deactivated,
+                             as: :track_presenter,
+                             locals: { row_classes: 'grey lighten-1' } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @tracks_presenter.presets.any? %>
+  <%= render layout: '/shared/modal', locals: { title: 'Select a preset', id: 'copy-preset-modal' } do %>
+    <%= form_tag copy_track_preset_path(@tracks_presenter.presets[0]), data: { path_template: '/track_presets/:id/copy' }, id: 'copy-preset-form' do %>
+      <div class="bs-callout-grey callout-bordered mb-1">
+        <div class="media">
+          <div class="media-body p-1">
+            <div class="form-group is-required">
+              <%= select_tag :preset_id, options_from_collection_for_select(@tracks_presenter.presets, :id, :name), { class: 'form-control', autofocus: true, required: true } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag 'Add', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<script type="text/javascript">
+var copyPresetForm = $('#copy-preset-form');
+var formPathTemplate = copyPresetForm.data('path-template');
+
+$(function() {
+  $('#preset_id').on('change', function(e) {
+    var id = $(this).val();
+    var newAction = formPathTemplate.replace(':id', id)
+    copyPresetForm.attr('action', newAction);
+  });
+});
+</script>

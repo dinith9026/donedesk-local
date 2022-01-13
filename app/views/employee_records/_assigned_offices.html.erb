@@ -1,0 +1,71 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Assigned Offices</h4>
+    <small>Can manage confidential documents for employees belonging to the following offices.</small>
+    <div class="heading-elements">
+      <%= link_to '#assign-office-modal', data: { toggle: 'modal', target: '#assign-office-modal' }, class: 'btn btn-primary btn-sm' do %>
+        <i class="icon-plus white"></i> Assign Office
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body collapse in">
+    <div class="card-block card-dashboard">
+      <% if employee_record_presenter.assigned_offices.none? %>
+        <p><em>No assigned offices.</em></p>
+      <% else %>
+        <table class="table table-striped table-sm">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Office</th>
+              <th class="text-center"># Employed</th>
+              <th>Address</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% employee_record_presenter.assigned_offices.each do |office_presenter| %>
+              <tr>
+                <td><%= link_to office_presenter.name, office_presenter.show_path %></td>
+                <td class="text-center"><%= office_presenter.employed_employees_count %></td>
+                <td><%= office_presenter.street_address %></td>
+                <td class="text-right">
+                  <%= link_to office_presenter.user_path(employee_record_presenter.user), class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                    <i class="icon-remove white"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render layout: '/shared/modal', locals: { title: 'Assign office to this admin...', id: 'assign-office-modal' } do %>
+  <% if employee_record_presenter.unassigned_offices.any? %>
+    <%= form_for(:users_office, url: employee_record_presenter.offices_path) do |f| %>
+      <div class="card card-block bg-faded visible-scroll always-visible height-200 ps-container ps-theme-dark ps-active-x ps-active-y">
+        <% employee_record_presenter.unassigned_offices.each do |office| %>
+          <div class="form-check">
+            <label class="form-check-label" for="office-<%= office.id %>">
+              <%= check_box_tag 'user[office_ids][]', office.id, false, { class: 'form-check-input', id: "office-#{office.id}" } %>
+              <%= office.name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="form-actions right">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <%= button_tag 'Assign', type: 'submit', class: 'btn btn-primary', data: { disable_with: 'Please wait...' } %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="alert alert-info">
+      All offices are already assigned to this admin.
+    </div>
+  <% end %>
+<% end %>

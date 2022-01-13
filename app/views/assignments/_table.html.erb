@@ -1,0 +1,59 @@
+<table class="table table-striped" data-datatable="true" data-page-length="100" data-order='[[ <%= employee_record_presenter.datatables_order %>, "asc" ]]' data-order-fixed='[[ <%= employee_record_presenter.datatables_order_fixed %>, "asc" ]]' data-row-group='{ "dataSrc": <%= employee_record_presenter.datatables_row_group_src %> }'>
+  <thead class="thead-inverse">
+    <tr>
+      <% employee_record_presenter.when_user_can(:take_assignments) do %>
+        <th data-orderable="false">Next Action</th>
+      <% end %>
+      <th data-visible="false">Track</th>
+      <th data-orderable="false">Course</th>
+      <th data-orderable="false" class="text-center">State</th>
+      <th data-orderable="false">Due Date</th>
+      <th data-orderable="false" class="text-center">Supplements</th>
+      <th data-orderable="false"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% employee_record_presenter.active_assignments_grouped.each do |group_name, assignments_presenter| %>
+    <% assignments_presenter.each do |assignment_presenter| %>
+      <tr>
+        <% employee_record_presenter.when_user_can(:take_assignments) do %>
+          <td>
+            <%= assignment_presenter.action do |action_text, action_path| %>
+              <% if action_text.present? %>
+                <%= link_to action_text, action_path, class: "btn btn-sm #{assignment_presenter.action_btn_class}" %>
+              <% end %>
+            <% end %>
+            <% assignment_presenter.when_expiring_soon do %>
+              <small class="text-danger">expires in <%= pluralize(assignment_presenter.days_expires_in, 'day').html_safe %></small>
+            <% end %>
+          </td>
+        <% end %>
+        <td><%= group_name %></td>
+        <td><%= assignment_presenter.course_title %></td>
+        <td class="text-center"><%= assignment_presenter.state_tag %></td>
+        <td><%= assignment_presenter.due_date_with_days_past_due %></td>
+        <td class="text-center">
+          <% assignment_presenter.when_course_has_supplements do %>
+            <%= link_to assignment_presenter.download_supplements_path, class: 'btn btn-success btn-sm' do %>
+              <i class="icon-arrow-down4"></i>
+            <% end %>
+          <% end %>
+        </td>
+        <td class="text-right">
+          <% assignment_presenter.when_user_can(:mark_completed) do %>
+            <%= assignment_presenter.mark_completed_btn %>
+          <% end %>
+
+          <% assignment_presenter.when_user_can(:destroy) do %>
+            <%= link_to assignment_presenter.delete_path, class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="icon-remove white"></i>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<%= render 'shared/mark_assignment_completed_modal' %>

@@ -1,0 +1,16 @@
+common: &common
+  adapter: postgresql
+  encoding: unicode
+  pool: 10
+
+development: &development
+  <<: *common
+  database: donedesk-development
+  username: postgres
+
+test:
+  <<: *common
+  database: donedesk-test
+
+production:
+  <<: *common
